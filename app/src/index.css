@@ -1,0 +1,109 @@
+body {
+  font: 14px "Century Gothic", Futura, sans-serif;
+  margin: 20px;
+}
+
+ol, ul {
+  padding-left: 30px;
+}
+
+.explanation-p {
+  width: 40vh;
+  font-size: 20px;
+  text-align: justify;
+}
+
+.square {
+  position: relative;
+  height: 12.5%;
+  width: 12.5%;
+  outline-style: solid;
+  outline-color: #555;
+  outline-width: thin;
+}
+
+.bl-square {
+  background-color: #b58863;
+}
+
+.wh-square {
+  background-color: #f0d9b5;
+}
+
+.red-bl-square {
+  background-color: #ff0000;
+}
+
+.red-wh-square {
+  background-color: #ffaaaa;
+}
+
+.ghost-square {
+  height: 12.5%;
+  width: 12.5%;
+  background-color: #fff;
+}
+
+.vertical-highlight {
+  z-index: 1;
+  position: fixed;
+  height: 20vh;
+  width: 10vh;
+  background-color: #ff0000;
+  opacity: 0.3;
+}
+
+.horizontal-highlight {
+  z-index: 1;
+  position: fixed;
+  height: 10vh;
+  width: 20vh;
+  background-color: #ff0000;
+  opacity: 0.3;
+}
+
+.board-outline {
+  display: flex;
+  flex-wrap: wrap;
+  height: 80vh;
+  width: 95vh;
+  background-color: #FFF;
+
+  margin-left: 10vh;
+  margin-right: 5vh;
+}
+
+.domino-reservoir {
+  display: flex;
+  align-items: center;
+  height: 30vh;
+  width: 40vh;
+}
+
+.rotator {
+  margin-left: 2.5vh;
+  margin-right: 5vh;
+  height: 10vh;
+  width: 10vh;
+  cursor: pointer;
+}
+
+.vertical-domino {
+  z-index: -1;
+  height: 20vh;
+  width: 10vh;
+}
+
+.horizontal-domino {
+  z-index: -1;
+  height: 10vh;
+  width: 20vh;
+}
+
+.notepad {
+  border: 2px solid;
+  padding: 2.5vh;
+  height: 90vh;
+  width: 70vh;
+  font-size: 20px;
+}
