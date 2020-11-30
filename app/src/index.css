@@ -76,8 +76,17 @@ ol, ul {
 .domino-reservoir {
   display: flex;
   align-items: center;
-  height: 30vh;
+  height: 20vh;
   width: 40vh;
+}
+
+.clear-board {
+  position: relative;
+  top: 5vh;
+  left: 12.5vh;
+  width: 15vh;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 .rotator {
@@ -92,12 +101,14 @@ ol, ul {
   z-index: -1;
   height: 20vh;
   width: 10vh;
+  cursor: pointer;
 }
 
 .horizontal-domino {
   z-index: -1;
   height: 10vh;
   width: 20vh;
+  cursor: pointer;
 }
 
 .notepad {

@@ -77,13 +77,141 @@ function Square(props) {
   );
 }
 
-class Board extends React.Component {
+function Board(props) {
+  let squares = [];
+  for (let i = 0; i < 8; i++) {
+    for (let j = 0; j < 8; j++) {
+      squares.push(<Square key={i*8 + j}
+                           i={i}
+                           j={j}
+                           dominoes={props.dominoes}
+                           onDrop={(item) => props.addDomino(i, j, item)}
+                   />
+      );
+    }
+  }
+  return (
+    <div className='board-outline'>
+      {squares}
+    </div>
+  );
+}
+
+function Rotator(props) {
+  return (
+    <img
+      className='rotator' 
+      src={rotator}
+      alt='rotator'
+      onClick={props.onClick}
+    />
+  );
+}
+
+function VerticalDomino(props) {
+  const [{ isDragging }, drag] = useDrag({
+    item: { 
+      type: ItemTypes.VERTICALDOMINO,
+      props: props,
+    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging()
+    })
+  })
+
+  let className = 'vertical-domino';
+
+  return (
+    <div ref={drag}>
+      <img
+        className={className}
+        src={verticalDominoImg} 
+        alt='vertical domino'
+      />
+    </div>
+  )
+}
+
+function HorizontalDomino(props) {
+  const [{ isDragging }, drag] = useDrag({
+    item: {
+      type: ItemTypes.HORIZONTALDOMINO,
+      props: props
+    },
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging()
+    })
+  })
+
+  let className = 'horizontal-domino';
+
+  return (
+  <div ref={drag}>
+    <img
+      className={className}
+      src={horizontalDominoImg} 
+      alt='horizontal domino'
+    />
+  </div>
+  )
+}
+
+class DominoReservoir extends React.Component {
   constructor(props) {
     super(props);
-    let falseValues = [];
-    for (let i = 0; i < 64; i++) {
-      falseValues.push(false);
+    this.rotateDomino = this.rotateDomino.bind(this);
+    this.state = {
+      horizontal: false,
     }
+  }
+
+  rotateDomino() {
+    this.setState({
+      horizontal: !this.state.horizontal,
+    });
+  }
+
+  render() {
+    let domino = this.state.horizontal ? <HorizontalDomino onDrag={()=>{}} /> : <VerticalDomino onDrag={()=>{}} />;
+    return (
+      <div>
+        <div className='domino-reservoir'>
+          <Rotator onClick={this.rotateDomino}/>
+          {domino}
+        </div>
+        <div>
+          <button onClick={this.props.onClick} className='clear-board' >
+            Clear board
+          </button>
+        </div>
+      </div>
+    )
+  }
+}
+
+class Notepad extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      value: 'Use this text input area to take notes as you try to solve the puzzle.'
+    };
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  render() {
+    return (
+      <textarea className='notepad' value={this.state.value} onChange={this.handleChange} />
+    )
+  }
+}
+
+class App extends React.Component {
+  constructor(props) {
+    super(props);
     this.state = {
       dominoes: {
         vertical: [],
@@ -101,6 +229,15 @@ class Board extends React.Component {
     }
     this.setState({
       dominoes: newDominoes,
+    })
+  }
+
+  clearDominoes() {
+    this.setState({
+      dominoes: {
+        vertical: [],
+        horizontal: [],
+      },
     })
   }
 
@@ -130,129 +267,6 @@ class Board extends React.Component {
   }
 
   render() {
-    let squares = [];
-    for (let i = 0; i < 8; i++) {
-      for (let j = 0; j < 8; j++) {
-        squares.push(<Square key={i*8 + j}
-                             i={i}
-                             j={j}
-                             dominoes={this.state.dominoes}
-                             onDrop={(item) => this.addDomino(i, j, item)}
-                     />
-        );
-      }
-    }
-    return (
-      <div className='board-outline'>
-        {squares}
-      </div>
-    );
-  }
-}
-
-function Rotator(props) {
-  return (
-    <img
-      className='rotator' 
-      src={rotator}
-      alt='rotator'
-      onClick={props.onClick}
-    />
-  );
-}
-
-function VerticalDomino(props) {
-  const [{ isDragging }, drag] = useDrag({
-    item: { 
-      type: ItemTypes.VERTICALDOMINO,
-      props: props,
-    },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging()
-    })
-  })
-
-  return (
-    <div ref={drag}>
-      <img
-        className='vertical-domino'
-        src={verticalDominoImg} 
-        alt='vertical domino'
-      />
-    </div>
-  )
-}
-
-function HorizontalDomino(props) {
-  const [{ isDragging }, drag] = useDrag({
-    item: {
-      type: ItemTypes.HORIZONTALDOMINO,
-      props: props
-    },
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging()
-    })
-  })
-
-  return (
-  <div ref={drag}>
-    <img
-      className='horizontal-domino'
-      src={horizontalDominoImg} 
-      alt='horizontal domino'
-    />
-  </div>
-  )
-}
-
-class DominoReservoir extends React.Component {
-  constructor(props) {
-    super(props);
-    this.rotateDomino = this.rotateDomino.bind(this);
-    this.state = {
-      horizontal: false,
-    }
-  }
-
-  rotateDomino() {
-    this.setState({
-      horizontal: !this.state.horizontal,
-    });
-  }
-
-  render() {
-    let domino = this.state.horizontal ? <HorizontalDomino onDrag={()=>{}} /> : <VerticalDomino onDrag={()=>{}} />;
-    return (
-      <div className='domino-reservoir'>
-        <Rotator onClick={this.rotateDomino}/>
-        {domino}
-      </div>
-    )
-  }
-}
-
-class Notepad extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleChange = this.handleChange.bind(this);
-    this.state = {
-      value: 'Use this text input area to take notes as you try to solve the puzzle.'
-    };
-  }
-
-  handleChange(event) {
-    this.setState({value: event.target.value});
-  }
-
-  render() {
-    return (
-      <textarea className='notepad' value={this.state.value} onChange={this.handleChange} />
-    )
-  }
-}
-
-class App extends React.Component {
-  render() {
     return (
       <DndProvider backend={HTML5Backend}>
         <div style={{display: 'flex'}}>
@@ -261,9 +275,12 @@ class App extends React.Component {
               Placeholder explanation:
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer iaculis felis a facilisis vehicula. Donec in cursus eros. Nunc sed sodales felis, sit amet viverra justo. Vestibulum ullamcorper odio in fermentum molestie. Donec accumsan leo est, et posuere enim finibus vel. Quisque a elit et sem lobortis aliquet non non urna. Donec scelerisque scelerisque orci pulvinar laoreet. Donec tempor nulla arcu, at ultricies erat pharetra elementum. Suspendisse et mauris rutrum, suscipit magna sed, auctor arcu. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse libero ipsum, interdum egestas nibh sed, viverra volutpat neque.
             </p>
-            <DominoReservoir />
+            <DominoReservoir onClick={() => {this.clearDominoes()}} />
           </div>
-          <Board />
+          <Board
+            dominoes={this.state.dominoes}
+            addDomino={(i, j, item) => {this.addDomino(i, j, item)}}
+          />
           <Notepad />
         </div>
       </DndProvider>
