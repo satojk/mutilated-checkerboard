@@ -251,15 +251,15 @@ class App extends React.Component {
     for (let k = 0; k < totalVerticals; k++) {
       if (newDominoes.vertical[k][0] === i && newDominoes.vertical[k][1] === j) {
         newDominoes.vertical.splice(k, 1);
+        break;
       }
-      break;
     }
     let totalHorizontals = newDominoes.horizontal.length;
     for (let k = 0; k < totalHorizontals; k++) {
       if (newDominoes.horizontal[k][0] === i && newDominoes.horizontal[k][1] === j) {
         newDominoes.horizontal.splice(k, 1);
+        break;
       }
-      break;
     }
     this.setState({
       dominoes: newDominoes,
