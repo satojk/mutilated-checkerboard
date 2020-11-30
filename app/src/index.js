@@ -41,7 +41,12 @@ function Square(props) {
   let child;
   for (let domino of props.dominoes.vertical) {
     if (isEqual(domino, [props.i, props.j])) {
-      child = <VerticalDomino i={props.i} j={props.j} onDrag={props.onDrag} />;
+      child = <VerticalDomino
+                i={props.i}
+                j={props.j}
+                onDrag={props.onDrag}
+                removeDomino={(item) => props.removeDomino(item)}
+              />;
       break;
     }
     if (isEqual(domino, [props.i-1, props.j])) {
@@ -51,7 +56,12 @@ function Square(props) {
   }
   for (let domino of props.dominoes.horizontal) {
     if (isEqual(domino, [props.i, props.j])) {
-      child = <HorizontalDomino i={props.i} j={props.j} onDrag={props.onDrag}  />;
+      child = <HorizontalDomino
+                i={props.i}
+                j={props.j}
+                onDrag={props.onDrag}
+                removeDomino={(item) => props.removeDomino(item)}
+              />;
       break;
     }
     if (isEqual(domino, [props.i, props.j-1])) {
@@ -86,6 +96,7 @@ function Board(props) {
                            j={j}
                            dominoes={props.dominoes}
                            onDrop={(item) => props.addDomino(i, j, item)}
+                           removeDomino={(item)=>props.removeDomino(item.props.i, item.props.j)}
                    />
       );
     }
@@ -114,6 +125,7 @@ function VerticalDomino(props) {
       type: ItemTypes.VERTICALDOMINO,
       props: props,
     },
+    end: (item, monitor) => (props.removeDomino(item)),
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging()
     })
@@ -138,6 +150,7 @@ function HorizontalDomino(props) {
       type: ItemTypes.HORIZONTALDOMINO,
       props: props
     },
+    end: (item, monitor) => (props.removeDomino(item)),
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging()
     })
@@ -172,7 +185,7 @@ class DominoReservoir extends React.Component {
   }
 
   render() {
-    let domino = this.state.horizontal ? <HorizontalDomino onDrag={()=>{}} /> : <VerticalDomino onDrag={()=>{}} />;
+    let domino = this.state.horizontal ? <HorizontalDomino onDrag={()=>{}} removeDomino={()=>{}} /> : <VerticalDomino onDrag={()=>{}} removeDomino={()=>{}} />;
     return (
       <div>
         <div className='domino-reservoir'>
@@ -232,6 +245,27 @@ class App extends React.Component {
     })
   }
 
+  removeDomino(i, j) {
+    let newDominoes = JSON.parse(JSON.stringify(this.state.dominoes));
+    let totalVerticals = newDominoes.vertical.length;
+    for (let k = 0; k < totalVerticals; k++) {
+      if (newDominoes.vertical[k][0] === i && newDominoes.vertical[k][1] === j) {
+        newDominoes.vertical.splice(k, 1);
+      }
+      break;
+    }
+    let totalHorizontals = newDominoes.horizontal.length;
+    for (let k = 0; k < totalHorizontals; k++) {
+      if (newDominoes.horizontal[k][0] === i && newDominoes.horizontal[k][1] === j) {
+        newDominoes.horizontal.splice(k, 1);
+      }
+      break;
+    }
+    this.setState({
+      dominoes: newDominoes,
+    })
+  }
+
   clearDominoes() {
     this.setState({
       dominoes: {
@@ -241,30 +275,6 @@ class App extends React.Component {
     })
   }
 
-  removeDomino(i, j) {
-    let newDominoes = JSON.parse(JSON.stringify(this.state.dominoes));
-    for (let k = 0; k < newDominoes.vertical.length; k++) {
-      if (newDominoes.vertical[k][0] === i && newDominoes.vertical[k][1] === j) {
-        newDominoes = {
-          vertical: newDominoes.vertical.splice(k, 1),
-          horizontal: newDominoes.horizontal,
-        }
-        break;
-      }
-    }
-    for (let k = 0; k < this.state.dominoes.horizontal.length; k++) {
-      if (newDominoes.horizontal[k][0] === i && newDominoes.horizontal[k][1] === j) {
-        newDominoes = {
-          vertical: newDominoes.vertical,
-          horizontal: newDominoes.horizontal.splice(i, 1),
-        }
-        break;
-      }
-    }
-    this.setState({
-      dominoes: newDominoes,
-    })
-  }
 
   render() {
     return (
@@ -280,6 +290,7 @@ class App extends React.Component {
           <Board
             dominoes={this.state.dominoes}
             addDomino={(i, j, item) => {this.addDomino(i, j, item)}}
+            removeDomino={(i, j)=>{this.removeDomino(i, j)}}
           />
           <Notepad />
         </div>
