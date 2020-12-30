@@ -30,6 +30,10 @@ ol, ul {
   background-color: #f0d9b5;
 }
 
+.with-domino {
+  z-index: 1;
+}
+
 .red-bl-square {
   background-color: #ff0000;
 }
@@ -45,8 +49,8 @@ ol, ul {
 }
 
 .vertical-highlight {
-  z-index: 1;
-  position: fixed;
+  position: absolute;
+  z-index: 2;
   height: 20vh;
   width: 10vh;
   background-color: #ff0000;
@@ -54,8 +58,8 @@ ol, ul {
 }
 
 .horizontal-highlight {
-  z-index: 1;
-  position: fixed;
+  position: absolute;
+  z-index: 2;
   height: 10vh;
   width: 20vh;
   background-color: #ff0000;

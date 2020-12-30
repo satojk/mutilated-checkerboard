@@ -41,6 +41,7 @@ function Square(props) {
   let child;
   for (let domino of props.dominoes.vertical) {
     if (isEqual(domino, [props.i, props.j])) {
+      className += ' with-domino';
       child = <VerticalDomino
                 i={props.i}
                 j={props.j}
@@ -49,13 +50,10 @@ function Square(props) {
               />;
       break;
     }
-    if (isEqual(domino, [props.i-1, props.j])) {
-      className = 'ghost-square';
-      break;
-    }
   }
   for (let domino of props.dominoes.horizontal) {
     if (isEqual(domino, [props.i, props.j])) {
+      className += ' with-domino';
       child = <HorizontalDomino
                 i={props.i}
                 j={props.j}
@@ -64,17 +62,15 @@ function Square(props) {
               />;
       break;
     }
-    if (isEqual(domino, [props.i, props.j-1])) {
-      className = 'ghost-square';
-      break;
-    }
   }
 
   let highlight;
   if (isOver) {
     if (itemType === ItemTypes.VERTICALDOMINO) {
+      className += ' with-domino';
       highlight = <div className='vertical-highlight' />
     } else {
+      className += ' with-domino';
       highlight = <div className='horizontal-highlight' />
     }
   }
