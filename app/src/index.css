@@ -9,14 +9,14 @@ ol, ul {
 
 .explanation-p {
   width: 40vh;
-  font-size: 20px;
+  font-size: 14px;
   text-align: justify;
 }
 
 .square {
   position: relative;
-  height: 12.5%;
-  width: 12.5%;
+  height: 10vh;
+  width: 10vh;
   outline-style: solid;
   outline-color: #555;
   outline-width: thin;
@@ -39,8 +39,8 @@ ol, ul {
 }
 
 .ghost-square {
-  height: 12.5%;
-  width: 12.5%;
+  height: 10vh;
+  width: 10vh;
   background-color: #fff;
 }
 
@@ -66,10 +66,10 @@ ol, ul {
   display: flex;
   flex-wrap: wrap;
   height: 80vh;
-  width: 95vh;
+  width: 80vh;
   background-color: #FFF;
 
-  margin-left: 10vh;
+  margin-left: 5vh;
   margin-right: 5vh;
 }
 
@@ -85,7 +85,7 @@ ol, ul {
   top: 5vh;
   left: 12.5vh;
   width: 15vh;
-  font-size: 20px;
+  font-size: 14px;
   cursor: pointer;
 }
 
@@ -98,14 +98,12 @@ ol, ul {
 }
 
 .vertical-domino {
-  z-index: -1;
   height: 20vh;
   width: 10vh;
   cursor: pointer;
 }
 
 .horizontal-domino {
-  z-index: -1;
   height: 10vh;
   width: 20vh;
   cursor: pointer;
@@ -115,6 +113,6 @@ ol, ul {
   border: 2px solid;
   padding: 2.5vh;
   height: 90vh;
-  width: 70vh;
-  font-size: 20px;
+  flex-grow: 1;
+  font-size: 14px;
 }
