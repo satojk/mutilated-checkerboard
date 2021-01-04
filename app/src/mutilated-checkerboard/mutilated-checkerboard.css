@@ -9,7 +9,7 @@ ol, ul {
 
 .explanation-p {
   width: 40vh;
-  font-size: 14px;
+  font-size: 16px;
   text-align: justify;
 }
 
@@ -89,7 +89,7 @@ ol, ul {
   top: 5vh;
   left: 12.5vh;
   width: 15vh;
-  font-size: 14px;
+  font-size: 16px;
   cursor: pointer;
 }
 
@@ -113,10 +113,42 @@ ol, ul {
   cursor: pointer;
 }
 
+.work-area {
+  flex-grow: 1;
+}
+
 .notepad {
   border: 2px solid;
   padding: 2.5vh;
-  height: 90vh;
-  flex-grow: 1;
+  width: 90%;
+  height: 60vh;
   font-size: 14px;
 }
+
+.timer {
+  font-size: 24px;
+}
+
+.hint {
+  width: 30vw;
+  font-size: 16px;
+}
+
+.submit-answer {
+  font-size: 16px;
+  margin-bottom: 3vh;
+}
+
+.answer-div {
+  height: 64vh;
+  font-size: 16px;
+}
+
+.answer-text {
+  border: 2px solid;
+  padding: 2.5vh;
+  width: 90%;
+  height: 30vh;
+  font-size: 14px;
+}
+
