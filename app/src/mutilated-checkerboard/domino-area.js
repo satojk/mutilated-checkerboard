@@ -4,6 +4,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import './mutilated-checkerboard.css';
 
+import xImg from './x-image.png';
 import verticalDominoImg from './vertical-domino.png';
 import horizontalDominoImg from './horizontal-domino.png';
 import rotator from './rotator.png';
@@ -34,11 +35,15 @@ function Square(props) {
     className += ' bl-square';
   }
 
+  let child;
   if ((props.i+props.j) % 14 === 0) {
-    className = 'ghost-square';
+    child = <img
+              src={xImg}
+              className='blocking-x'
+              alt='blocking X'
+            />
   }
 
-  let child;
   for (let domino of props.dominoes.vertical) {
     if (isEqual(domino, [props.i, props.j])) {
       className += ' with-domino';

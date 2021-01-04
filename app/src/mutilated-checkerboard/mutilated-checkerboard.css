@@ -9,7 +9,7 @@ ol, ul {
 
 .explanation-p {
   width: 40vh;
-  font-size: 16px;
+  font-size: 14px;
   text-align: justify;
 }
 
@@ -42,6 +42,11 @@ ol, ul {
   background-color: #ffaaaa;
 }
 
+.blocking-x {
+  height: 10vh;
+  width: 10vh;
+}
+
 .ghost-square {
   height: 10vh;
   width: 10vh;
@@ -71,6 +76,8 @@ ol, ul {
   flex-wrap: wrap;
   height: 80vh;
   width: 80vh;
+  min-height: 80vh;
+  min-width: 80vh;
   background-color: #FFF;
 
   margin-left: 5vh;
@@ -137,6 +144,7 @@ ol, ul {
 .submit-answer {
   font-size: 16px;
   margin-bottom: 3vh;
+  cursor: pointer;
 }
 
 .answer-div {

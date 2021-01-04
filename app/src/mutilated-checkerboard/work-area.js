@@ -43,7 +43,7 @@ class AnswerSubmission extends React.Component {
     this.state = {
       answerStage: 0,
       isPositiveAnswer: false,
-      answerText: 'Type out your answer in this box',
+      answerText: 'Type out your answer in this box.',
     }
   }
 
@@ -60,7 +60,7 @@ class AnswerSubmission extends React.Component {
     this.setState({
       answerStage: 1,
       isPositiveAnswer: true,
-      answerText: 'Type out your answer in this box',
+      answerText: 'Type out your answer in this box.',
     })
   }
 
@@ -68,7 +68,7 @@ class AnswerSubmission extends React.Component {
     this.setState({
       answerStage: 1,
       isPositiveAnswer: false,
-      answerText: 'Type out your answer in this box',
+      answerText: 'Type out your answer in this box.',
     })
   }
 
@@ -76,7 +76,7 @@ class AnswerSubmission extends React.Component {
     this.setState({
       answerStage: 2,
       isPositiveAnswer: true,
-      answerText: 'Type out your answer in this box',
+      answerText: 'Type out your answer in this box.',
     })
   }
 
@@ -84,7 +84,7 @@ class AnswerSubmission extends React.Component {
     this.setState({
       answerStage: 2,
       isPositiveAnswer: false,
-      answerText: 'Type out your answer in this box',
+      answerText: 'Type out your answer in this box.',
     })
   }
 
@@ -116,7 +116,7 @@ class AnswerSubmission extends React.Component {
       if (this.state.isPositiveAnswer) {
         toRender = (
         <div className='answer-div'>
-          <p className='hint'>Ok. Set up the covering you have found on the left with the virtual dominos, and once that is ready, click the button below to submit the covering as answer.</p>
+          <p className='hint'>Set up the covering you have found on the left with the virtual dominos, and once that is ready, click the button below to submit the covering as answer.</p>
           <button onClick={() => {this.submitCovering()}} className='submit-answer' >
             Submit covering as answer
           </button>
@@ -126,7 +126,7 @@ class AnswerSubmission extends React.Component {
       else {
         toRender = (
           <div className='answer-div'>
-            <p className='hint'>Ok, use the text box below to type the reason why you believe no valid covering exists. When you are done, click on the button below to submit your answer.</p>
+            <p className='hint'>Use the text box below to type the reason why you believe no valid covering exists. When you are done, click on the button below to submit your answer.</p>
             <textarea className='answer-text' value={this.state.answerText} onChange={(event) => this.updateAnswerText(event.target.value)} />
             <button onClick={() => {this.submitAnswer()}} className='submit-answer' >
               Submit answer

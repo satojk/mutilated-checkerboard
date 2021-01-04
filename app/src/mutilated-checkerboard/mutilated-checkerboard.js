@@ -112,7 +112,7 @@ class App extends React.Component {
               You can click and drag the domino below in order to place it onto the squares. You can also click and drag placed dominos to move them to different squares, or drag them away from the squares to remove them. You can also click on the circular arrow symbol below to change the orientation of your next domino before placing it onto the squares.
             </p>
             <p className='explanation-p'>
-              You have a total of 30 minutes for your attempt. When you think you are ready to provide an answer, click on "I am ready to submit an answer" on the top right, and you will be given the option to either submit your current domino covering, or provide a typed explanation of why such a covering is impossible. There is no limit on how many times you may attempt to submit answers, but you should only do so when you suspect you have solved the problem.
+              You have a total of 30 minutes for your attempt. When you think you are ready to provide an answer, click on "I am ready to submit an answer" on the top right, and you will be given the option to either submit your current domino covering, or provide a typed explanation of why such a covering is impossible. There is no limit on how many times you may attempt to submit answers, but you should only do so when you believe you have solved the problem.
             </p>
             <DominoReservoir onClick={() => {this.clearDominoes()}} />
           </div>
