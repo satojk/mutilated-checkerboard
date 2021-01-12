@@ -14,20 +14,75 @@ export const ItemTypes = {
   HORIZONTALDOMINO: 'horizontalDominoType',
 }
 
+function getAcceptedDominoes(i, j, dominoes) {
+  /*
+  Takes in i, j of square, and all currently placed dominoes (same as
+  props.dominoes for the Square), returns a list of which ItemTypes (which
+  dominoes) may be placed on the given square.
+  */
+
+  let acceptsVertical = true; // whether a vertical domino may be placed here
+  let acceptsHorizontal = true; // whether a horizontal domino may be placed here
+
+  if (i === 0 && j === 0) {
+    acceptsVertical = false;
+    acceptsHorizontal = false;
+  }
+  if (i === 7 || (i === 6 && j === 7)) {
+    acceptsVertical = false;
+  }
+  if (j === 7 || (j === 6 && i === 7)) {
+    acceptsHorizontal = false;
+  }
+
+  for (let [di, dj] of dominoes.vertical) {
+    if (di === i && dj === j) {
+      acceptsHorizontal = false;
+    }
+    if (di === (i - 1) && dj === j) {
+      acceptsVertical = false;
+      acceptsHorizontal = false;
+    }
+    if ((di === i || di === (i - 1)) && dj === (j + 1)) {
+      acceptsHorizontal = false;
+    }
+    if (di === (i + 1) && dj === j) {
+      acceptsVertical = false;
+    }
+  }
+
+  for (let [di, dj] of dominoes.horizontal) {
+    if (di === i && dj === j) {
+      acceptsVertical = false;
+    }
+    if (di === i && dj === (j - 1)) {
+      acceptsVertical = false;
+      acceptsHorizontal = false;
+    }
+    if (di === i + 1 && (dj === j || dj === (j - 1))) {
+      acceptsVertical = false;
+    }
+    if (di === i && dj === (j + 1)) {
+      acceptsHorizontal = false;
+    }
+  }
+
+  let acceptedDominoes = [];
+  if (acceptsVertical) {
+    acceptedDominoes.push(ItemTypes.VERTICALDOMINO);
+  }
+  if (acceptsHorizontal) {
+    acceptedDominoes.push(ItemTypes.HORIZONTALDOMINO);
+  }
+
+  return acceptedDominoes;
+}
+
 function isEqual(obj1, obj2) {
   return JSON.stringify(obj1) === JSON.stringify(obj2);
 }
 
 function Square(props) {
-  const [{ isOver, itemType }, verticalDrop] = useDrop({
-    accept: [ItemTypes.VERTICALDOMINO, ItemTypes.HORIZONTALDOMINO],
-    drop: ((item) => props.onDrop(item)),
-    collect: (monitor) => ({
-      isOver: !!monitor.isOver(),
-      itemType: monitor.getItemType()
-    })
-  })
-
   let className = 'square';
   if ((props.i+props.j) % 2 === 0) {
     className += ' wh-square';
@@ -56,6 +111,7 @@ function Square(props) {
       break;
     }
   }
+
   for (let domino of props.dominoes.horizontal) {
     if (isEqual(domino, [props.i, props.j])) {
       className += ' with-domino';
@@ -70,6 +126,15 @@ function Square(props) {
   }
 
   let highlight;
+  let [{ isOver, itemType }, drop] = useDrop({
+    accept: props.acceptedDominoes,
+    drop: ((item) => props.onDrop(item)),
+    collect: (monitor) => ({
+      isOver: !!monitor.isOver(),
+      itemType: monitor.getItemType()
+    })
+  })
+
   if (isOver) {
     if (itemType === ItemTypes.VERTICALDOMINO) {
       className += ' with-domino';
@@ -81,7 +146,7 @@ function Square(props) {
   }
 
   return (
-    <div className={className} ref={verticalDrop}>
+    <div className={className} ref={drop}>
       {highlight}
       {child}
     </div>
@@ -92,10 +157,14 @@ export function Board(props) {
   let squares = [];
   for (let i = 0; i < 8; i++) {
     for (let j = 0; j < 8; j++) {
-      squares.push(<Square key={i*8 + j}
+      // acceptedDominoes has to be in the Square key, otherwise it won't
+      // remount and update once acceptedDominoes changes.
+      let acceptedDominoes = getAcceptedDominoes(i, j, props.dominoes);
+      squares.push(<Square key={[i*8 + j] + acceptedDominoes}
                            i={i}
                            j={j}
                            dominoes={props.dominoes}
+                           acceptedDominoes={acceptedDominoes}
                            onDrop={(item) => props.addDomino(i, j, item)}
                            removeDomino={(item)=>props.removeDomino(item.props.i, item.props.j)}
                    />
