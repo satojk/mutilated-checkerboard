@@ -2,9 +2,13 @@ import React from 'react';
 
 import './mutilated-checkerboard.css';
 
-const FIRST_HINT_TIME = 1380; // 1380
-const SECOND_HINT_TIME = 900; // 900
-const THIRD_HINT_TIME = 300; // 300
+const FIRST_HINT_TIME = 1797; // 1380
+//const SECOND_HINT_TIME = 1798 // 900
+//const THIRD_HINT_TIME = 1797 // 300
+
+//const FIRST_HINT_TIME = 1380
+const SECOND_HINT_TIME = 900
+const THIRD_HINT_TIME = 300
 
 function TimerAndHints(props) {
   if (props.secondsRemaining === FIRST_HINT_TIME) {

@@ -4,10 +4,10 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import './mutilated-checkerboard.css';
 
-import xImg from './x-image.png';
-import verticalDominoImg from './vertical-domino.png';
-import horizontalDominoImg from './horizontal-domino.png';
-import rotator from './rotator.png';
+import xImg from './images/x-image.png';
+import verticalDominoImg from './images/vertical-domino.png';
+import horizontalDominoImg from './images/horizontal-domino.png';
+import rotator from './images/rotator.png';
 
 export const ItemTypes = {
   VERTICALDOMINO: 'verticalDominoType',

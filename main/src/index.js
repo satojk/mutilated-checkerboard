@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import MutilatedCheckerboard from './mutilated-checkerboard/mutilated-checkerboard.js';
+import Main from './main.js';
 
 // ========================================
 
 ReactDOM.render(
-  <MutilatedCheckerboard />,
+  <Main />,
   document.getElementById('root')
 );
 
