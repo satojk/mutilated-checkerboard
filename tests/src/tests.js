@@ -39,6 +39,7 @@ class App extends React.Component {
   }
 
   goNext(startTimer) {
+    clearInterval(this.timer);
     let newScreenNo = this.state.screenNo + 1
     let newSecondsRemaining = 240;
     let newTimeRunning = startTimer;
@@ -92,7 +93,7 @@ class App extends React.Component {
     }
     else if (this.state.screenNo === 4) { // instructions for Topics Test
       content = <TopicsTestInstructions
-                  goNext={() => this.goNext(true)}
+                  goNext={() => this.goNext(false)}
                   minutes={minutes}
                   seconds={seconds}
                   timesUp={this.state.timesUp}

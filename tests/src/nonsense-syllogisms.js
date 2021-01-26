@@ -14,7 +14,7 @@ export class NonsenseSyllogismsInstructions extends React.Component {
           <p>Now try the practice problems given on the right. The first two syllogisms have been correctly marked.</p>
 
           <p>The answers to the other five problems are as follows: 3 is Poor reasoning; 4 is Good reasoning; 5 is Good reasoning; 6 is Poor reasoning; 7 is Good reasoning.</p>
-          <p>You will have <u>4 minutes</u> for each of the two parts of this test. Each part has 1 page. Click on "Next" to go to the first part (this will start the timer).</p>
+          <p>You will have <u>4 minutes</u> for each of the two parts of this test. Each part has one page. Click on "Next" to go to the first part (this will start the timer).</p>
           <p className='timer'>Time remaining: {this.props.minutes}:{this.props.seconds} (stopped)</p>
           <button onClick={this.props.goNext} className='go-next'>Next</button>
         </div>
