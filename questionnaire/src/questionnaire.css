@@ -1,0 +1,111 @@
+body {
+  font: 14px "Century Gothic", Futura, sans-serif;
+  margin: 20px;
+}
+
+ol, ul {
+  padding-left: 30px;
+}
+
+form {
+  margin-left: 30vh;
+  margin-right: 30vh;
+  margin-top: 10vh;
+  font-size: 16px;
+  text-align: justify;
+}
+
+.narrow {
+  margin-left: 30vw;
+  margin-right: 30vw;
+}
+
+.main-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-instructions {
+  width: 60vw;
+  margin-top: 10vh;
+  margin-bottom: 5vh;
+  font-size: 16px;
+  text-align: justify;
+}
+
+.go-next {
+  margin-top: 5vh;
+  margin-bottom: 10vh;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.long-answer {
+  font-size: 16px;
+  margin-top: 2vh;
+  margin-bottom: 4vh;
+  height: 25vh;
+  width: 100%;
+}
+
+.short-answer {
+  font-size: 16px;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  height: 10vh;
+  width: 100%;
+}
+
+.range-input {
+  width: 15vw;
+}
+
+.range-input-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.test-instructions {
+  font-size: 16px;
+  width: 40vw;
+  text-align: justify;
+  margin-right: 10vw;
+}
+
+.test-work-area {
+  font-size: 16px;
+  max-height: 90vh;
+  width: 60vw;
+  overflow-y: auto;
+}
+
+.syllogism-box {
+  width: 22vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  padding-bottom: 3vw;
+}
+
+.topics {
+  font-size: 16px;
+  width: 50vw;
+  height: 90vh;
+}
+
+.topics-text-box {
+  font-size: 16px;
+  border: 2px solid;
+  padding: 2.5vh;
+  width: 80%;
+  height: 75vh;
+}
+
+.topic-in-progress-box {
+  font-size: 16px;
+  border: 1px solid;
+  padding: 1vh;
+  margin-right: 2vh;
+  width: 25vw;
+  height: 1.5vw;
+}
