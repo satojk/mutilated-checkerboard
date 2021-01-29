@@ -13,6 +13,12 @@ ol, ul {
   align-items: center;
 }
 
+.main-instructions {
+  margin-top: 10vh;
+  margin-bottom: 5vh;
+  font-size: 16px;
+}
+
 .timer {
   font-size: 20px;
 }
@@ -30,14 +36,11 @@ ol, ul {
   margin-right: 10vw;
 }
 
-.test-part {
+.test-work-area {
   font-size: 16px;
-}
-
-.syllogisms {
-  font-size: 16px;
-  display: flex;
-  flex-wrap: wrap;
+  max-height: 90vh;
+  width: 60vw;
+  overflow-y: auto;
 }
 
 .syllogism-box {
@@ -59,4 +62,13 @@ ol, ul {
   padding: 2.5vh;
   width: 80%;
   height: 75vh;
+}
+
+.topic-in-progress-box {
+  font-size: 16px;
+  border: 1px solid;
+  padding: 1vh;
+  margin-right: 2vh;
+  width: 25vw;
+  height: 1.5vw;
 }

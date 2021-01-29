@@ -62,7 +62,7 @@ class App extends React.Component {
     if (this.state.screenNo === 0) {
       content = (
         <div className='main-div'>
-          <p>In this last stage, you will complete two short timed tests. Click on Next to go to the instructions for the first test (this will not start the timer yet).</p>
+          <p className='main-instructions'>In this last stage, you will complete two short timed tests. Click on Next to go to the instructions for the first test (this will not start the timer yet).</p>
           <button onClick={() => this.goNext(false)} className='go-next'>Next</button>
         </div>
       );
@@ -93,7 +93,7 @@ class App extends React.Component {
     }
     else if (this.state.screenNo === 4) { // instructions for Topics Test
       content = <TopicsTestInstructions
-                  goNext={() => this.goNext(false)}
+                  goNext={() => this.goNext(true)}
                   minutes={minutes}
                   seconds={seconds}
                   timesUp={this.state.timesUp}
