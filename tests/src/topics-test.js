@@ -67,7 +67,7 @@ export class TopicsTestInstructions extends React.Component {
         </div>
 
         <div className='test-work-area'>
-          <h3>Sample Topic: "A train journey":</h3>
+          <h3>Sample Topic: "A train journey"</h3>
           <div style={{display: 'flex'}}>
             <textarea className='topic-in-progress-box' value={this.state.topicInProgress} onChange={(event) => this.updateTopicInProgress(event.target.value)} />
             <button onClick={() => this.addTopic()}>Add topic</button>

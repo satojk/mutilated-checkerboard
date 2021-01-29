@@ -116,7 +116,7 @@ class App extends React.Component {
                 />;
     }
     else {
-      content = <p>You have now completed all stages of the experiment. You may now close this window.</p>;
+      content = <p className='main-instructions'>You have now completed all stages of the experiment. Thank you very much! You may now close this window.</p>;
     }
 
     return (
