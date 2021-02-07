@@ -7,12 +7,8 @@ ol, ul {
   padding-left: 30px;
 }
 
-form {
-  margin-left: 30vh;
-  margin-right: 30vh;
-  margin-top: 10vh;
-  font-size: 16px;
-  text-align: justify;
+.form-question {
+  margin-bottom: 10vh;
 }
 
 .narrow {
@@ -41,6 +37,14 @@ form {
   cursor: pointer;
 }
 
+.questionnaire-page {
+  margin-left: 30vh;
+  margin-right: 30vh;
+  margin-top: 10vh;
+  font-size: 16px;
+  text-align: justify;
+}
+
 .long-answer {
   font-size: 16px;
   margin-top: 2vh;
@@ -55,6 +59,20 @@ form {
   margin-bottom: 2vh;
   height: 10vh;
   width: 100%;
+}
+
+.range-wrapper {
+  width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.range-element {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .range-input {
