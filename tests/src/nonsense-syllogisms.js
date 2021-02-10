@@ -35,10 +35,15 @@ export class NonsenseSyllogismsInstructions extends React.Component {
   }
 
   submitAndGoNext() {
+    let responses = JSON.parse(JSON.stringify(this.state.responses));
+    let postBody = {
+      submissionTime: Date.now(),
+      responses: responses,
+    }
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(this.state.responses),
+        body: JSON.stringify(postBody),
     };
     fetch('/api/postTestsNonsenseSyllogismsInstructions', requestOptions);
     this.props.goNext();
@@ -127,10 +132,15 @@ export class NonsenseSyllogismsPartA extends React.Component {
   }
 
   submitAndGoNext() {
+    let responses = JSON.parse(JSON.stringify(this.state.responses));
+    let postBody = {
+      submissionTime: Date.now(),
+      responses: responses,
+    }
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(this.state.responses),
+        body: JSON.stringify(postBody),
     };
     fetch('/api/postTestsNonsenseSyllogismsPartA', requestOptions);
     this.props.goNext();
@@ -180,7 +190,7 @@ export class NonsenseSyllogismsPartA extends React.Component {
           <p>This page contains questions 1 to 15 (notice the scrollbar on the right).</p>
           <p className='timer'>Time remaining: {this.props.minutes}:{this.props.seconds}</p>
           <button
-            onClick={this.props.goNext}
+            onClick={this.submitAndGoNext}
             className='go-next'
             disabled={!maySubmit}
           >
@@ -221,10 +231,15 @@ export class NonsenseSyllogismsPartB extends React.Component {
   }
 
   submitAndGoNext() {
+    let responses = JSON.parse(JSON.stringify(this.state.responses));
+    let postBody = {
+      submissionTime: Date.now(),
+      responses: responses,
+    }
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(this.state.responses),
+        body: JSON.stringify(postBody),
     };
     fetch('/api/postTestsNonsenseSyllogismsPartB', requestOptions);
     this.props.goNext();
@@ -275,7 +290,7 @@ export class NonsenseSyllogismsPartB extends React.Component {
           <p>This page contains questions 16 to 30 (notice the scrollbar on the right).</p>
           <p className='timer'>Time remaining: {this.props.minutes}:{this.props.seconds}</p>
           <button
-            onClick={this.props.goNext}
+            onClick={this.submitAndGoNext}
             className='go-next'
             disabled={!maySubmit}
           >

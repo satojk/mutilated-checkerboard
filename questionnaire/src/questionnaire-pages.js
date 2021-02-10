@@ -23,10 +23,15 @@ export class QuestionnairePage1 extends React.Component {
   }
 
   submitAndGoNext() {
+    let responses = JSON.parse(JSON.stringify(this.state.responses));
+    let postBody = {
+      submissionTime: Date.now(),
+      responses: responses,
+    }
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(this.state.responses),
+        body: JSON.stringify(postBody),
     };
     fetch('/api/postQuestionnairePage1', requestOptions);
     this.props.goNext();
@@ -107,10 +112,15 @@ export class QuestionnairePage2 extends React.Component {
   }
 
   submitAndGoNext() {
+    let responses = JSON.parse(JSON.stringify(this.state.responses));
+    let postBody = {
+      submissionTime: Date.now(),
+      responses: responses,
+    }
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(this.state.responses),
+        body: JSON.stringify(postBody),
     };
     fetch('/api/postQuestionnairePage2', requestOptions);
     this.props.goNext();
@@ -197,10 +207,15 @@ export class QuestionnairePage3 extends React.Component {
   }
 
   submitAndGoNext() {
+    let responses = JSON.parse(JSON.stringify(this.state.responses));
+    let postBody = {
+      submissionTime: Date.now(),
+      responses: responses,
+    }
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(this.state.responses),
+        body: JSON.stringify(postBody),
     };
     fetch('/api/postQuestionnairePage3', requestOptions);
     this.props.goNext();

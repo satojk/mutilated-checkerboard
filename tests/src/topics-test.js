@@ -22,6 +22,7 @@ export class TopicsTestInstructions extends React.Component {
     }
     this.addTopic = this.addTopic.bind(this);
     this.removeTopic = this.removeTopic.bind(this);
+    this.submitAndGoNext = this.submitAndGoNext.bind(this);
   }
 
   updateTopicInProgress(newTopicInProgress) {
@@ -30,7 +31,6 @@ export class TopicsTestInstructions extends React.Component {
       topicInProgress: newTopicInProgress,
     })
   }
-
 
   addTopic() {
     if (this.state.topicInProgress === '') {
@@ -53,6 +53,22 @@ export class TopicsTestInstructions extends React.Component {
     })
   }
 
+  submitAndGoNext() {
+    let responses = JSON.parse(JSON.stringify(this.state.topics));
+    let postBody = {
+      submissionTime: Date.now(),
+      responses: responses,
+    }
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postBody),
+    };
+    fetch('/api/postTestsTopicsTestInstructions', requestOptions);
+    this.props.goNext();
+    window.scrollTo(0, 0)
+  }
+
   render() {
     return (
       <div style={{display: 'flex'}}>
@@ -63,7 +79,7 @@ export class TopicsTestInstructions extends React.Component {
           <p>Your score will be the number of appropriate ideas that you write.</p>
           <p>You will have <u>4 minutes</u> for each of the two parts of this test. Each part has one page with one topic. Click on "Next" to go to the first part (this will start the timer).</p>
           <p className='timer'>Time remaining: {this.props.minutes}:{this.props.seconds} (stopped)</p>
-          <button onClick={this.props.goNext} className='go-next'>Next</button>
+          <button onClick={this.submitAndGoNext} className='go-next'>Next</button>
         </div>
 
         <div className='test-work-area'>
@@ -91,6 +107,7 @@ export class TopicsTestPartA extends React.Component {
     }
     this.addTopic = this.addTopic.bind(this);
     this.removeTopic = this.removeTopic.bind(this);
+    this.submitAndGoNext = this.submitAndGoNext.bind(this);
   }
 
   updateTopicInProgress(newTopicInProgress) {
@@ -99,7 +116,6 @@ export class TopicsTestPartA extends React.Component {
       topicInProgress: newTopicInProgress,
     })
   }
-
 
   addTopic() {
     if (this.state.topicInProgress === '') {
@@ -122,6 +138,22 @@ export class TopicsTestPartA extends React.Component {
     })
   }
 
+  submitAndGoNext() {
+    let responses = JSON.parse(JSON.stringify(this.state.topics));
+    let postBody = {
+      submissionTime: Date.now(),
+      responses: responses,
+    }
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postBody),
+    };
+    fetch('/api/postTestsTopicsTestPartA', requestOptions);
+    this.props.goNext();
+    window.scrollTo(0, 0)
+  }
+
   render() {
     return (
       <div style={{display: 'flex'}}>
@@ -130,7 +162,7 @@ export class TopicsTestPartA extends React.Component {
           <p>The first topic is: "A man is going up a ladder."</p>
           <p>List all the ideas you can about <u>a man going up a ladder</u>.</p>
           <p className='timer'>Time remaining: {this.props.minutes}:{this.props.seconds}</p>
-          <button onClick={this.props.goNext} className='go-next'>Next</button>
+          <button onClick={this.submitAndGoNext} className='go-next'>Next</button>
           <p>(you may only proceed after the time is over)</p>
         </div>
 
@@ -159,6 +191,7 @@ export class TopicsTestPartB extends React.Component {
     }
     this.addTopic = this.addTopic.bind(this);
     this.removeTopic = this.removeTopic.bind(this);
+    this.submitAndGoNext = this.submitAndGoNext.bind(this);
   }
 
   updateTopicInProgress(newTopicInProgress) {
@@ -167,7 +200,6 @@ export class TopicsTestPartB extends React.Component {
       topicInProgress: newTopicInProgress,
     })
   }
-
 
   addTopic() {
     if (this.state.topicInProgress === '') {
@@ -190,6 +222,21 @@ export class TopicsTestPartB extends React.Component {
     })
   }
 
+  submitAndGoNext() {
+    let responses = JSON.parse(JSON.stringify(this.state.topics));
+    let postBody = {
+      submissionTime: Date.now(),
+      responses: responses,
+    }
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postBody),
+    };
+    fetch('/api/postTestsTopicsTestPartB', requestOptions);
+    this.props.goNext();
+    window.scrollTo(0, 0)
+  }
   render() {
     return (
       <div style={{display: 'flex'}}>
@@ -198,7 +245,7 @@ export class TopicsTestPartB extends React.Component {
           <p>The second topic is: "Crossing a stream"</p>
           <p>List all the ideas you can about <u>crossing a stream</u>.</p>
           <p className='timer'>Time remaining: {this.props.minutes}:{this.props.seconds}</p>
-          <button onClick={this.props.goNext} className='go-next'>Next</button>
+          <button onClick={this.submitAndGoNext} className='go-next'>Next</button>
           <p>(you may only proceed after the time is over)</p>
         </div>
 
