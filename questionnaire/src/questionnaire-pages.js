@@ -212,12 +212,14 @@ export class QuestionnairePage3 extends React.Component {
       submissionTime: Date.now(),
       responses: responses,
     }
-    const requestOptions = {
+    let requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(postBody),
     };
     fetch('/api/postQuestionnairePage3', requestOptions);
+    requestOptions.body = '{}';
+    fetch('/api/postStage2EndTimestamp', requestOptions);
     this.props.goNext();
     window.scrollTo(0, 0)
   }

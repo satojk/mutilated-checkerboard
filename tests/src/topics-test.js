@@ -228,12 +228,14 @@ export class TopicsTestPartB extends React.Component {
       submissionTime: Date.now(),
       responses: responses,
     }
-    const requestOptions = {
+    let requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(postBody),
     };
     fetch('/api/postTestsTopicsTestPartB', requestOptions);
+    requestOptions.body = '{}';
+    fetch('/api/postStage3EndTimestamp', requestOptions);
     this.props.goNext();
     window.scrollTo(0, 0)
   }
