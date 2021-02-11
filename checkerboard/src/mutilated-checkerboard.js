@@ -50,7 +50,20 @@ class App extends React.Component {
       notes: newNotes,
       secondsRemaining: newSecondsRemaining,
       hintsUnlocked: newHintsUnlocked,
-    })
+    });
+    if (newSecondsRemaining % 5 === 0) {
+      let state = JSON.parse(JSON.stringify(this.state));
+      let postBody = {
+        submissionTime: Date.now(),
+        state: state,
+      }
+      const requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(postBody),
+      };
+      fetch('/api/postCheckerboardState', requestOptions);
+    }
     if (newSecondsRemaining === 0) {
       clearInterval(this.timer);
     }

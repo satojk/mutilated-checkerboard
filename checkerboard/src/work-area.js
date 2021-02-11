@@ -54,7 +54,10 @@ class AnswerSubmission extends React.Component {
       answerStage: 0,
       isPositiveAnswer: false,
       answerText: 'Type out your answer in this box.',
+      answerFeedbacks: [],
+      originalAnswerFeedbacks: [],
     }
+    this.checkFeedback = this.checkFeedback.bind(this);
   }
 
   incrementAnswerStage() {
@@ -91,11 +94,38 @@ class AnswerSubmission extends React.Component {
   }
 
   submitAnswer() {
-    this.setState({
-      answerStage: 2,
-      isPositiveAnswer: false,
-      answerText: 'Type out your answer in this box.',
-    })
+    let response = JSON.parse(JSON.stringify(this.state.answerText));
+    let postBody = {
+      submissionTime: Date.now(),
+      response: response,
+    }
+    let requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postBody),
+    };
+    fetch('/api/postCheckerboardResponse', requestOptions);
+    fetch('/api/getCheckerboardAnswerFeedbacks')
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({
+          answerStage: 2,
+          isPositiveAnswer: false,
+          answerText: 'Type out your answer in this box.',
+          originalAnswerFeedbacks: data,
+        });
+      });
+    this.feedbackChecker = setInterval(this.checkFeedback, 3000);
+  }
+
+  checkFeedback() {
+    fetch('/api/getCheckerboardAnswerFeedbacks')
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({
+          answerFeedbacks: data,
+        });
+      });
   }
 
   updateAnswerText(newAnswerText) {
@@ -155,11 +185,38 @@ class AnswerSubmission extends React.Component {
         )
       }
       else {
-        toRender = (
-          <div className='answer-div'>
-            <p className='hint'>Your answer is being checked, and you will be contacted by the experimenter shortly.</p>
-          </div>
-        )
+        if (this.state.answerFeedbacks.length > this.state.originalAnswerFeedbacks.length) {
+          clearInterval(this.feedbackChecker);
+          let lastFeedback = this.state.answerFeedbacks.slice(-1)[0];
+          if (lastFeedback === 'correct') {
+            let requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: '{}',
+            };
+            fetch('/api/postStage1EndTimestamp', requestOptions);
+            toRender = (
+              <div className='answer-div'>
+                <p className='hint'>Your answer is correct! <a href='/stage2'>Click here</a> to move to the next stage of the experiment.</p>
+              </div>
+            )
+          }
+          else {
+            toRender = (
+              <div className='answer-div'>
+                <p className='hint'>Your answer is incorrect. {lastFeedback}.</p>
+                <p className='hint'>Click on "Go back to notepad" above, and continue trying to solve the problem</p>
+              </div>
+            )
+          }
+        }
+        else {
+          toRender = (
+            <div className='answer-div'>
+              <p className='hint'>Your answer is being checked, and you will receive feedback here shortly.</p>
+            </div>
+          )
+        }
       }
     }
     return (
