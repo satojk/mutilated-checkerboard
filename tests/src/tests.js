@@ -23,18 +23,14 @@ class App extends React.Component {
 
   countDown() {
     let newSecondsRemaining = this.state.secondsRemaining - 1;
+    let timesUp = newSecondsRemaining <= 0;
     this.setState({
       screenNo: this.state.screenNo,
       secondsRemaining: newSecondsRemaining,
-      timesUp: this.state.timesUp,
-    })
-    if (newSecondsRemaining === 0) {
+      timesUp: timesUp,
+    });
+    if (timesUp) {
       clearInterval(this.timer);
-      this.setState({
-      screenNo: this.state.screenNo,
-      secondsRemaining: newSecondsRemaining,
-      timesUp: true,
-      })
     }
   }
 

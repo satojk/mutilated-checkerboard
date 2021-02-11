@@ -2,35 +2,24 @@ import React from 'react';
 
 import './mutilated-checkerboard.css';
 
-const FIRST_HINT_TIME = 1797; // 1380
-//const SECOND_HINT_TIME = 1798 // 900
-//const THIRD_HINT_TIME = 1797 // 300
-
-//const FIRST_HINT_TIME = 1380
-const SECOND_HINT_TIME = 900
-const THIRD_HINT_TIME = 300
+const HINTS = [
+  'finding a covering is, in fact, impossible. So you should look for a proof of why this is the case.',
+  'the colors of the squares might help you solve the problem.',
+  'count the number of dark squares and light squares.',
+];
 
 function TimerAndHints(props) {
-  if (props.secondsRemaining === FIRST_HINT_TIME) {
-    alert('Hint: finding a covering is, in fact, impossible. So you should look for a proof of why this is the case.');
-  }
-  if (props.secondsRemaining === SECOND_HINT_TIME) {
-    alert('Hint: the colors of the squares might help you solve the problem.');
-  }
-  if (props.secondsRemaining === THIRD_HINT_TIME) {
-    alert('Hint: count the number of dark squares and light squares.');
-  }
   let minutes = Math.floor(props.secondsRemaining / 60).toString();
   let seconds = (props.secondsRemaining % 60).toString().padStart(2, '0');
-  let hint1 = <p className='hint'><b>Hint:</b> finding a covering is, in fact, impossible. So you should look for a proof of why this is the case.</p>
-  let hint2 = <p className='hint'><b>Hint:</b> the colors of the squares might help you solve the problem.</p>
-  let hint3 = <p className='hint'><b>Hint:</b> count the number of dark squares and light squares.</p>
+  let hint1 = <p className='hint'><b>Hint:</b> {HINTS[0]}</p>
+  let hint2 = <p className='hint'><b>Hint:</b> {HINTS[1]}</p>
+  let hint3 = <p className='hint'><b>Hint:</b> {HINTS[2]}</p>
   return (
     <div>
       <p className='timer'>Time remaining: {minutes}:{seconds}</p>
-      {props.secondsRemaining > FIRST_HINT_TIME ? <p></p> : hint1}
-      {props.secondsRemaining > SECOND_HINT_TIME ? <p></p> : hint2}
-      {props.secondsRemaining > THIRD_HINT_TIME ? <p></p> : hint3}
+      {props.hintsToShow > 0 ? hint1 : <p></p>}
+      {props.hintsToShow > 1 ? hint2 : <p></p>}
+      {props.hintsToShow > 2 ? hint3 : <p></p>}
     </div>
   )
 }
@@ -38,6 +27,23 @@ function TimerAndHints(props) {
 function Notepad(props) {
   return (
     <textarea className='notepad' value={props.notes} onChange={props.handleChange} />
+  )
+}
+
+function HintOverlay(props) {
+  return (
+    <div className='hint-overlay'>
+      <div className='hint-overlay-background' />
+      <div className='hint-box'>
+        <p><b>Hint:</b> {HINTS[props.hintsToShow]}</p>
+        <button
+          onClick={props.incrementHintsToShow}
+          className='dismiss-hint'
+        >
+          Dismiss
+        </button>
+      </div>
+    </div>
   )
 }
 
@@ -167,14 +173,26 @@ class WorkArea extends React.Component {
     super(props);
     this.state = {
       isSubmission: false,
+      hintsToShow: 0,
     }
-    this.toggleIsSubmission = this.toggleIsSubmission.bind(this)
+    this.toggleIsSubmission = this.toggleIsSubmission.bind(this);
+    this.incrementHintsToShow = this.incrementHintsToShow.bind(this);
   }
 
   toggleIsSubmission() {
     let newIsSubmission = !(this.state.isSubmission);
     this.setState({
       isSubmission: newIsSubmission,
+      hintsToShow: this.state.hintsToShow,
+    })
+  }
+
+  incrementHintsToShow () {
+    let newHintsToShow = this.state.hintsToShow + 1;
+    this.setState({
+      isSubmission: this.state.isSubmission,
+      hintsToShow: newHintsToShow,
+      showHintOverlay: false,
     })
   }
 
@@ -185,14 +203,23 @@ class WorkArea extends React.Component {
                   />
     return (
       <div className='work-area'>
-          <button onClick={this.toggleIsSubmission} className='submit-answer' >
-            {buttonText}
-          </button>
-          {this.state.isSubmission ? 
-            <AnswerSubmission /> :
-            notepad
-          }
-          <TimerAndHints secondsRemaining={this.props.secondsRemaining} />
+        {this.props.hintsUnlocked > this.state.hintsToShow ?
+         <HintOverlay
+           hintsToShow={this.state.hintsToShow}
+           incrementHintsToShow={this.incrementHintsToShow}
+         /> :
+         null}
+        <button onClick={this.toggleIsSubmission} className='submit-answer' >
+          {buttonText}
+        </button>
+        {this.state.isSubmission ?
+          <AnswerSubmission /> :
+          notepad
+        }
+        <TimerAndHints
+          secondsRemaining={this.props.secondsRemaining}
+          hintsToShow={this.state.hintsToShow}
+        />
       </div>
     )
   }

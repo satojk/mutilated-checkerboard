@@ -7,6 +7,14 @@ import './mutilated-checkerboard.css';
 import WorkArea from './work-area.js';
 import { ItemTypes, Board, DominoReservoir } from './domino-area.js';
 
+const FIRST_HINT_TIME = 1797; // 1380
+//const SECOND_HINT_TIME = 1798 // 900
+//const THIRD_HINT_TIME = 1797 // 300
+
+//const FIRST_HINT_TIME = 1380
+const SECOND_HINT_TIME = 900
+const THIRD_HINT_TIME = 300
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -17,6 +25,7 @@ class App extends React.Component {
       },
       notes: 'Use this text input area to take notes as you try to solve the puzzle.',
       secondsRemaining: 1800,
+      hintsUnlocked: 0,
     }
     this.countDown = this.countDown.bind(this);
     this.timer = setInterval(this.countDown, 1000);
@@ -26,10 +35,21 @@ class App extends React.Component {
     let newSecondsRemaining = this.state.secondsRemaining - 1;
     let newNotes = this.state.notes;
     let newDominoes = this.state.dominoes;
+    let newHintsUnlocked = this.state.hintsUnlocked;
+    if (newSecondsRemaining === FIRST_HINT_TIME) {
+      newHintsUnlocked = 1;
+    }
+    if (newSecondsRemaining === SECOND_HINT_TIME) {
+      newHintsUnlocked = 2;
+    }
+    if (newSecondsRemaining === THIRD_HINT_TIME) {
+      newHintsUnlocked = 3;
+    }
     this.setState({
       dominoes: newDominoes,
       notes: newNotes,
       secondsRemaining: newSecondsRemaining,
+      hintsUnlocked: newHintsUnlocked,
     })
     if (newSecondsRemaining === 0) {
       clearInterval(this.timer);
@@ -125,6 +145,7 @@ class App extends React.Component {
             notes={this.state.notes}
             handleNotepadChange={(event) => this.updateNotes(event.target.value)}
             secondsRemaining={this.state.secondsRemaining}
+            hintsUnlocked={this.state.hintsUnlocked}
           />
         </div>
       </DndProvider>
