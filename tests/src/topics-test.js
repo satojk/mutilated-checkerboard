@@ -155,6 +155,24 @@ export class TopicsTestPartA extends React.Component {
   }
 
   render() {
+    let maySubmit = this.props.minutes <= 0 && this.props.seconds <= 0;
+    let content = (maySubmit ?
+      <div className="test-work-area">
+        <p>Time is up! Click on "Next" on the left. This will take you to the second part of this test, and restart the timer.</p>
+      </div> :
+      <div className='test-work-area'>
+        <h3>Topic: "A man is going up a ladder"</h3>
+        <div style={{display: 'flex'}}>
+          <textarea className='topic-in-progress-box' value={this.state.topicInProgress} onChange={(event) => this.updateTopicInProgress(event.target.value)} />
+          <button onClick={() => this.addTopic()}>Add topic</button>
+        </div>
+        <TopicsList
+          topics={this.state.topics}
+          removeTopic={this.removeTopic}
+        />
+      </div>
+      );
+
     return (
       <div style={{display: 'flex'}}>
         <div className='test-instructions'>
@@ -165,18 +183,8 @@ export class TopicsTestPartA extends React.Component {
           <button onClick={this.submitAndGoNext} className='go-next'>Next</button>
           <p>(you may only proceed after the time is over)</p>
         </div>
+        {content}
 
-        <div className='test-work-area'>
-          <h3>Topic: "A man is going up a ladder"</h3>
-          <div style={{display: 'flex'}}>
-            <textarea className='topic-in-progress-box' value={this.state.topicInProgress} onChange={(event) => this.updateTopicInProgress(event.target.value)} />
-            <button onClick={() => this.addTopic()}>Add topic</button>
-          </div>
-          <TopicsList
-            topics={this.state.topics}
-            removeTopic={this.removeTopic}
-          />
-        </div>
       </div>
     )
   }
@@ -240,6 +248,23 @@ export class TopicsTestPartB extends React.Component {
     window.scrollTo(0, 0)
   }
   render() {
+    let maySubmit = this.props.minutes <= 0 && this.props.seconds <= 0;
+    let content = (maySubmit ?
+      <div className="test-work-area">
+        <p>Time is up! Click on "Next" on the left. This will conclude the test.</p>
+      </div> :
+      <div className='test-work-area'>
+        <h3>Topic: "Crossing a stream"</h3>
+        <div style={{display: 'flex'}}>
+          <textarea className='topic-in-progress-box' value={this.state.topicInProgress} onChange={(event) => this.updateTopicInProgress(event.target.value)} />
+          <button onClick={() => this.addTopic()}>Add topic</button>
+        </div>
+        <TopicsList
+          topics={this.state.topics}
+          removeTopic={this.removeTopic}
+        />
+      </div>
+      );
     return (
       <div style={{display: 'flex'}}>
         <div className='test-instructions'>
@@ -250,18 +275,8 @@ export class TopicsTestPartB extends React.Component {
           <button onClick={this.submitAndGoNext} className='go-next'>Next</button>
           <p>(you may only proceed after the time is over)</p>
         </div>
+        {content}
 
-        <div className='test-work-area'>
-          <h3>Topic: "Crossing a stream"</h3>
-          <div style={{display: 'flex'}}>
-            <textarea className='topic-in-progress-box' value={this.state.topicInProgress} onChange={(event) => this.updateTopicInProgress(event.target.value)} />
-            <button onClick={() => this.addTopic()}>Add topic</button>
-          </div>
-          <TopicsList
-            topics={this.state.topics}
-            removeTopic={this.removeTopic}
-          />
-        </div>
       </div>
     )
   }

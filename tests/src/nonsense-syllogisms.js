@@ -148,7 +148,7 @@ export class NonsenseSyllogismsPartA extends React.Component {
   }
 
   render() {
-    let maySubmit = true;
+    let maySubmit = this.props.minutes <= 0 && this.props.seconds <= 0;
     const options = [
       'Good reasoning.',
       'Poor reasoning,',
@@ -182,6 +182,10 @@ export class NonsenseSyllogismsPartA extends React.Component {
         updateFunction={this.updateResponse}
       />
     ));
+    let content = (maySubmit ?
+      <p>Time is up! Click on "Next" on the left. This will take you to the second part of this test, and restart the timer.</p> :
+      questions);
+
     return (
       <div style={{display: 'flex'}}>
         <div className='test-instructions'>
@@ -200,7 +204,7 @@ export class NonsenseSyllogismsPartA extends React.Component {
         </div>
 
         <div className='test-work-area'>
-          {questions}
+          {content}
         </div>
 
       </div>
@@ -247,7 +251,7 @@ export class NonsenseSyllogismsPartB extends React.Component {
   }
 
   render() {
-    let maySubmit = true;
+    let maySubmit = this.props.minutes <= 0 && this.props.seconds <= 0;
     const options = [
       'Good reasoning.',
       'Poor reasoning,',
@@ -282,6 +286,10 @@ export class NonsenseSyllogismsPartB extends React.Component {
         updateFunction={this.updateResponse}
       />
     ));
+    let content = (maySubmit ?
+      <p>Time is up! Click on "Next" on the left. This will take you to the instructions for the second test.</p> :
+      questions);
+
     return (
       <div style={{display: 'flex'}}>
         <div className='test-instructions'>
@@ -300,7 +308,7 @@ export class NonsenseSyllogismsPartB extends React.Component {
         </div>
 
         <div className='test-work-area'>
-          {questions}
+          {content}
         </div>
 
       </div>
