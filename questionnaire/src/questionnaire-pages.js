@@ -144,11 +144,11 @@ export class QuestionnairePage2 extends React.Component {
       '"By the time the third hint was given, I had already noticed that there were more light squares than dark squares." (Note: the third hint suggested that you count how many squares there were of each color. Skip this question if you did not receive this hint.)',
       '"By the time the third hint was given, I had already noticed that each domino covered exactly one square of each color" (Note: the third hint suggested that you count how many squares there were of each color. Skip this question if you did not receive this hint.)',
       '"I persisted for too long in wrong approaches."',
-      'Briefly explain your answer to question 8 above.',
+      'Briefly explain your answer to question 9 above.',
       '"I felt stuck many times and/or for long periods of time."',
-      'Briefly explain your answer to question 10 above',
+      'Briefly explain your answer to question 11 above',
       '"I felt stuck many times and/or for long periods of time."',
-      'Briefly explain your answer to question 12 above.',
+      'Briefly explain your answer to question 13 above.',
     ]
     let questions = prompts.map((questionPrompt, ix) => (
       ix === 9 || ix === 11 || ix === 13 ?
@@ -174,6 +174,7 @@ export class QuestionnairePage2 extends React.Component {
 
     return (
       <div className='questionnaire-page'>
+      <p>Each of the questions in this page gives you a statement in quotes. For each question, please mark the answer corresponding to how much you agree with the given statement.</p>
       {questions}
 
         <button

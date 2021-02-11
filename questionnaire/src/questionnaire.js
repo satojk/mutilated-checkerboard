@@ -47,7 +47,7 @@ class App extends React.Component {
       content = <QuestionnairePage3 goNext={() => this.goNext()} />;
     }
     else {
-      content = <p className='main-instructions'>You have now completed the second stage of the experiment. Thank you very much! <a href='/main'>Click here to go to the final stage of the experiment</a>.</p>;
+      content = <p className='main-instructions'>You have now completed the second stage of the experiment. Thank you very much! <a href='/stage3'>Click here to go to the final stage of the experiment</a>.</p>;
     }
 
     return (
