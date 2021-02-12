@@ -139,7 +139,7 @@ class App extends React.Component {
         <div style={{display: 'flex'}}>
           <div>
             <p className='explanation-p'>
-              On the right, two of the 64 squares have been crossed out. You can place dominos on the remaining squares, such that each domino covers two adjacent squares. <b>Is it possible to  perfectly cover the 62 remaining squares using 31 dominos? If so, provide one such covering. If not, prove logically why such a covering is impossible.</b>
+              On the right, two of the 64 squares have been crossed out. You can place dominos on the remaining squares, such that each domino covers two adjacent squares. <b>Is it possible to  perfectly cover the 62 remaining squares using 31 dominos? If so, provide one such covering. If not, give a logical argument why such a covering is impossible.</b>
             </p>
             <p className='explanation-p'>
               You can drag the domino below and place it onto the squares. You can also drag placed dominos to move them to different squares, or drag them away from the squares to remove them. You can also click on the circular arrow below to change the orientation of your next domino.

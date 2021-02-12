@@ -148,7 +148,7 @@ class AnswerSubmission extends React.Component {
           </button>
           <br />
           <button onClick={() => {this.attemptNegativeAnswer()}} className='submit-answer' >
-            I can prove that no covering exists
+            I can logically show that no covering exists
           </button>
         </div>
       )
