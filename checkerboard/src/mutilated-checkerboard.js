@@ -7,11 +7,11 @@ import './mutilated-checkerboard.css';
 import WorkArea from './work-area.js';
 import { ItemTypes, Board, DominoReservoir } from './domino-area.js';
 
-const FIRST_HINT_TIME = 1797; // 1380
-//const SECOND_HINT_TIME = 1798 // 900
-//const THIRD_HINT_TIME = 1797 // 300
+//const FIRST_HINT_TIME = 1780; // 1380
+//const SECOND_HINT_TIME = 1770; // 900
+//const THIRD_HINT_TIME = 1760; // 300
 
-//const FIRST_HINT_TIME = 1380
+const FIRST_HINT_TIME = 1380
 const SECOND_HINT_TIME = 900
 const THIRD_HINT_TIME = 300
 
@@ -142,18 +142,21 @@ class App extends React.Component {
               On the right, two of the 64 squares have been crossed out. You can place dominos on the remaining squares, such that each domino covers two adjacent squares. <b>Is it possible to  perfectly cover the 62 remaining squares using 31 dominos? If so, provide one such covering. If not, prove logically why such a covering is impossible.</b>
             </p>
             <p className='explanation-p'>
-              You can click and drag the domino below in order to place it onto the squares. You can also click and drag placed dominos to move them to different squares, or drag them away from the squares to remove them. You can also click on the circular arrow symbol below to change the orientation of your next domino before placing it onto the squares.
+              You can drag the domino below and place it onto the squares. You can also drag placed dominos to move them to different squares, or drag them away from the squares to remove them. You can also click on the circular arrow below to change the orientation of your next domino.
             </p>
             <p className='explanation-p'>
               You have a total of 30 minutes for your attempt. When you think you are ready to provide an answer, click on "I am ready to submit an answer" on the top right, and you will be given the option to either submit your current domino covering, or provide a typed explanation of why such a covering is impossible. There is no limit on how many times you may attempt to submit answers, but you should only do so when you believe you have solved the problem.
             </p>
             <DominoReservoir onClick={() => {this.clearDominoes()}} />
           </div>
-          <Board
-            dominoes={this.state.dominoes}
-            addDomino={(i, j, item) => {this.addDomino(i, j, item)}}
-            removeDomino={(i, j)=>{this.removeDomino(i, j)}}
-          />
+          <div>
+            <Board
+              dominoes={this.state.dominoes}
+              addDomino={(i, j, item) => {this.addDomino(i, j, item)}}
+              removeDomino={(i, j)=>{this.removeDomino(i, j)}}
+            />
+            <p className='protocol-reminder'>Please, remember to "think aloud" and talk through whatever you are thinking.</p>
+          </div>
           <WorkArea
             notes={this.state.notes}
             handleNotepadChange={(event) => this.updateNotes(event.target.value)}

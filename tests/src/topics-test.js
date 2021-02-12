@@ -28,7 +28,7 @@ export class TopicsTestInstructions extends React.Component {
   updateTopicInProgress(newTopicInProgress) {
     this.setState({
       topics: this.state.topics,
-      topicInProgress: newTopicInProgress,
+      topicInProgress: newTopicInProgress.replace(/(\r\n|\n|\r)/, ''),
     })
   }
 
@@ -85,7 +85,12 @@ export class TopicsTestInstructions extends React.Component {
         <div className='test-work-area'>
           <h3>Sample Topic: "A train journey"</h3>
           <div style={{display: 'flex'}}>
-            <textarea className='topic-in-progress-box' value={this.state.topicInProgress} onChange={(event) => this.updateTopicInProgress(event.target.value)} />
+            <textarea
+              className='topic-in-progress-box'
+              value={this.state.topicInProgress}
+              onChange={(event) => this.updateTopicInProgress(event.target.value)}
+              onKeyPress={(event) => {if (event.key === 'Enter') {this.addTopic()}}}
+            />
             <button onClick={() => this.addTopic()}>Add topic</button>
           </div>
           <TopicsList
@@ -113,7 +118,7 @@ export class TopicsTestPartA extends React.Component {
   updateTopicInProgress(newTopicInProgress) {
     this.setState({
       topics: this.state.topics,
-      topicInProgress: newTopicInProgress,
+      topicInProgress: newTopicInProgress.replace(/(\r\n|\n|\r)/, ''),
     })
   }
 
@@ -163,7 +168,12 @@ export class TopicsTestPartA extends React.Component {
       <div className='test-work-area'>
         <h3>Topic: "A man is going up a ladder"</h3>
         <div style={{display: 'flex'}}>
-          <textarea className='topic-in-progress-box' value={this.state.topicInProgress} onChange={(event) => this.updateTopicInProgress(event.target.value)} />
+          <textarea
+            className='topic-in-progress-box'
+            value={this.state.topicInProgress}
+            onChange={(event) => this.updateTopicInProgress(event.target.value)}
+            onKeyPress={(event) => {if (event.key === 'Enter') {this.addTopic()}}}
+          />
           <button onClick={() => this.addTopic()}>Add topic</button>
         </div>
         <TopicsList
@@ -205,7 +215,7 @@ export class TopicsTestPartB extends React.Component {
   updateTopicInProgress(newTopicInProgress) {
     this.setState({
       topics: this.state.topics,
-      topicInProgress: newTopicInProgress,
+      topicInProgress: newTopicInProgress.replace(/(\r\n|\n|\r)/, ''),
     })
   }
 
@@ -256,7 +266,12 @@ export class TopicsTestPartB extends React.Component {
       <div className='test-work-area'>
         <h3>Topic: "Crossing a stream"</h3>
         <div style={{display: 'flex'}}>
-          <textarea className='topic-in-progress-box' value={this.state.topicInProgress} onChange={(event) => this.updateTopicInProgress(event.target.value)} />
+          <textarea
+            className='topic-in-progress-box'
+            value={this.state.topicInProgress}
+            onChange={(event) => this.updateTopicInProgress(event.target.value)}
+            onKeyPress={(event) => {if (event.key === 'Enter') {this.addTopic()}}}
+          />
           <button onClick={() => this.addTopic()}>Add topic</button>
         </div>
         <TopicsList

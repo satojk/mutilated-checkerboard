@@ -116,6 +116,7 @@ class AnswerSubmission extends React.Component {
         });
       });
     this.feedbackChecker = setInterval(this.checkFeedback, 3000);
+    this.props.toggleWaitingForFeedback();
   }
 
   checkFeedback() {
@@ -186,7 +187,10 @@ class AnswerSubmission extends React.Component {
       }
       else {
         if (this.state.answerFeedbacks.length > this.state.originalAnswerFeedbacks.length) {
-          clearInterval(this.feedbackChecker);
+          if (this.props.waitingForFeedback) {
+            clearInterval(this.feedbackChecker);
+            this.props.toggleWaitingForFeedback();
+          }
           let lastFeedback = this.state.answerFeedbacks.slice(-1)[0];
           if (lastFeedback === 'correct') {
             let requestOptions = {
@@ -194,10 +198,19 @@ class AnswerSubmission extends React.Component {
                 headers: { 'Content-Type': 'application/json' },
                 body: '{}',
             };
-            fetch('/api/postStage1EndTimestamp', requestOptions);
             toRender = (
               <div className='answer-div'>
-                <p className='hint'>Your answer is correct! <a href='/stage2'>Click here</a> to move to the next stage of the experiment.</p>
+                <p className='hint'>Your answer is correct! Click on "Next" below to move to the next stage of the experiment.</p><br />
+                <a href='/stage2'>
+                  <button
+                    className='submit-answer'
+                    onClick={() => {
+                      fetch('/api/postStage1EndTimestamp', requestOptions);
+                    }}
+                  >
+                    Next
+                  </button>
+                </a>
               </div>
             )
           }
@@ -231,9 +244,11 @@ class WorkArea extends React.Component {
     this.state = {
       isSubmission: false,
       hintsToShow: 0,
+      waitingForFeedback: false,
     }
     this.toggleIsSubmission = this.toggleIsSubmission.bind(this);
     this.incrementHintsToShow = this.incrementHintsToShow.bind(this);
+    this.toggleWaitingForFeedback = this.toggleWaitingForFeedback.bind(this);
   }
 
   toggleIsSubmission() {
@@ -242,6 +257,12 @@ class WorkArea extends React.Component {
       isSubmission: newIsSubmission,
       hintsToShow: this.state.hintsToShow,
     })
+  }
+
+  toggleWaitingForFeedback() {
+    this.setState({
+      waitingForFeedback: !this.state.waitingForFeedback,
+    });
   }
 
   incrementHintsToShow () {
@@ -266,11 +287,18 @@ class WorkArea extends React.Component {
            incrementHintsToShow={this.incrementHintsToShow}
          /> :
          null}
-        <button onClick={this.toggleIsSubmission} className='submit-answer' >
+        <button
+          onClick={this.toggleIsSubmission}
+          className='submit-answer'
+          disabled={this.state.waitingForFeedback}
+        >
           {buttonText}
         </button>
         {this.state.isSubmission ?
-          <AnswerSubmission /> :
+          <AnswerSubmission
+            toggleWaitingForFeedback={() => this.toggleWaitingForFeedback()}
+            waitingForFeedback={this.state.waitingForFeedback}
+          /> :
           notepad
         }
         <TimerAndHints

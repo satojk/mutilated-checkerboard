@@ -120,6 +120,16 @@ ol, ul {
   cursor: pointer;
 }
 
+.protocol-reminder {
+  max-width: 80vh;
+  font-size: 24px;
+  font-weight: bold;
+  color: red;
+  text-align: center;
+  margin-left: 5vh;
+  margin-right: 5vh;
+}
+
 .work-area {
   flex-grow: 1;
   position: relative;

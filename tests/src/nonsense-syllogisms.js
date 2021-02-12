@@ -156,7 +156,7 @@ export class NonsenseSyllogismsPartA extends React.Component {
     ];
     const prompts = [
       'All birds have purple tails. All cats are birds.\nTherefore all cats have purple tails.',
-      'No singer is a pogo stick. All pogo sticks are movie starts.\nTherefore no singer is a movie star.',
+      'No singer is a pogo stick. All pogo sticks are movie stars.\nTherefore no singer is a movie star.',
       'All cars have sails. Some swimming pools are cars.\nTherefore some swimming pools have sails.',
       'No chipmunks are clowns. Some mushrooms are chipmunks.\nTherefore some mushrooms are not clowns.',
       'No skunks have green toes. All skunks are pigs.\nTherefore no pig has green toes.',

@@ -91,16 +91,26 @@ export class QuestionnairePage2 extends React.Component {
     super(props);
     let responses = [];
     for (let i = 0; i < 14; i++) {
-      responses.push(
-        (i === 9 || i === 11 || i === 13) ?
-        '' :
-        null)
+      responses.push(null)
     }
     this.state = {
+      loading: true,
+      hintsReceived: 0,
       responses: responses,
     }
     this.updateResponse = this.updateResponse.bind(this);
     this.submitAndGoNext = this.submitAndGoNext.bind(this);
+  }
+
+  componentDidMount() {
+    fetch('/api/getCheckerboardLastState')
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({
+          loading: false,
+          hintsReceived: data.state.hintsUnlocked,
+        })
+      });
   }
 
   updateResponse(questionNo, newResponse) {
@@ -128,30 +138,45 @@ export class QuestionnairePage2 extends React.Component {
   }
 
   render() {
-    let maySubmit = this.state.responses.reduce(
+    if (this.state.loading) {
+      return <p>Loading...</p>;
+    }
+    let ixToAdd = this.state.hintsReceived;
+    if (ixToAdd === 3) {
+      ixToAdd = 4;
+    }
+    let maySubmit = this.state.responses.slice(0, 10+ixToAdd).reduce(
       (acc, curVal) => (acc && (curVal !== '' && curVal !== null)),
       true
     );
     const rangeOptions = ['1', '2', '3', '4', '5']
     const rangeEndpoints = ['Strongly disagree', 'Strongly agree']
-    const prompts = [
+    let prompts = [
       '"Initially, I spent some time attempting to cover the entire board with dominos."',
       '"Initially, I immediately tried thinking of reasons why it would be *impossible* to cover the board with dominos."',
       '"Initially, I immediately tried thinking of reasons why it would be *possible* to cover the board with dominos."',
       '"Initially, I was unsure whether it was possible or not to cover the board with dominos, and so I tried to explore by thinking more about the board and the dominos."',
-      '"By the time the first hint was given, I had already stopped trying to find a valid covering." (Note: the first hint stated that a board covering was, indeed, impossible. Skip this question if you did not receive this hint.)',
-      '"By the time the second hint was given, I had already thought about the colors of the squares." (Note: the second hint suggested that you pay attention to the colors of the squares. Skip this question if you did not receive this hint.)',
-      '"By the time the third hint was given, I had already noticed that there were more light squares than dark squares." (Note: the third hint suggested that you count how many squares there were of each color. Skip this question if you did not receive this hint.)',
-      '"By the time the third hint was given, I had already noticed that each domino covered exactly one square of each color" (Note: the third hint suggested that you count how many squares there were of each color. Skip this question if you did not receive this hint.)',
+    ];
+    if (ixToAdd > 0) {
+      prompts.push('"By the time the first hint was given, I had already stopped trying to find a valid covering." (Note: the first hint stated that a board covering was, indeed, impossible. Skip this question if you did not receive this hint.)');
+    }
+    if (ixToAdd > 1) {
+      prompts.push('"By the time the second hint was given, I had already thought about the colors of the squares." (Note: the second hint suggested that you pay attention to the colors of the squares. Skip this question if you did not receive this hint.)');
+    }
+    if (ixToAdd > 2) {
+      prompts.push('"By the time the third hint was given, I had already noticed that there were more light squares than dark squares." (Note: the third hint suggested that you count how many squares there were of each color. Skip this question if you did not receive this hint.)');
+      prompts.push('"By the time the third hint was given, I had already noticed that each domino covered exactly one square of each color" (Note: the third hint suggested that you count how many squares there were of each color. Skip this question if you did not receive this hint.)');
+    }
+    prompts = prompts.concat(
       '"I persisted for too long in wrong approaches."',
-      'Briefly explain your answer to question 9 above.',
+      'Briefly explain your answer to question ' + (5+ixToAdd).toString() + ' above.',
       '"I felt stuck many times and/or for long periods of time."',
-      'Briefly explain your answer to question 11 above',
-      '"I felt stuck many times and/or for long periods of time."',
-      'Briefly explain your answer to question 13 above.',
-    ]
+      'Briefly explain your answer to question ' + (7+ixToAdd).toString() + ' above',
+      '"The main difficulty of the puzzle was formulating the logical argument, rather than exploring new ways to see the problem."',
+      'Briefly explain your answer to question ' + (9+ixToAdd).toString() + ' above.'
+    )
     let questions = prompts.map((questionPrompt, ix) => (
-      ix === 9 || ix === 11 || ix === 13 ?
+      ix === (5+ixToAdd) || ix === (7+ixToAdd) || ix === (9+ixToAdd) ?
       <FormQuestion
         key={'2-' + ix.toString()}
         type={'text-short'}
@@ -228,7 +253,7 @@ export class QuestionnairePage3 extends React.Component {
   render() {
     const prompts = [
       'Each item contains some possible observation about the puzzle. Check all observations which you made and were aware of at some point during solving the puzzle (NOT while reading these now).',
-      'Are there other facts about the problem which you attended to and thought about during the process of solving the problem? What were they? Did you actively search for aspects of the problem such as these? How long did you spend thinking of them?',
+      'Are there other observations about the problem which you attended to and thought about during the process of solving the problem? What were they? Did you actively search for aspects of the problem such as these? How long did you spend thinking of them?',
     ];
     const firstQuestionOptions = [
       'It would be possible and easy to cover the board if the two removed squares were of non-diagonally-opposite corners (e.g. top right and bottom right).',
