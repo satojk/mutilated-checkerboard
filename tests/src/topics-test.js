@@ -190,7 +190,13 @@ export class TopicsTestPartA extends React.Component {
           <p>The first topic is: "A man is going up a ladder."</p>
           <p>List all the ideas you can about <u>a man going up a ladder</u>.</p>
           <p className='timer'>Time remaining: {this.props.minutes}:{this.props.seconds}</p>
-          <button onClick={this.submitAndGoNext} className='go-next'>Next</button>
+          <button
+            onClick={this.submitAndGoNext}
+            className='go-next'
+            disabled={!maySubmit}
+          >
+            Next
+           </button>
           <p>(you may only proceed after the time is over)</p>
         </div>
         {content}
@@ -287,7 +293,13 @@ export class TopicsTestPartB extends React.Component {
           <p>The second topic is: "Crossing a stream"</p>
           <p>List all the ideas you can about <u>crossing a stream</u>.</p>
           <p className='timer'>Time remaining: {this.props.minutes}:{this.props.seconds}</p>
-          <button onClick={this.submitAndGoNext} className='go-next'>Next</button>
+          <button
+            onClick={this.submitAndGoNext}
+            className='go-next'
+            disabled={!maySubmit}
+          >
+            Next
+          </button>
           <p>(you may only proceed after the time is over)</p>
         </div>
         {content}
