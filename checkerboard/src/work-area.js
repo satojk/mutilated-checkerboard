@@ -25,9 +25,32 @@ function TimerAndHints(props) {
 }
 
 function Notepad(props) {
-  return (
-    <textarea className='notepad' value={props.notes} onChange={props.handleChange} />
-  )
+  if (props.timesUp) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: '{}',
+    };
+    return (
+      <div className='answer-div'>
+        <p className='hint'>Time is up! Click on "Next" below to move to the next stage of the experiment.</p><br />
+        <button
+          className='submit-answer'
+          onClick={() => {
+            fetch('/api/postStage1EndTimestamp', requestOptions)
+              .then(() => window.location = '/stage2');
+          }}
+        >
+          Next
+        </button>
+      </div>
+    )
+  }
+  else {
+    return (
+      <textarea className='notepad' value={props.notes} onChange={props.handleChange} />
+    )
+  }
 }
 
 function HintOverlay(props) {
@@ -58,6 +81,7 @@ class AnswerSubmission extends React.Component {
       originalAnswerFeedbacks: [],
     }
     this.checkFeedback = this.checkFeedback.bind(this);
+    this.salvageAnswerAndPostEndTimestamp = this.salvageAnswerAndPostEndTimestamp.bind(this);
   }
 
   incrementAnswerStage() {
@@ -117,6 +141,23 @@ class AnswerSubmission extends React.Component {
       });
     this.feedbackChecker = setInterval(this.checkFeedback, 3000);
     this.props.toggleWaitingForFeedback();
+  }
+
+  salvageAnswerAndPostEndTimestamp() {
+    let response = JSON.parse(JSON.stringify(this.state.answerText));
+    let postBody = {
+      submissionTime: Date.now(),
+      response: response,
+    }
+    let requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postBody),
+    };
+    fetch('/api/postCheckerboardResponse', requestOptions);
+    requestOptions.body = '{}';
+    fetch('/api/postStage1EndTimestamp', requestOptions)
+      .then(() => window.location = '/stage2');
   }
 
   checkFeedback() {
@@ -187,11 +228,17 @@ class AnswerSubmission extends React.Component {
       }
       else {
         if (this.state.answerFeedbacks.length > this.state.originalAnswerFeedbacks.length) {
+          let lastFeedback = this.state.answerFeedbacks.slice(-1)[0];
           if (this.props.waitingForFeedback) {
             clearInterval(this.feedbackChecker);
-            this.props.toggleWaitingForFeedback();
+            // If the answer is correct, we keep "waitingForFeedback" as true
+            // because that will disallow moving out of submission mode, and
+            // the user will only be able to go "Next". So we only
+            // toggleWaitingForFeedback if the answer is not correct.
+            if (lastFeedback !== 'correct') {
+              this.props.toggleWaitingForFeedback();
+            }
           }
-          let lastFeedback = this.state.answerFeedbacks.slice(-1)[0];
           if (lastFeedback === 'correct') {
             let requestOptions = {
                 method: 'POST',
@@ -201,16 +248,15 @@ class AnswerSubmission extends React.Component {
             toRender = (
               <div className='answer-div'>
                 <p className='hint'>Your answer is correct! Click on "Next" below to move to the next stage of the experiment.</p><br />
-                <a href='/stage2'>
-                  <button
-                    className='submit-answer'
-                    onClick={() => {
-                      fetch('/api/postStage1EndTimestamp', requestOptions);
-                    }}
-                  >
-                    Next
-                  </button>
-                </a>
+                <button
+                  className='submit-answer'
+                  onClick={() => {
+                    fetch('/api/postStage1EndTimestamp', requestOptions)
+                      .then(() => window.location = '/stage2');
+                  }}
+                >
+                  Next
+                </button>
               </div>
             )
           }
@@ -231,6 +277,19 @@ class AnswerSubmission extends React.Component {
           )
         }
       }
+    }
+    if (this.props.timesUp) {
+      toRender = (
+        <div className='answer-div'>
+          <p className='hint'>Time is up! Click on "Next" below to move to the next stage of the experiment.</p><br />
+          <button
+            className='submit-answer'
+            onClick={this.salvageAnswerAndPostEndTimestamp}
+          >
+            Next
+          </button>
+        </div>
+      )
     }
     return (
       toRender
@@ -275,9 +334,11 @@ class WorkArea extends React.Component {
   }
 
   render() {
+    let timesUp = this.props.secondsRemaining <= 0;
     let buttonText = this.state.isSubmission ? 'Go back to notepad' : 'I am ready to submit an answer';
     let notepad = <Notepad notes={this.props.notes}
                            handleChange={this.props.handleNotepadChange}
+                           timesUp={timesUp}
                   />
     return (
       <div className='work-area'>
@@ -290,7 +351,7 @@ class WorkArea extends React.Component {
         <button
           onClick={this.toggleIsSubmission}
           className='submit-answer'
-          disabled={this.state.waitingForFeedback}
+          disabled={this.state.waitingForFeedback || timesUp}
         >
           {buttonText}
         </button>
@@ -298,6 +359,7 @@ class WorkArea extends React.Component {
           <AnswerSubmission
             toggleWaitingForFeedback={() => this.toggleWaitingForFeedback()}
             waitingForFeedback={this.state.waitingForFeedback}
+            timesUp={timesUp}
           /> :
           notepad
         }
