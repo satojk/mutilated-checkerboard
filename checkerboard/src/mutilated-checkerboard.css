@@ -9,8 +9,13 @@ ol, ul {
 
 .explanation-p {
   width: 40vh;
-  font-size: 14px;
+  font-size: 16px;
   text-align: justify;
+}
+
+.timer {
+  width: 40vh;
+  font-size: 24px;
 }
 
 .square {
@@ -168,6 +173,28 @@ ol, ul {
   z-index: 2;
 }
 
+.questionnaire-overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.questionnaire-box {
+  width: 70%;
+  height: 60%;
+  background: #fff;
+  padding: 5%;
+  border: 4px solid;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  z-index: 2;
+}
 .dismiss-hint {
   font-size: 16px;
   cursor: pointer;
@@ -183,13 +210,10 @@ ol, ul {
   font-size: 14px;
 }
 
-.timer {
-  font-size: 24px;
-}
-
 .hint {
   width: 30vw;
   font-size: 16px;
+  text-align: justify;
 }
 
 .submit-answer {
@@ -199,7 +223,6 @@ ol, ul {
 }
 
 .answer-div {
-  height: 64vh;
   font-size: 16px;
 }
 
@@ -211,3 +234,36 @@ ol, ul {
   font-size: 14px;
 }
 
+.form-question {
+  margin-bottom: 3vh;
+}
+
+.long-answer {
+  font-size: 16px;
+  margin-top: 2vh;
+  margin-bottom: 4vh;
+  height: 20vh;
+  width: 100%;
+}
+
+.short-answer {
+  font-size: 16px;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  height: 10vh;
+  width: 100%;
+}
+
+.range-wrapper {
+  width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.range-element {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

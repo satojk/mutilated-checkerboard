@@ -11,9 +11,8 @@ import { ItemTypes, Board, DominoReservoir } from './domino-area.js';
 //const SECOND_HINT_TIME = 1770; // 900
 //const THIRD_HINT_TIME = 1760; // 300
 
-const FIRST_HINT_TIME = 1380
-const SECOND_HINT_TIME = 900
-const THIRD_HINT_TIME = 300
+const FIRST_HINT_TIME = 1280; //900
+const SECOND_HINT_TIME = 1260;
 
 class App extends React.Component {
   constructor(props) {
@@ -23,12 +22,31 @@ class App extends React.Component {
         vertical: [],
         horizontal: [],
       },
-      notes: 'Use this text input area to take notes as you try to solve the puzzle.',
-      secondsRemaining: 1800,
+      responses: [null, '', '', '', '', ''],
+      secondsRemaining: 480,
       hintsUnlocked: 0,
+      phase: 1,
     }
     this.countDown = this.countDown.bind(this);
+    this.updateResponse = this.updateResponse.bind(this);
+    this.incrementPhase = this.incrementPhase.bind(this);
     this.timer = setInterval(this.countDown, 1000);
+  }
+
+  updateResponse(questionNo, newResponse) {
+    let newResponses = JSON.parse(JSON.stringify(this.state.responses));
+    newResponses[questionNo] = newResponse;
+    this.setState({
+      responses: newResponses,
+    });
+  }
+
+  incrementPhase() {
+    let newPhase = this.state.phase + 1;
+    this.setState({
+      phase: newPhase,
+      secondsRemaining: 1320,
+    });
   }
 
   countDown() {
@@ -41,9 +59,6 @@ class App extends React.Component {
     }
     if (newSecondsRemaining === SECOND_HINT_TIME) {
       newHintsUnlocked = 2;
-    }
-    if (newSecondsRemaining === THIRD_HINT_TIME) {
-      newHintsUnlocked = 3;
     }
     this.setState({
       dominoes: newDominoes,
@@ -123,45 +138,33 @@ class App extends React.Component {
     })
   }
 
-  updateNotes(newNotes) {
-    let newDominoes = this.state.dominoes;
-    let newSecondsRemaining = this.state.secondsRemaining;
-    this.setState({
-      dominoes: newDominoes,
-      notes: newNotes,
-      secondsRemaining: newSecondsRemaining,
-    })
-  }
-
   render() {
     return (
       <DndProvider backend={HTML5Backend}>
         <div style={{display: 'flex'}}>
           <div>
             <p className='explanation-p'>
-              On the right, two of the 64 squares have been crossed out. You can place dominos on the remaining squares, such that each domino covers two adjacent squares. <b>Is it possible to  perfectly cover the 62 remaining squares using 31 dominos? If so, provide one such covering. If not, give a logical argument why such a covering is impossible.</b>
+              In the grid on the right, two of the squares have been crossed out. You can place dominos on the remaining squares, such that each domino covers two horizontally or vertically adjacent squares. Consider the following question: <b>Is it possible to  perfectly cover the 62 remaining squares using 31 dominos?</b>
             </p>
             <p className='explanation-p'>
               You can drag the domino below and place it onto the squares. You can also drag placed dominos to move them to different squares, or drag them away from the squares to remove them. You can also click on the circular arrow below to change the orientation of your next domino.
             </p>
-            <p className='explanation-p'>
-              You have a total of 30 minutes for your attempt. When you think you are ready to provide an answer, click on "I am ready to submit an answer" on the top right, and you will be given the option to either submit your current domino covering, or provide a typed explanation of why such a covering is impossible. There is no limit on how many times you may attempt to submit answers, but you should only do so when you believe you have solved the problem.
-            </p>
             <DominoReservoir onClick={() => {this.clearDominoes()}} />
           </div>
-          <div>
-            <Board
-              dominoes={this.state.dominoes}
-              addDomino={(i, j, item) => {this.addDomino(i, j, item)}}
-              removeDomino={(i, j)=>{this.removeDomino(i, j)}}
-            />
-            <p className='protocol-reminder'>Please, remember to "think aloud" and talk through whatever you are thinking.</p>
-          </div>
+          <Board
+            dominoes={this.state.dominoes}
+            addDomino={(i, j, item) => {this.addDomino(i, j, item)}}
+            removeDomino={(i, j)=>{this.removeDomino(i, j)}}
+          />
           <WorkArea
             notes={this.state.notes}
             handleNotepadChange={(event) => this.updateNotes(event.target.value)}
             secondsRemaining={this.state.secondsRemaining}
             hintsUnlocked={this.state.hintsUnlocked}
+            phase={this.state.phase}
+            responses={this.state.responses}
+            updateResponse={this.updateResponse}
+            incrementPhase={this.incrementPhase}
           />
         </div>
       </DndProvider>
