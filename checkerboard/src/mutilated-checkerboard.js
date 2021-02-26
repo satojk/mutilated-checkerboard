@@ -3,6 +3,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import './mutilated-checkerboard.css';
+import FormQuestion from './form-question.js';
 
 import WorkArea from './work-area.js';
 import { ItemTypes, Board, DominoReservoir } from './domino-area.js';
@@ -160,7 +161,7 @@ class App extends React.Component {
     return (
       <DndProvider backend={HTML5Backend}>
         <div style={{display: 'flex'}}>
-          <div>
+          <div className='explanation-div'>
             <p className='explanation-p'>
               In the grid on the right, two of the squares have been crossed out. You can place dominos on the remaining squares, such that each domino covers two horizontally or vertically adjacent squares. Consider the following question: <b>Is it possible to  perfectly cover the 62 remaining squares using 31 dominos?</b>
             </p>
@@ -168,6 +169,21 @@ class App extends React.Component {
               You can drag the domino below and place it onto the squares. You can also drag placed dominos to move them to different squares, or drag them away from the squares to remove them. You can also click on the circular arrow below to change the orientation of your next domino.
             </p>
             <DominoReservoir onClick={() => {this.clearDominoes()}} />
+            <p className='explanation-p'>
+            </p>
+            <FormQuestion
+              type={'text-short'}
+              ix={0}
+              questionPrompt={'Use the input box and button below to record your thoughts and observations as you attempt to solve the puzzle.'}
+              value={this.state.responses[0]}
+              updateFunction={this.updateResponse}
+            />
+            <button
+              className='submit-answer'
+              onClick={this.updateProtocol}
+            >
+              Record thought
+            </button>
           </div>
           <div>
             <Board
@@ -178,7 +194,7 @@ class App extends React.Component {
             />
             {
               this.state.demandProtocol ?
-              <p className='protocol-reminder'>You have not recorded your thoughts in a while. Please do so now on the right, and remember to do so throughout your attempt at the puzzle.</p> :
+              <p className='protocol-reminder'>You have not recorded your thoughts in a while. Please do so now on the left, and remember to regularly do so throughout your attempt at the puzzle.</p> :
               null
             }
           </div>

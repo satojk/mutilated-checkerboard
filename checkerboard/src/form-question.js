@@ -8,7 +8,7 @@ export default function FormQuestion(props) {
     () => {} :
     props.updateFunction
   );
-  const questionPrompt = <p>{props.questionPrompt}</p>
+  const questionPrompt = <p className='form-question-prompt'>{props.questionPrompt}</p>
   if (props.type === 'text-long') {
     return (
       <div className='form-question'>

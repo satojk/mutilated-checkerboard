@@ -70,18 +70,18 @@ class AnswerSubmission extends React.Component {
           <p className='hint'>When you are ready, submit your answer below. You may only submit once, and you must do so before the timer above reaches 0:00.</p><br />
           <FormQuestion
             type={'radio'}
-            ix={0}
+            ix={1}
             questionPrompt={'Do you think it is possible to perfectly cover the 62 remaining squares using 31 dominos?'}
             options={['I am very confident that such a covering is possible.', 'I think such a covering is possible, but I am not sure.', 'I have no idea.', 'I think such a covering is impossible, but I am not sure.', 'I am very confident that such a covering is impossible.']}
-            value={this.props.responses[0]}
+            value={this.props.responses[1]}
             updateFunction={this.props.updateResponse}
             hideIx={true}
           />
           <FormQuestion
             type={'text-long'}
-            ix={1}
+            ix={2}
             questionPrompt={'Briefly explain your answer to the above.'}
-            value={this.props.responses[1]}
+            value={this.props.responses[2]}
             updateFunction={this.props.updateResponse}
           />
           <button
@@ -100,9 +100,9 @@ class AnswerSubmission extends React.Component {
           <p className='hint'>When you are ready, submit your answer below. You may only submit once, and you must do so before the timer above reaches 0:00.</p><br />
           <FormQuestion
             type={'text-long'}
-            ix={2}
+            ix={3}
             questionPrompt={''}
-            value={this.props.responses[2]}
+            value={this.props.responses[3]}
             updateFunction={this.props.updateResponse}
           />
           <button
@@ -164,6 +164,7 @@ class WorkArea extends React.Component {
          null
     )
     let questionnaireOverlay = null;
+    /*
     if (this.props.phase === 1 && this.props.secondsRemaining <= QUESTIONNAIRE_TIMES[0] && this.props.secondsRemaining > (QUESTIONNAIRE_TIMES[0] - 90)) {
       questionnaireOverlay = <QuestionnaireOverlay
         secondsRemaining={this.props.secondsRemaining}
@@ -191,6 +192,7 @@ class WorkArea extends React.Component {
         updateResponse={this.props.updateResponse}
       />
     }
+    */
     return (
       <div className='work-area'>
         <p className='timer'>Time remaining: {minutes}:{seconds}</p>

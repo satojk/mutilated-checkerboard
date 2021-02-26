@@ -173,6 +173,10 @@ export function Board(props) {
   }
   return (
     <div className='board-outline'>
+      {props.demandProtocol ?
+        <div className='protocol-reminder-overlay' /> :
+        null
+      }
       {squares}
     </div>
   );
@@ -257,7 +261,7 @@ export class DominoReservoir extends React.Component {
   render() {
     let domino = this.state.horizontal ? <HorizontalDomino onDrag={()=>{}} removeDomino={()=>{}} /> : <VerticalDomino onDrag={()=>{}} removeDomino={()=>{}} />;
     return (
-      <div>
+      <div className='domino-reservoir-wrapper'>
         <div className='domino-reservoir'>
           <Rotator onClick={this.rotateDomino}/>
           {domino}
