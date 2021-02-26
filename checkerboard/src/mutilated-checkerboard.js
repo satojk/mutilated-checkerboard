@@ -22,13 +22,17 @@ class App extends React.Component {
         vertical: [],
         horizontal: [],
       },
-      responses: [null, '', '', '', '', ''],
+      responses: ['', null, '', ''], // protocol, phase 1 radio, phase 1 text, phase 2
       secondsRemaining: 480,
       hintsUnlocked: 0,
       phase: 1,
+      lastProtocolSeconds: 480,
+      protocol: {1: [], 2: []}, // keys 1 and 2 denote the phases
+      demandProtocol: false,
     }
     this.countDown = this.countDown.bind(this);
     this.updateResponse = this.updateResponse.bind(this);
+    this.updateProtocol = this.updateProtocol.bind(this);
     this.incrementPhase = this.incrementPhase.bind(this);
     this.timer = setInterval(this.countDown, 1000);
   }
@@ -38,6 +42,20 @@ class App extends React.Component {
     newResponses[questionNo] = newResponse;
     this.setState({
       responses: newResponses,
+    });
+  }
+
+  updateProtocol() {
+    let newProtocol = JSON.parse(JSON.stringify(this.state.protocol));
+    newProtocol[this.state.phase].push((this.state.secondsRemaining, this.state.responses[0]));
+    let newLastProtocolSeconds = this.state.secondsRemaining;
+    let newResponses = JSON.parse(JSON.stringify(this.state.responses));
+    newResponses[0] = '';
+    this.setState({
+      protocol: newProtocol,
+      lastProtocolSeconds: newLastProtocolSeconds,
+      responses: newResponses,
+      demandProtocol: false,
     });
   }
 
@@ -51,9 +69,10 @@ class App extends React.Component {
 
   countDown() {
     let newSecondsRemaining = this.state.secondsRemaining - 1;
-    let newNotes = this.state.notes;
-    let newDominoes = this.state.dominoes;
     let newHintsUnlocked = this.state.hintsUnlocked;
+    let newDemandProtocol = (this.state.demandProtocol ||
+                            (((this.state.lastProtocolSeconds - newSecondsRemaining) >= 45) &&
+                              newSecondsRemaining > 60));
     if (newSecondsRemaining === FIRST_HINT_TIME) {
       newHintsUnlocked = 1;
     }
@@ -61,10 +80,9 @@ class App extends React.Component {
       newHintsUnlocked = 2;
     }
     this.setState({
-      dominoes: newDominoes,
-      notes: newNotes,
       secondsRemaining: newSecondsRemaining,
       hintsUnlocked: newHintsUnlocked,
+      demandProtocol: newDemandProtocol,
     });
     if (newSecondsRemaining % 5 === 0) {
       let state = JSON.parse(JSON.stringify(this.state));
@@ -151,11 +169,19 @@ class App extends React.Component {
             </p>
             <DominoReservoir onClick={() => {this.clearDominoes()}} />
           </div>
-          <Board
-            dominoes={this.state.dominoes}
-            addDomino={(i, j, item) => {this.addDomino(i, j, item)}}
-            removeDomino={(i, j)=>{this.removeDomino(i, j)}}
-          />
+          <div>
+            <Board
+              dominoes={this.state.dominoes}
+              addDomino={(i, j, item) => {this.addDomino(i, j, item)}}
+              removeDomino={(i, j)=>{this.removeDomino(i, j)}}
+              demandProtocol={this.state.demandProtocol}
+            />
+            {
+              this.state.demandProtocol ?
+              <p className='protocol-reminder'>You have not recorded your thoughts in a while. Please do so now on the right, and remember to do so throughout your attempt at the puzzle.</p> :
+              null
+            }
+          </div>
           <WorkArea
             notes={this.state.notes}
             handleNotepadChange={(event) => this.updateNotes(event.target.value)}
@@ -165,6 +191,8 @@ class App extends React.Component {
             responses={this.state.responses}
             updateResponse={this.updateResponse}
             incrementPhase={this.incrementPhase}
+            protocol={this.state.protocol}
+            demandProtocol={this.state.demandProtocol}
           />
         </div>
       </DndProvider>
