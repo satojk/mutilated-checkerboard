@@ -142,8 +142,8 @@ export class QuestionnairePage2 extends React.Component {
       return <p>Loading...</p>;
     }
     let ixToAdd = this.state.hintsReceived;
-    if (ixToAdd === 3) {
-      ixToAdd = 4;
+    if (ixToAdd === 2) {
+      ixToAdd = 3;
     }
     let maySubmit = this.state.responses.slice(0, 10+ixToAdd).reduce(
       (acc, curVal) => (acc && (curVal !== '' && curVal !== null)),
@@ -158,14 +158,11 @@ export class QuestionnairePage2 extends React.Component {
       '"Initially, I was unsure whether it was possible or not to cover the board with dominos, and so I tried to explore by thinking more about the board and the dominos."',
     ];
     if (ixToAdd > 0) {
-      prompts.push('"By the time the first hint was given, I had already stopped trying to find a valid covering." (Note: the first hint stated that a board covering was, indeed, impossible. Skip this question if you did not receive this hint.)');
+      prompts.push('"By the time the first hint was given, I had already thought about the colors of the squares." (Note: the first hint suggested that you pay attention to the colors of the squares)');
     }
     if (ixToAdd > 1) {
-      prompts.push('"By the time the second hint was given, I had already thought about the colors of the squares." (Note: the second hint suggested that you pay attention to the colors of the squares. Skip this question if you did not receive this hint.)');
-    }
-    if (ixToAdd > 2) {
-      prompts.push('"By the time the third hint was given, I had already noticed that there were more light squares than dark squares." (Note: the third hint suggested that you count how many squares there were of each color. Skip this question if you did not receive this hint.)');
-      prompts.push('"By the time the third hint was given, I had already noticed that each domino covered exactly one square of each color" (Note: the third hint suggested that you count how many squares there were of each color. Skip this question if you did not receive this hint.)');
+      prompts.push('"By the time the second hint was given, I had already noticed that there were more light squares than dark squares." (Note: the second hint suggested that you count how many squares there were of each color)');
+      prompts.push('"By the time the second hint was given, I had already noticed that each domino covered exactly one square of each color" (Note: the second hint suggested that you count how many squares there were of each color)');
     }
     prompts = prompts.concat(
       '"I persisted for too long in wrong approaches."',
