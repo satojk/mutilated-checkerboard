@@ -94,14 +94,15 @@ export class QuestionnairePage2 extends React.Component {
       responses.push(null)
     }
     this.state = {
-      loading: true,
-      hintsReceived: 0,
+      loading: false,
+      hintsReceived: 2,
       responses: responses,
     }
     this.updateResponse = this.updateResponse.bind(this);
     this.submitAndGoNext = this.submitAndGoNext.bind(this);
   }
 
+  /*
   componentDidMount() {
     fetch('/api/getCheckerboardLastState')
       .then((response) => response.json())
@@ -112,6 +113,7 @@ export class QuestionnairePage2 extends React.Component {
         })
       });
   }
+  */
 
   updateResponse(questionNo, newResponse) {
     let newResponses = JSON.parse(JSON.stringify(this.state.responses));
