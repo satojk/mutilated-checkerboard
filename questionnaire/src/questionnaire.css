@@ -1,5 +1,5 @@
 body {
-  font: 14px "Century Gothic", Futura, sans-serif;
+  font-size: 18px;
   margin: 20px;
 }
 
@@ -26,7 +26,7 @@ ol, ul {
   width: 60vw;
   margin-top: 10vh;
   margin-bottom: 5vh;
-  font-size: 16px;
+  font-size: 18px;
   text-align: justify;
 }
 
@@ -41,12 +41,12 @@ ol, ul {
   margin-left: 30vh;
   margin-right: 30vh;
   margin-top: 10vh;
-  font-size: 16px;
+  font-size: 18px;
   text-align: justify;
 }
 
 .long-answer {
-  font-size: 16px;
+  font-size: 18px;
   margin-top: 2vh;
   margin-bottom: 4vh;
   height: 25vh;
@@ -54,7 +54,7 @@ ol, ul {
 }
 
 .short-answer {
-  font-size: 16px;
+  font-size: 18px;
   margin-top: 2vh;
   margin-bottom: 2vh;
   height: 10vh;
@@ -85,14 +85,14 @@ ol, ul {
 }
 
 .test-instructions {
-  font-size: 16px;
+  font-size: 18px;
   width: 40vw;
   text-align: justify;
   margin-right: 10vw;
 }
 
 .test-work-area {
-  font-size: 16px;
+  font-size: 18px;
   max-height: 90vh;
   width: 60vw;
   overflow-y: auto;
@@ -106,13 +106,13 @@ ol, ul {
 }
 
 .topics {
-  font-size: 16px;
+  font-size: 18px;
   width: 50vw;
   height: 90vh;
 }
 
 .topics-text-box {
-  font-size: 16px;
+  font-size: 18px;
   border: 2px solid;
   padding: 2.5vh;
   width: 80%;
@@ -120,7 +120,7 @@ ol, ul {
 }
 
 .topic-in-progress-box {
-  font-size: 16px;
+  font-size: 18px;
   border: 1px solid;
   padding: 1vh;
   margin-right: 2vh;

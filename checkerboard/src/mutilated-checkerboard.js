@@ -11,8 +11,8 @@ import { ItemTypes, Board, DominoReservoir } from './domino-area.js';
 //const SECOND_HINT_TIME = 1770; // 900
 //const THIRD_HINT_TIME = 1760; // 300
 
-const FIRST_HINT_TIME = 1280; //900
-const SECOND_HINT_TIME = 1260;
+const FIRST_HINT_TIME = 660; // 660
+const SECOND_HINT_TIME = 180; // 180
 
 class App extends React.Component {
   constructor(props) {
@@ -22,14 +22,19 @@ class App extends React.Component {
         vertical: [],
         horizontal: [],
       },
-      responses: [null, '', '', '', '', ''],
-      secondsRemaining: 480,
+      responses: [null, '', '', [], ''], // 1a, 1b, 2, chat history, curr chat
+      secondsRemaining: 480, // 480
       hintsUnlocked: 0,
       phase: 1,
+      answerOptions: ['I am very confident that such a covering is possible.', 'I am very confident that such a covering is impossible.'],
+      extendedPhase: false,
     }
     this.countDown = this.countDown.bind(this);
     this.updateResponse = this.updateResponse.bind(this);
     this.incrementPhase = this.incrementPhase.bind(this);
+    this.increaseSeconds= this.increaseSeconds.bind(this);
+    this.updateChat = this.updateChat.bind(this);
+    this.updateChatHistory= this.updateChatHistory.bind(this);
     this.timer = setInterval(this.countDown, 1000);
   }
 
@@ -41,11 +46,52 @@ class App extends React.Component {
     });
   }
 
+  updateChat(newChat) {
+    let newResponses = JSON.parse(JSON.stringify(this.state.responses));
+    newResponses[4] = newChat.replace(/(\r\n|\n|\r)/, '');
+    this.setState({
+      responses: newResponses,
+    })
+  }
+
+  updateChatHistory() {
+    if (this.state.responses[4] === '') {
+      return
+    }
+    let newResponses = JSON.parse(JSON.stringify(this.state.responses));
+    newResponses[3].push(this.state.responses[4]);
+    newResponses[4] = '';
+    this.setState({
+      responses: newResponses,
+    })
+  }
+
   incrementPhase() {
     let newPhase = this.state.phase + 1;
+    let newExtendedPhase = false;
+    let newSecondsRemaining;
+    if (newPhase === 2) {
+      newSecondsRemaining = 60;
+    }
+    if (newPhase === 3) {
+      newSecondsRemaining = 1140;
+    }
+    if (newPhase === 4) {
+      newSecondsRemaining = 60;
+    }
     this.setState({
       phase: newPhase,
-      secondsRemaining: 1320,
+      secondsRemaining: newSecondsRemaining,
+      extendedPhase: newExtendedPhase,
+    });
+  }
+
+  increaseSeconds() {
+    let newSecondsRemaining = this.state.secondsRemaining + 60;
+    let newExtendedPhase = true;
+    this.setState({
+      secondsRemaining: newSecondsRemaining,
+      extendedPhase: newExtendedPhase,
     });
   }
 
@@ -54,18 +100,28 @@ class App extends React.Component {
     let newNotes = this.state.notes;
     let newDominoes = this.state.dominoes;
     let newHintsUnlocked = this.state.hintsUnlocked;
-    if (newSecondsRemaining === FIRST_HINT_TIME) {
-      newHintsUnlocked = 1;
+    let newAnswerOptions = this.state.answerOptions;
+    let newResponses = JSON.parse(JSON.stringify(this.state.responses));
+    if (this.state.phase === 2) {
+      if (newSecondsRemaining === FIRST_HINT_TIME) {
+        newHintsUnlocked = 1;
+      }
+      if (newSecondsRemaining === SECOND_HINT_TIME) {
+        newHintsUnlocked = 2;
+      }
     }
-    if (newSecondsRemaining === SECOND_HINT_TIME) {
-      newHintsUnlocked = 2;
+    if (newSecondsRemaining === 60) {
+      newAnswerOptions = [
+        'I am very confident that such a covering is possible.',
+        'I think such a covering is possible but I am not sure.',
+        'I have no idea.',
+        'I think such a covering is impossible, but I am not sure.',
+        'I am very confident that such a covering is impossible.',
+      ];
+      if (newResponses[0] === 1) {
+        newResponses[0] = 4;
+      }
     }
-    this.setState({
-      dominoes: newDominoes,
-      notes: newNotes,
-      secondsRemaining: newSecondsRemaining,
-      hintsUnlocked: newHintsUnlocked,
-    });
     if (newSecondsRemaining % 5 === 0) {
       let state = JSON.parse(JSON.stringify(this.state));
       let postBody = {
@@ -79,8 +135,21 @@ class App extends React.Component {
       };
       fetch('/api/postCheckerboardState', requestOptions);
     }
+    this.setState({
+      dominoes: newDominoes,
+      notes: newNotes,
+      secondsRemaining: newSecondsRemaining,
+      hintsUnlocked: newHintsUnlocked,
+      answerOptions: newAnswerOptions,
+      responses: newResponses,
+    });
     if (newSecondsRemaining === 0) {
-      clearInterval(this.timer);
+      if (this.state.phase === 2) {
+        clearInterval(this.timer);
+      }
+      else {
+        this.incrementPhase();
+      }
     }
   }
 
@@ -144,7 +213,10 @@ class App extends React.Component {
         <div style={{display: 'flex'}}>
           <div>
             <p className='explanation-p'>
-              In the grid on the right, two of the squares have been crossed out. You can place dominos on the remaining squares, such that each domino covers two horizontally or vertically adjacent squares. Consider the following question: <b>Is it possible to  perfectly cover the 62 remaining squares using 31 dominos?</b>
+              In the grid on the right, two of the squares have been crossed out. You can place dominos on the remaining squares, such that each domino covers two abutting squares. (We call two squares "abutting" if they share a common side.  This occurs if they are horizontally or vertically adjacent to one another.)
+            </p>
+            <p className='explanation-p'>
+              Consider the following question: Is it possible to perfectly cover the 62 remaining squares using 31 dominos?
             </p>
             <p className='explanation-p'>
               You can drag the domino below and place it onto the squares. You can also drag placed dominos to move them to different squares, or drag them away from the squares to remove them. You can also click on the circular arrow below to change the orientation of your next domino.
@@ -165,6 +237,11 @@ class App extends React.Component {
             responses={this.state.responses}
             updateResponse={this.updateResponse}
             incrementPhase={this.incrementPhase}
+            answerOptions={this.state.answerOptions}
+            increaseSeconds={this.increaseSeconds}
+            extendedPhase={this.state.extendedPhase}
+            updateChat={this.updateChat}
+            updateChatHistory={this.updateChatHistory}
           />
         </div>
       </DndProvider>

@@ -1,10 +1,10 @@
 body {
-  font: 16px "Century Gothic", Futura, sans-serif;
+  font-size: 18px;
   margin: 20px;
 }
 
 input {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .login-div {

@@ -1,0 +1,34 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	0.0.0	//
+App	mutilated-checkerboard.js	/^class App extends React.Component {$/;"	c
+Content-Type	mutilated-checkerboard.js	/^          headers: { 'Content-Type': 'application\/json' },$/;"	p	class:App.countDown.requestOptions.headers
+FIRST_HINT_TIME	mutilated-checkerboard.js	/^const FIRST_HINT_TIME = 1280; \/\/900$/;"	C
+SECOND_HINT_TIME	mutilated-checkerboard.js	/^const SECOND_HINT_TIME = 1260;$/;"	C
+addDomino	mutilated-checkerboard.js	/^  addDomino(i, j, item) {$/;"	m	class:App
+body	mutilated-checkerboard.js	/^          body: JSON.stringify(postBody),$/;"	p	class:App.countDown.requestOptions
+clearDominoes	mutilated-checkerboard.js	/^  clearDominoes() {$/;"	m	class:App
+constructor	mutilated-checkerboard.js	/^  constructor(props) {$/;"	m	class:App
+countDown	mutilated-checkerboard.js	/^  countDown() {$/;"	m	class:App
+dominoes	mutilated-checkerboard.js	/^      dominoes: {$/;"	c	class:App.constructor.state
+headers	mutilated-checkerboard.js	/^          headers: { 'Content-Type': 'application\/json' },$/;"	c	class:App.countDown.requestOptions
+hintsUnlocked	mutilated-checkerboard.js	/^      hintsUnlocked: 0,$/;"	p	class:App.constructor.state
+horizontal	mutilated-checkerboard.js	/^        horizontal: [],$/;"	p	class:App.constructor.state.dominoes
+incrementPhase	mutilated-checkerboard.js	/^  incrementPhase() {$/;"	m	class:App
+method	mutilated-checkerboard.js	/^          method: 'POST',$/;"	p	class:App.countDown.requestOptions
+phase	mutilated-checkerboard.js	/^      phase: 1,$/;"	p	class:App.constructor.state
+postBody	mutilated-checkerboard.js	/^      let postBody = {$/;"	c	class:App.countDown
+removeDomino	mutilated-checkerboard.js	/^  removeDomino(i, j) {$/;"	m	class:App
+render	mutilated-checkerboard.js	/^  render() {$/;"	m	class:App
+requestOptions	mutilated-checkerboard.js	/^      const requestOptions = {$/;"	c	class:App.countDown
+responses	mutilated-checkerboard.js	/^      responses: [null, '', '', '', '', ''],$/;"	p	class:App.constructor.state
+secondsRemaining	mutilated-checkerboard.js	/^      secondsRemaining: 480,$/;"	p	class:App.constructor.state
+state	mutilated-checkerboard.js	/^        state: state,$/;"	p	class:App.countDown.postBody
+state	mutilated-checkerboard.js	/^    this.state = {$/;"	c	class:App.constructor
+submissionTime	mutilated-checkerboard.js	/^        submissionTime: Date.now(),$/;"	p	class:App.countDown.postBody
+updateResponse	mutilated-checkerboard.js	/^  updateResponse(questionNo, newResponse) {$/;"	m	class:App
+vertical	mutilated-checkerboard.js	/^        vertical: [],$/;"	p	class:App.constructor.state.dominoes

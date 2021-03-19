@@ -41,8 +41,8 @@ export class QuestionnairePage1 extends React.Component {
   render() {
     const prompts = [
       'Think back to the first few minutes after you were introduced to the puzzle. What did you first notice about the puzzle and its components? List all observations you recall making initially.',
-      'What strategy did you initially pursue, and why? For approximately how long did you persist in this strategy? When and why did you decide to switch strategies?',
-      'After giving up on your initial strategy, what else did you attempt? List all lines of thought that you recall pursuing, roughly in chronological order. Include observations which may have prompted these lines of thought, as well as observations made as you pursued these lines of thought.',
+      'What approach did you take initially, and why? For approximately how long did you persist in this approach? When and why did you decide to switch approaches?',
+      'After giving up on your initial approach, what else did you attempt? List all lines of thought that you recall pursuing, in chronological order, to the best of your recollection. Include observations which may have prompted these lines of thought, as well as observations made as you pursued these lines of thought.',
     ];
     let maySubmit = this.state.responses.reduce(
       (acc, curVal) => (acc && curVal !== ''),
@@ -50,6 +50,7 @@ export class QuestionnairePage1 extends React.Component {
     );
     return (
       <div className='questionnaire-page'>
+        <p>For these first three questions, consider solely the first stage of the puzzle, <b>before</b> you were told that it was impossible to perfectly cover all squares.</p>
         <FormQuestion
           type={'text-long'}
           ix={0}
@@ -155,7 +156,8 @@ export class QuestionnairePage2 extends React.Component {
       '"Initially, I spent some time attempting to cover the entire board with dominos."',
       '"Initially, I immediately tried thinking of reasons why it would be *impossible* to cover the board with dominos."',
       '"Initially, I immediately tried thinking of reasons why it would be *possible* to cover the board with dominos."',
-      '"Initially, I was unsure whether it was possible or not to cover the board with dominos, and so I tried to explore by thinking more about the board and the dominos."',
+      '"Initially, I was unsure whether it was possible or not to cover the board with dominos."',
+      '"To help me understand whether it would be possible to cover the board or not, I tried to make as many observations as I could about the problem"',
     ];
     if (ixToAdd > 0) {
       prompts.push('"By the time the first hint was given, I had already thought about the colors of the squares." (Note: the first hint suggested that you pay attention to the colors of the squares)');
@@ -166,14 +168,16 @@ export class QuestionnairePage2 extends React.Component {
     }
     prompts = prompts.concat(
       '"I persisted for too long in wrong approaches."',
-      'Briefly explain your answer to question ' + (5+ixToAdd).toString() + ' above.',
+      'Briefly explain your answer to question ' + (6+ixToAdd).toString() + ' above.',
       '"I felt stuck many times and/or for long periods of time."',
-      'Briefly explain your answer to question ' + (7+ixToAdd).toString() + ' above',
-      '"The main difficulty of the puzzle was formulating the logical argument, rather than exploring new ways to see the problem."',
-      'Briefly explain your answer to question ' + (9+ixToAdd).toString() + ' above.'
+      'Briefly explain your answer to question ' + (8+ixToAdd).toString() + ' above',
+      '"The main problem I had was realizing why it was not possible to cover the board with 31 dominoes. Once I realized why it was impossible, I was able to easily explain the reason why I knew it was impossible."',
+      'Briefly explain your answer to question ' + (10+ixToAdd).toString() + ' above.',
+      '"The main difficulty of the puzzle was formulating the logical argument, rather than discovering the right way to see the problem."',
+      'Briefly explain your answer to question ' + (12+ixToAdd).toString() + ' above.'
     )
     let questions = prompts.map((questionPrompt, ix) => (
-      ix === (5+ixToAdd) || ix === (7+ixToAdd) || ix === (9+ixToAdd) ?
+      ix === (6+ixToAdd) || ix === (8+ixToAdd) || ix === (10+ixToAdd) || ix === (12+ixToAdd) ?
       <FormQuestion
         key={'2-' + ix.toString()}
         type={'text-short'}
@@ -254,17 +258,17 @@ export class QuestionnairePage3 extends React.Component {
     ];
     const firstQuestionOptions = [
       'It would be possible and easy to cover the board if the two removed squares were of non-diagonally-opposite corners (e.g. top right and bottom right).',
-      'A domino must cover, specifically, two adjacent squares.',
+      'A domino must cover, specifically, two abutting squares.',
       'There were 62 squares to cover, so you would need exactly 31 dominos.',
       'Adjacent squares are always of opposite colors.',
       'If you could cover two diagonally-adjacent blocks, the problem would be easy.',
       'You could, in principle, try every covering possible and find the answer, but that would take too long.',
       'Both removed squares were light-colored squares.',
       '31 is an odd number.',
-      'It would be possible and easy to cover the board if the two removed squares were adjacent to each other.',
-      'The solution to the problem must not depend on the colors used. That is, even if all squares were of the same color, the solution would have to be the same.',
-      'If the board were some specific different shape, the problem would be easy.',
-      'Whenever you attempt to cover the 62 squares, there are always 2 remaining squares of the same color.',
+      'It would be possible and easy to cover the board if the two removed squares were abutting squares',
+      'The solution to the problem must not depend on the colors used. That is, the colors of the squares should have no influence on whether it is possible or impossible to cover them.',
+      'It is possible to arrange the 62 squares such that one could cover them with 31 dominos (for example, if they were all in a single long row, it would be easy to cover them with dominos).',
+      'Whenever you attempt to cover the 62 squares, the last 2 remaining squares are always of the same color.',
       'The full board would have had 64 squares, and 64 is 2 to the power of 6.',
     ];
     let maySubmit = this.state.responses.reduce(
@@ -273,6 +277,7 @@ export class QuestionnairePage3 extends React.Component {
     );
     return (
       <div className='questionnaire-page'>
+        <p>Recall that two squares are said to be “abutting” if they share a common side.</p>
         <FormQuestion
           type={'checkbox'}
           ix={0}

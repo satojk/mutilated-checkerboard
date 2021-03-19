@@ -1,0 +1,37 @@
+body {
+  font-size: 18px;
+  margin: 20px;
+}
+
+ol, ul {
+  padding-left: 30px;
+}
+
+.main-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main-instructions {
+  margin-top: 10vh;
+  margin-bottom: 5vh;
+  margin-left: 20vw;
+  margin-right: 20vw;
+  text-align: justify;
+  font-size: 20px;
+}
+
+.main-instructions-more {
+  margin-bottom: 5vh;
+  margin-left: 20vw;
+  margin-right: 20vw;
+  text-align: justify;
+  font-size: 20px;
+}
+
+.go-next {
+  font-size: 16px;
+  margin-bottom: 3vh;
+  cursor: pointer;
+}

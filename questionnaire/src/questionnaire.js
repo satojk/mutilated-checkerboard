@@ -29,9 +29,7 @@ class App extends React.Component {
           <div className='main-instructions'>
             <p>Thank you for completing the puzzle portion of the experiment. Please fill out this questionnaire regarding your experience. There are three pages in the questionnaire (not including this one), and you should aim to spend about 4 minutes on each. You cannot go back to a previous page after moving forward.</p>
 
-            <p>Some of the later questions might feel very similar to earlier questions. This is expected. Answer each question anew and in earnest, independently of answers given previously.</p>
-
-            <p>Note: up to three hints were given throughout the 30 minute duration of the puzzle. If you solved it quickly, you might not have received any hints. If this is the case, you may ignore any mention of hints in this questionnaire.</p>
+            <p>Some of the later questions might feel very similar to earlier questions. This is expected. Please answer each question anew and in earnest, independently of answers given previously.</p>
           </div>
           <button onClick={() => this.goNext()} className='go-next'>Next</button>
         </div>

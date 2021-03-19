@@ -1,0 +1,111 @@
+diff --git a/checkerboard/src/mutilated-checkerboard.js b/checkerboard/src/mutilated-checkerboard.js
+index d792c29..92012c6 100644
+--- a/checkerboard/src/mutilated-checkerboard.js
++++ b/checkerboard/src/mutilated-checkerboard.js
+@@ -23,7 +23,7 @@ class App extends React.Component {
+         horizontal: [],
+       },
+       responses: [null, '', '', '', '', ''],
+-      secondsRemaining: 480,
++      secondsRemaining: 420,
+       hintsUnlocked: 0,
+       phase: 1,
+     }
+@@ -144,7 +144,7 @@ class App extends React.Component {
+         <div style={{display: 'flex'}}>
+           <div>
+             <p className='explanation-p'>
+-              In the grid on the right, two of the squares have been crossed out. You can place dominos on the remaining squares, such that each domino covers two horizontally or vertically adjacent squares. Consider the following question: <b>Is it possible to  perfectly cover the 62 remaining squares using 31 dominos?</b>
++              In the grid on the right, two of the squares have been crossed out. You can place dominos on the remaining squares, such that each domino covers two abutting squares. (We call two squares "abutting" if they share a common side.  This occurs if they are horizontally or vertically adjacent to one another.)
+             </p>
+             <p className='explanation-p'>
+               You can drag the domino below and place it onto the squares. You can also drag placed dominos to move them to different squares, or drag them away from the squares to remove them. You can also click on the circular arrow below to change the orientation of your next domino.
+diff --git a/checkerboard/src/work-area.js b/checkerboard/src/work-area.js
+index 868da21..fc43c84 100644
+--- a/checkerboard/src/work-area.js
++++ b/checkerboard/src/work-area.js
+@@ -9,7 +9,7 @@ const HINTS = [
+ ];
+ 
+ const QUESTIONNAIRE_TIMES = [
+-  420,
++  400,
+   1240,
+   600,
+ ]
+@@ -47,11 +47,10 @@ function QuestionnaireOverlay(props) {
+     <div className='questionnaire-overlay'>
+       <div className='hint-overlay-background' />
+       <div className='questionnaire-box'>
+-        <p>Please take a moment to respond to the following prompt.</p>
+         <FormQuestion
+           type={'text-long'}
+           ix={props.responseIx}
+-          questionPrompt={'Briefly summarize all observations you have made about the puzzle in the past few minutes, as well as your thought process, and the strategies you have been using.'}
++          questionPrompt={'Briefly summarize all your observations and thoughts regarding the puzzle in the past few minutes.'}
+           value={props.responses[props.responseIx]}
+           updateFunction={props.updateResponse}
+         />
+@@ -67,23 +66,16 @@ class AnswerSubmission extends React.Component {
+     if (this.props.phase === 1) {
+       toRender = (
+         <div className='answer-div'>
+-          <p className='hint'>When you are ready, submit your answer below. You may only submit once, and you must do so before the timer above reaches 0:00.</p><br />
++          <p className='hint'>When you are ready, submit your answer below. You may only submit once, and you must do so before the timer above reaches 0:00. Once you submit, you will have 60 seconds to write a brief explanation of why you chose your answer.</p><br />
+           <FormQuestion
+             type={'radio'}
+             ix={0}
+             questionPrompt={'Do you think it is possible to perfectly cover the 62 remaining squares using 31 dominos?'}
+-            options={['I am very confident that such a covering is possible.', 'I think such a covering is possible, but I am not sure.', 'I have no idea.', 'I think such a covering is impossible, but I am not sure.', 'I am very confident that such a covering is impossible.']}
++            options={['I am very confident that such a covering is possible.', 'I am very confident that such a covering is impossible.']}
+             value={this.props.responses[0]}
+             updateFunction={this.props.updateResponse}
+             hideIx={true}
+           />
+-          <FormQuestion
+-            type={'text-long'}
+-            ix={1}
+-            questionPrompt={'Briefly explain your answer to the above.'}
+-            value={this.props.responses[1]}
+-            updateFunction={this.props.updateResponse}
+-          />
+           <button
+             className='submit-answer'
+             onClick={this.props.incrementPhase}
+@@ -164,30 +156,30 @@ class WorkArea extends React.Component {
+          null
+     )
+     let questionnaireOverlay = null;
+-    if (this.props.phase === 1 && this.props.secondsRemaining <= QUESTIONNAIRE_TIMES[0] && this.props.secondsRemaining > (QUESTIONNAIRE_TIMES[0] - 90)) {
++    if (this.props.phase === 1 && this.props.secondsRemaining <= QUESTIONNAIRE_TIMES[0] && this.props.secondsRemaining > (QUESTIONNAIRE_TIMES[0] - 60)) {
+       questionnaireOverlay = <QuestionnaireOverlay
+         secondsRemaining={this.props.secondsRemaining}
+         responseIx={3}
+         responses={this.props.responses}
+-        deadline={QUESTIONNAIRE_TIMES[0] - 90}
++        deadline={QUESTIONNAIRE_TIMES[0] - 60}
+         updateResponse={this.props.updateResponse}
+       />
+     }
+-    if (this.props.phase === 2 && this.props.secondsRemaining <= QUESTIONNAIRE_TIMES[1] && this.props.secondsRemaining > (QUESTIONNAIRE_TIMES[1] - 90)) {
++    if (this.props.phase === 2 && this.props.secondsRemaining <= QUESTIONNAIRE_TIMES[1] && this.props.secondsRemaining > (QUESTIONNAIRE_TIMES[1] - 60)) {
+       questionnaireOverlay = <QuestionnaireOverlay
+         secondsRemaining={this.props.secondsRemaining}
+         responseIx={4}
+         responses={this.props.responses}
+-        deadline={QUESTIONNAIRE_TIMES[1] - 90}
++        deadline={QUESTIONNAIRE_TIMES[1] - 60}
+         updateResponse={this.props.updateResponse}
+       />
+     }
+-    if (this.props.phase === 2 && this.props.secondsRemaining <= QUESTIONNAIRE_TIMES[2] && this.props.secondsRemaining > (QUESTIONNAIRE_TIMES[2] - 90)) {
++    if (this.props.phase === 2 && this.props.secondsRemaining <= QUESTIONNAIRE_TIMES[2] && this.props.secondsRemaining > (QUESTIONNAIRE_TIMES[2] - 60)) {
+       questionnaireOverlay = <QuestionnaireOverlay
+         secondsRemaining={this.props.secondsRemaining}
+         responseIx={5}
+         responses={this.props.responses}
+-        deadline={QUESTIONNAIRE_TIMES[2] - 90}
++        deadline={QUESTIONNAIRE_TIMES[2] - 60}
+         updateResponse={this.props.updateResponse}
+       />
+     }
