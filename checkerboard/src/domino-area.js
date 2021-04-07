@@ -171,8 +171,18 @@ export function Board(props) {
       );
     }
   }
+  let overlay = null;
+  if (props.chatBlock) {
+    overlay = <div className='hint-overlay'>
+      <div className='hint-overlay-background' />
+      <div className='hint-box'>
+        <p>You have not recorded a thought in a while. Please do so now, on the top right of the screen.</p>
+      </div>
+    </div>;
+  }
   return (
     <div className='board-outline'>
+      {overlay}
       {squares}
     </div>
   );

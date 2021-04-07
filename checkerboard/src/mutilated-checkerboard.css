@@ -79,6 +79,7 @@ ol, ul {
 .board-outline {
   display: flex;
   flex-wrap: wrap;
+  position: relative;
   height: 80vh;
   width: 80vh;
   min-height: 80vh;
@@ -146,7 +147,7 @@ ol, ul {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 1;
+  z-index: 3;
 }
 
 .hint-overlay-background {

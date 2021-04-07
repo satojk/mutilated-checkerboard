@@ -6,15 +6,18 @@ import FormQuestion from './form-question.js';
 const HINTS = [
   'the colors of the squares might help you solve the problem.',
   'count the number of dark squares and light squares.',
+  'notice that any domino always covers one square of each color.',
 ];
 
 function Hints(props) {
   let hint1 = <p className='hint'><b>Hint:</b> {HINTS[0]}</p>
   let hint2 = <p className='hint'><b>Hint:</b> {HINTS[1]}</p>
+  let hint3 = <p className='hint'><b>Hint:</b> {HINTS[2]}</p>
   return (
     <div>
       {props.hintsToShow > 0 ? hint1 : <p></p>}
       {props.hintsToShow > 1 ? hint2 : <p></p>}
+      {props.hintsToShow > 2 ? hint3 : <p></p>}
     </div>
   )
 }
@@ -37,13 +40,13 @@ function HintOverlay(props) {
 }
 
 function Chat(props) {
-  let lastSubmitted = 'You have not submitted any thoughts yet.'
+  let lastRecorded = 'You have not recorded any thoughts yet.'
   if (props.responses[3].length) {
-    lastSubmitted = props.responses[3].slice(-1)[0];
+    lastRecorded = props.responses[3].slice(-1)[0];
   }
   return (
     <div>
-      <p className='hint'>Last submitted thought: {lastSubmitted}</p>
+      <p className='hint'>Last recorded thought: {lastRecorded}</p>
       <textarea
         className='chat-box'
         value={props.responses[4]}
@@ -52,7 +55,7 @@ function Chat(props) {
       />
       <button
           className='submit-answer'
-          onClick={() => props.updateChatHistory()}>Submit thought
+          onClick={() => props.updateChatHistory()}>Record thought
       </button>
     </div>
   )
@@ -60,11 +63,9 @@ function Chat(props) {
 
 class AnswerSubmission extends React.Component {
   render() {
-    let extensionNotice = null;
     let toRender;
     if (this.props.phase === 1) {
-      let submissionNotice = <p className='hint'>When you are ready, submit your answer below. You may only submit once, and you must do so before the timer above reaches 0:00.</p>;
-      submissionNotice = <p className='hint'>Use the small text box below to submit your thoughts as you solve the problem. When you are ready, submit your answer to the puzzle further below.</p>;
+      let submissionNotice = <p className='hint'>Use the small text box below to record your thoughts as you solve the problem. When you are ready, submit your answer to the puzzle further below.</p>;
       let chat = <Chat
         responses={this.props.responses}
         updateChat={this.props.updateChat}
@@ -72,14 +73,13 @@ class AnswerSubmission extends React.Component {
       />;
       toRender = (
         <div className='answer-div'>
-          {extensionNotice}
           {submissionNotice}
           {chat}
           <FormQuestion
             type={'radio'}
             ix={0}
             questionPrompt={'Do you think it is possible to perfectly cover the 62 remaining squares using 31 dominos?'}
-            options={this.props.answerOptions}
+            options={['I am very confident that such a covering is possible.', 'I am very confident that such a covering is impossible.']}
             value={this.props.responses[0]}
             updateFunction={this.props.updateResponse}
             hideIx={true}
@@ -101,8 +101,7 @@ class AnswerSubmission extends React.Component {
       )
     }
     if (this.props.phase === 2) {
-      let submissionNotice = <p className='hint'>When you are ready, submit your answer below. You may only submit once, and you must do so before the timer above reaches 0:00.</p>;
-      submissionNotice = <p className='hint'>Use the small text box below to submit your thoughts as you solve the problem. When you are ready, submit your answer to the puzzle further below.</p>;
+      let submissionNotice = <p className='hint'>Use the small text box below to record your thoughts as you solve the problem. When you are ready, submit your answer to the puzzle further below.</p>;
       let chat = <Chat
         responses={this.props.responses}
         updateChat={this.props.updateChat}
@@ -110,8 +109,7 @@ class AnswerSubmission extends React.Component {
       />;
       toRender = (
         <div className='answer-div'>
-          <p className='hint'>It is, in fact, impossible to perfectly cover the 62 remaining squares using 31 dominos. You now have 19 minutes to figure out why this is the case. That is: <b>can you find a convincing argument why it is impossible to cover the 62 remaining squares using 31 dominos?</b> This argument should not be a formal proof. It should be a plain English argument that, once explained to someone, should convince them that such a covering is impossible.</p>
-          {extensionNotice}
+          <p className='hint'>It is, in fact, impossible to perfectly cover the 62 remaining squares using 31 dominos. Try to figure out why this is the case. That is: <b>can you find a convincing argument why it is impossible to cover the 62 remaining squares using 31 dominos?</b> This argument should not be a formal proof. It should be a plain English argument that, once explained to someone, should convince them that such a covering is impossible.</p>
           {submissionNotice}
           {chat}
           <FormQuestion
@@ -187,8 +185,22 @@ class WorkArea extends React.Component {
          /> :
          null
     )
-    let timer = <p className='timer'>Time remaining: {minutes}:{seconds}</p>;
-    timer = null;
+    let timer = null;
+    if (this.props.phase === 2 &&
+        this.props.secondsRemaining <= 120 &&
+        this.props.secondsRemaining > 0) {
+      timer = <div>
+        <p className='timer'>Please submit a response before the timer below reaches 0:00</p>
+        <p className='timer'>{minutes}:{seconds}</p>
+      </div>
+    }
+    let hints = <Hints
+          secondsRemaining={this.props.secondsRemaining}
+          hintsToShow={this.state.hintsToShow}
+        />;
+    if (timesUp) {
+      hints = null;
+    }
     return (
       <div className='work-area'>
         {timer}
@@ -201,17 +213,11 @@ class WorkArea extends React.Component {
           updateResponse={this.props.updateResponse}
           phase={this.props.phase}
           incrementPhase={this.props.incrementPhase}
-          answerOptions={this.props.answerOptions}
-          extendedPhase={this.props.extendedPhase}
-          increaseSeconds={this.props.increaseSeconds}
           secondsRemaining={this.props.secondsRemaining}
           updateChat={this.props.updateChat}
           updateChatHistory={this.props.updateChatHistory}
         />
-        <Hints
-          secondsRemaining={this.props.secondsRemaining}
-          hintsToShow={this.state.hintsToShow}
-        />
+       {hints}
       </div>
     )
   }
