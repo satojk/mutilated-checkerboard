@@ -35,3 +35,21 @@ ol, ul {
   margin-bottom: 3vh;
   cursor: pointer;
 }
+
+.hint {
+  width: 30vw;
+  font-size: 18px;
+  text-align: justify;
+}
+
+.chat-box {
+  font-size: 16px;
+  height: 5vh;
+  width: 100%;
+}
+
+.submit-answer {
+  font-size: 18px;
+  margin-bottom: 3vh;
+  cursor: pointer;
+}

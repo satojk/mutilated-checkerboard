@@ -101,7 +101,7 @@ class App extends React.Component {
       if (newSecondsRemaining === THIRD_HINT_TIME) {
         newHintsUnlocked = 3;
       }
-      if (newSecondsRemaining <= 120) {
+      if (newSecondsRemaining <= 120 && this.state.chatBlock === false) {
         // Don't bother subject in the last two minutes.
         newChatBlock = false;
       }
