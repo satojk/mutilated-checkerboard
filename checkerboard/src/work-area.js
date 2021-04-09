@@ -134,15 +134,7 @@ class AnswerSubmission extends React.Component {
           <p className='hint'>Time is up! Click on "Next" below to move to the next stage of the experiment.</p><br />
           <button
             className='submit-answer'
-            onClick={() => {
-              let requestOptions = {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: '{}',
-              }
-              fetch('/api/postStage1EndTimestamp', requestOptions)
-                .then(() => window.location = '/stage2');
-            }}
+            onClick={this.props.incrementPhase}
           >
             Next
           </button>

@@ -77,6 +77,16 @@ class App extends React.Component {
       newSecondsRemaining = 1320;
       newLastChatSeconds = (1320 + (newLastChatSeconds - this.state.secondsRemaining));
     }
+    if (newPhase === 3) {
+      let requestOptions = {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: '{}',
+      }
+      fetch('/api/postStage1EndTimestamp', requestOptions)
+        .then(() => window.location = '/stage2');
+      return;
+    }
     this.setState({
       phase: newPhase,
       secondsRemaining: newSecondsRemaining,
