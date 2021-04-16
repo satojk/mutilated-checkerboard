@@ -7,8 +7,12 @@ ol, ul {
   padding-left: 30px;
 }
 
+.explanation-div {
+  width: 25vw;
+}
+
 .explanation-p {
-  width: 40vh;
+  width: 100%;
   font-size: 18px;
   text-align: justify;
 }
@@ -94,7 +98,7 @@ ol, ul {
   display: flex;
   align-items: center;
   height: 20vh;
-  width: 40vh;
+  width: 100%;
 }
 
 .clear-board {
@@ -220,7 +224,7 @@ ol, ul {
 .chat-box {
   font-size: 16px;
   height: 5vh;
-  width: 100%;
+  width: 97%;
 }
 
 .submit-answer {
@@ -242,15 +246,15 @@ ol, ul {
 }
 
 .form-question {
-  margin-bottom: 3vh;
+  margin-bottom: 1vh;
 }
 
 .long-answer {
   font-size: 18px;
   margin-top: 2vh;
-  margin-bottom: 2vh;
+  margin-bottom: 0.5vh;
   height: 20vh;
-  width: 100%;
+  width: 97%;
 }
 
 .short-answer {

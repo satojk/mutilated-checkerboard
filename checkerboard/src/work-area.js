@@ -101,7 +101,7 @@ class AnswerSubmission extends React.Component {
       )
     }
     if (this.props.phase === 2) {
-      let submissionNotice = <p className='hint'>Use the small text box below to record your thoughts as you solve the problem. When you are ready, submit your answer to the puzzle further below.</p>;
+      let submissionNotice = <p className='hint'>When you are ready, submit your answer to the puzzle further below. <span style={{fontWeight:'bold'}}>Only submit an answer once you are fully confident that it is correct</span>. In the meantime, continue to record your thoughts in the small text entry box as you have been doing.</p>;
       let chat = <Chat
         responses={this.props.responses}
         updateChat={this.props.updateChat}
@@ -109,7 +109,7 @@ class AnswerSubmission extends React.Component {
       />;
       toRender = (
         <div className='answer-div'>
-          <p className='hint'>It is, in fact, impossible to perfectly cover the 62 remaining squares using 31 dominos. Try to figure out why this is the case. That is: <b>can you find a convincing argument why it is impossible to cover the 62 remaining squares using 31 dominos?</b> This argument should not be a formal proof. It should be a plain English argument that, once explained to someone, should convince them that such a covering is impossible.</p>
+          <p className='hint'><span style={{color:'red', fontWeight:'bold'}}>It is, in fact, impossible to perfectly cover the 62 remaining squares using 31 dominos.</span> Try to figure out why this is the case. That is: <b>can you find a convincing argument why it is impossible to cover the 62 remaining squares using 31 dominos?</b> This argument should not be a formal proof. It should be a plain English argument that, once explained to someone, should convince them that such a covering is impossible.</p>
           {submissionNotice}
           {chat}
           <FormQuestion

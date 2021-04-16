@@ -82,7 +82,7 @@ class App extends React.Component {
     }
     if (this.state.page === 1) {
       content = <div className='main-div'>
-        <p className='main-instructions'>So, remember: Please try to share high points of what you are thinking.  Each time you hit ‘enter’, we will record the time when you did, so please hit enter every time you think you’ve expressed a something that entered your mind.  We won’t define what a ‘something’ is, but this could be the sequence of lines for the first ‘think aloud’ above:  To keep it to the actual content, we’ve deleted extra words to show a minimal version of the same sequence:</p>
+        <p className='main-instructions'>So, remember: Please try to share high points of what you are thinking.  Each time you hit ‘enter’, we will record the time when you did, so please hit enter every time you think you’ve expressed a something that entered your mind.  We won’t define what a ‘something’ is, but this could be the sequence of lines for the first ‘think aloud’ on the previous screen, for multiplying 13 by 99:  To keep it to the actual content, we’ve deleted extra words to show a minimal version of the same sequence:</p>
         <p className='main-instructions-more'>3 times 99<br />that’s 297<br />add 990 to that<br />7<br />8<br />10<br />12<br />1287</p>
         <p className='main-instructions-more'>You try it now with this problem: What is 19 times 40?</p>
         <Chat

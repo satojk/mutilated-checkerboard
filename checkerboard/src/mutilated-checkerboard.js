@@ -100,7 +100,7 @@ class App extends React.Component {
     let newDominoes = this.state.dominoes;
     let newHintsUnlocked = this.state.hintsUnlocked;
     let newResponses = JSON.parse(JSON.stringify(this.state.responses));
-    let newChatBlock = this.state.lastChatSeconds >= (newSecondsRemaining + 60);
+    let newChatBlock = this.state.lastChatSeconds >= (newSecondsRemaining + 90);
     if (this.state.phase === 2) {
       if (newSecondsRemaining === FIRST_HINT_TIME) {
         newHintsUnlocked = 1;
@@ -205,7 +205,7 @@ class App extends React.Component {
     return (
       <DndProvider backend={HTML5Backend}>
         <div style={{display: 'flex'}}>
-          <div>
+          <div className='explanation-div'>
             <p className='explanation-p'>
               In the grid on the right, two of the squares have been crossed out. You can place dominos on the remaining squares, such that each domino covers two abutting squares. (We call two squares "abutting" if they share a common side.  This occurs if they are horizontally or vertically adjacent to one another.)
             </p>
