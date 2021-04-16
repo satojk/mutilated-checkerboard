@@ -168,16 +168,16 @@ export class QuestionnairePage2 extends React.Component {
     }
     prompts = prompts.concat(
       '"I persisted for too long in wrong approaches."',
-      'Briefly explain your answer to question ' + (6+ixToAdd).toString() + ' above.',
+      'Briefly explain your answer to question ' + (7+ixToAdd).toString() + ' above.',
       '"I felt stuck many times and/or for long periods of time."',
-      'Briefly explain your answer to question ' + (8+ixToAdd).toString() + ' above',
+      'Briefly explain your answer to question ' + (9+ixToAdd).toString() + ' above',
       '"The main problem I had was realizing why it was not possible to cover the board with 31 dominoes. Once I realized why it was impossible, I was able to easily explain the reason why I knew it was impossible."',
-      'Briefly explain your answer to question ' + (10+ixToAdd).toString() + ' above.',
+      'Briefly explain your answer to question ' + (11+ixToAdd).toString() + ' above.',
       '"The main difficulty of the puzzle was formulating the logical argument, rather than discovering the right way to see the problem."',
-      'Briefly explain your answer to question ' + (12+ixToAdd).toString() + ' above.'
+      'Briefly explain your answer to question ' + (13+ixToAdd).toString() + ' above.'
     )
     let questions = prompts.map((questionPrompt, ix) => (
-      ix === (6+ixToAdd) || ix === (8+ixToAdd) || ix === (10+ixToAdd) || ix === (12+ixToAdd) ?
+      ix === (7+ixToAdd) || ix === (9+ixToAdd) || ix === (11+ixToAdd) || ix === (13+ixToAdd) ?
       <FormQuestion
         key={'2-' + ix.toString()}
         type={'text-short'}
