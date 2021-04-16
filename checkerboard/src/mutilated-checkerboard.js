@@ -11,9 +11,9 @@ import { ItemTypes, Board, DominoReservoir } from './domino-area.js';
 //const SECOND_HINT_TIME = 1770; // 900
 //const THIRD_HINT_TIME = 1760; // 300
 
-const FIRST_HINT_TIME = 840; // 660
-const SECOND_HINT_TIME = 360; // 180
-const THIRD_HINT_TIME = 180; // 180
+const FIRST_HINT_TIME = 960; // 960
+const SECOND_HINT_TIME = 540; // 540
+const THIRD_HINT_TIME = 240; // 240
 
 class App extends React.Component {
   constructor(props) {
@@ -24,8 +24,8 @@ class App extends React.Component {
         horizontal: [],
       },
       responses: [null, '', '', [], ''], // 1a, 1b, 2, chat history, curr chat
-      secondsRemaining: 480, // 480
-      lastChatSeconds: 480,
+      secondsRemaining: 420, // 420
+      lastChatSeconds: 420,
       chatBlock: false,
       hintsUnlocked: 0,
       phase: 1,
@@ -74,8 +74,8 @@ class App extends React.Component {
     let newSecondsRemaining;
     let newLastChatSeconds = this.state.lastChatSeconds;
     if (newPhase === 2) {
-      newSecondsRemaining = 1320;
-      newLastChatSeconds = (1320 + (newLastChatSeconds - this.state.secondsRemaining));
+      newSecondsRemaining = 1380;
+      newLastChatSeconds = (1380 + (newLastChatSeconds - this.state.secondsRemaining));
     }
     if (newPhase === 3) {
       let requestOptions = {
