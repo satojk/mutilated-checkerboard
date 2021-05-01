@@ -173,7 +173,7 @@ export class QuestionnairePage2 extends React.Component {
       'Briefly explain your answer to question ' + (9+ixToAdd).toString() + ' above',
       '"The main problem I had was realizing why it was not possible to cover the board with 31 dominoes. Once I realized why it was impossible, I was able to easily explain the reason why I knew it was impossible."',
       'Briefly explain your answer to question ' + (11+ixToAdd).toString() + ' above.',
-      '"The main difficulty of the puzzle was formulating the logical argument, rather than discovering the right way to see the problem."',
+      '"The main difficulty of the puzzle was phrasing the argument, rather than discovering the right way to see the problem."',
       'Briefly explain your answer to question ' + (13+ixToAdd).toString() + ' above.'
     )
     let questions = prompts.map((questionPrompt, ix) => (
