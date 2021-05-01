@@ -53,3 +53,8 @@ ol, ul {
   margin-bottom: 3vh;
   cursor: pointer;
 }
+
+.chat-buttons {
+  display: flex;
+  justify-content: space-between;
+}

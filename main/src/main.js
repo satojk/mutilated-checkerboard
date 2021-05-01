@@ -16,10 +16,17 @@ function Chat(props) {
         onChange={(event) => props.updateChat(event.target.value)}
         onKeyPress={(event) => {if (event.key === 'Enter') {props.updateChatHistory()}}}
       />
-      <button
-          className='submit-answer'
-          onClick={() => props.updateChatHistory()}>Record thought
-      </button>
+      <div className='chat-buttons'>
+        <button
+            className='submit-answer'
+            onClick={() => props.updateChatHistory()}>Record thought
+        </button>
+        <button
+            disabled={!props.canProceed}
+            className='submit-answer'
+            onClick={() => props.goNext()}>Next
+        </button>
+      </div>
     </div>
   )
 }
@@ -59,7 +66,7 @@ class App extends React.Component {
 
   goNext() {
     let newPage = this.state.page + 1;
-    if (newPage === 3) {
+    if (newPage === 4) {
       window.location = '/stage1';
       return;
     }
@@ -80,9 +87,10 @@ class App extends React.Component {
       <button onClick={this.goNext} className='go-next'>Next</button>
       </div>;
     }
+    let canProceed = this.state.chatHistory.length > 2;
     if (this.state.page === 1) {
       content = <div className='main-div'>
-        <p className='main-instructions'>So, remember: Please try to share high points of what you are thinking.  Each time you hit ‘enter’, we will record the time when you did, so please hit enter every time you think you’ve expressed a something that entered your mind.  We won’t define what a ‘something’ is, but this could be the sequence of lines for the first ‘think aloud’ on the previous screen, for multiplying 13 by 99:  To keep it to the actual content, we’ve deleted extra words to show a minimal version of the same sequence:</p>
+        <p className='main-instructions'>So, remember: Please try to share high points of what you are thinking.  Each time you hit ‘enter’, we will record the time when you did, so please hit enter every time you think you’ve expressed something that entered your mind.  We won’t define what a ‘something’ is, but this could be the sequence of lines for the first ‘think aloud’ on the previous screen, for multiplying 13 by 99:  To keep it to the actual content, we’ve deleted extra words to show a minimal version of the same sequence:</p>
         <p className='main-instructions-more'>3 times 99<br />that’s 297<br />add 990 to that<br />7<br />8<br />10<br />12<br />1287</p>
         <p className='main-instructions-more'>You try it now with this problem: What is 19 times 40?</p>
         <Chat
@@ -90,20 +98,22 @@ class App extends React.Component {
           currentChat={this.state.currentChat}
           updateChat={this.updateChat}
           updateChatHistory={this.updateChatHistory}
+          canProceed={canProceed}
+          goNext={this.goNext}
         />
       </div>;
-      if (this.state.chatHistory.length >= 3) {
-        content = <div className='main-div'>
-          <p className='main-instructions-more'>OK, you will proceed to the experiment now. Remember, please give us hints to what you are thinking so we can know more about how you go about solving the puzzle you are about to see!</p>
-            <button onClick={this.goNext} className='go-next'>Next</button>
-        </div>
-      }
     }
     if (this.state.page === 2) {
       content = <div className='main-div'>
+        <p className='main-instructions-more'>OK, you will proceed to the experiment now. Remember, please give us hints to what you are thinking so we can know more about how you go about solving the puzzle you are about to see!</p>
+          <button onClick={this.goNext} className='go-next'>Next</button>
+      </div>
+    }
+    if (this.state.page === 3) {
+      content = <div className='main-div'>
         <p className='main-instructions'>For the first stage of this experiment, you will be asked to solve a puzzle. The instructions for the puzzle will be on the left side of the screen, so you should begin there.</p>
         <p className='main-instructions-more'>On the top right corner of the screen, you will find a text entry box for you to "think aloud" with, much as you did in the previous screen. Please use it similarly as described in the previous screen, giving clues to what is on your mind throughout the whole process of thinking through and solving the puzzle. If you spend a prolonged amount of time without recording a thought, a pop-up will appear on the center of the screen reminding you to record your thoughts.</p>
-        <p className='main-instructions-more'>Once you are ready to begin, click on “Next” below. This will take you to the puzzle. Once you begin, please dedicate your continued attention to the experiment.</p>
+        <p className='main-instructions-more'>Once you are ready to begin, click on “Next” below. This will take you to the puzzle. Once you begin, please dedicate your continued attention to the experiment for its entire duration (between 1 hour and 1 hour 15 minutes).</p>
       <button onClick={this.goNext} className='go-next'>Next</button>
       </div>;
     }
