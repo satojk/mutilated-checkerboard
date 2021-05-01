@@ -45,7 +45,7 @@ function Chat(props) {
     lastRecorded = props.responses[3].slice(-1)[0];
   }
   return (
-    <div>
+    <div className='chat-div'>
       <p className='hint'>Last recorded thought: {lastRecorded}</p>
       <textarea
         className='chat-box'
@@ -193,23 +193,33 @@ class WorkArea extends React.Component {
     if (timesUp) {
       hints = null;
     }
+    let explanation = <p className='hint'>
+      Once you have carefully read and understood the text on the left, please click once on each of the two red crosses on the board to proceed.
+    </p>;
+    if (this.props.ready) {
+      explanation = <p className='hint'>
+        Consider the following question: <span style={{fontWeight:'bold'}}>Is it possible to perfectly cover the 62 remaining squares using 31 dominos?</span>
+      </p>;
+    }
+    let answerSubmission = <AnswerSubmission
+      toggleWaitingForFeedback={() => this.toggleWaitingForFeedback()}
+      waitingForFeedback={this.state.waitingForFeedback}
+      timesUp={timesUp}
+      responses={this.props.responses}
+      updateResponse={this.props.updateResponse}
+      phase={this.props.phase}
+      incrementPhase={this.props.incrementPhase}
+      secondsRemaining={this.props.secondsRemaining}
+      updateChat={this.props.updateChat}
+      updateChatHistory={this.props.updateChatHistory}
+    />;
     return (
       <div className='work-area'>
         {timer}
         {hintOverlay}
-        <AnswerSubmission
-          toggleWaitingForFeedback={() => this.toggleWaitingForFeedback()}
-          waitingForFeedback={this.state.waitingForFeedback}
-          timesUp={timesUp}
-          responses={this.props.responses}
-          updateResponse={this.props.updateResponse}
-          phase={this.props.phase}
-          incrementPhase={this.props.incrementPhase}
-          secondsRemaining={this.props.secondsRemaining}
-          updateChat={this.props.updateChat}
-          updateChatHistory={this.props.updateChatHistory}
-        />
-       {hints}
+        {this.props.phase === 1 ? explanation : null}
+        {this.props.ready ? answerSubmission : null}
+        {hints}
       </div>
     )
   }

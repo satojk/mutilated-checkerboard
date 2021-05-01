@@ -96,6 +96,7 @@ function Square(props) {
               src={xImg}
               className='blocking-x'
               alt='blocking X'
+              onClick= {() => {props.updateClick(props.i === 7)}}
             />
   }
 
@@ -167,6 +168,7 @@ export function Board(props) {
                            acceptedDominoes={acceptedDominoes}
                            onDrop={(item) => props.addDomino(i, j, item)}
                            removeDomino={(item)=>props.removeDomino(item.props.i, item.props.j)}
+                           updateClick={props.updateClick}
                    />
       );
     }

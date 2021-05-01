@@ -24,17 +24,21 @@ class App extends React.Component {
         horizontal: [],
       },
       responses: [null, '', '', [], ''], // 1a, 1b, 2, chat history, curr chat
+      secondsForInstructions: 0,
       secondsRemaining: 420, // 420
       lastChatSeconds: 420,
       chatBlock: false,
       hintsUnlocked: 0,
       phase: 1,
+      click1: false,
+      click2: false,
     }
     this.countDown = this.countDown.bind(this);
     this.updateResponse = this.updateResponse.bind(this);
     this.incrementPhase = this.incrementPhase.bind(this);
     this.updateChat = this.updateChat.bind(this);
     this.updateChatHistory= this.updateChatHistory.bind(this);
+    this.updateClick= this.updateClick.bind(this);
     this.timer = setInterval(this.countDown, 1000);
   }
 
@@ -69,6 +73,20 @@ class App extends React.Component {
     })
   }
 
+  updateClick(isBottomCorner) {
+
+    if (isBottomCorner) {
+      this.setState({
+        click1: true,
+      });
+    }
+    else {
+      this.setState({
+        click2: true,
+      });
+    }
+  }
+
   incrementPhase() {
     let newPhase = this.state.phase + 1;
     let newSecondsRemaining;
@@ -95,55 +113,62 @@ class App extends React.Component {
   }
 
   countDown() {
-    let newSecondsRemaining = this.state.secondsRemaining - 1;
-    let newNotes = this.state.notes;
-    let newDominoes = this.state.dominoes;
-    let newHintsUnlocked = this.state.hintsUnlocked;
-    let newResponses = JSON.parse(JSON.stringify(this.state.responses));
-    let newChatBlock = this.state.lastChatSeconds >= (newSecondsRemaining + 90);
-    if (this.state.phase === 2) {
-      if (newSecondsRemaining === FIRST_HINT_TIME) {
-        newHintsUnlocked = 1;
-      }
-      if (newSecondsRemaining === SECOND_HINT_TIME) {
-        newHintsUnlocked = 2;
-      }
-      if (newSecondsRemaining === THIRD_HINT_TIME) {
-        newHintsUnlocked = 3;
-      }
-      if (newSecondsRemaining <= 120 && this.state.chatBlock === false) {
-        // Don't bother subject in the last two minutes.
-        newChatBlock = false;
-      }
-    }
-    if (newSecondsRemaining % 5 === 0) {
-      let state = JSON.parse(JSON.stringify(this.state));
-      let postBody = {
-        submissionTime: Date.now(),
-        state: state,
-      }
-      const requestOptions = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(postBody),
-      };
-      fetch('/api/postCheckerboardState', requestOptions);
-    }
-    this.setState({
-      dominoes: newDominoes,
-      notes: newNotes,
-      secondsRemaining: newSecondsRemaining,
-      hintsUnlocked: newHintsUnlocked,
-      responses: newResponses,
-      chatBlock: newChatBlock,
-    });
-    if (newSecondsRemaining === 0) {
+    if (this.state.click1 && this.state.click2) {
+      let newSecondsRemaining = this.state.secondsRemaining - 1;
+      let newNotes = this.state.notes;
+      let newDominoes = this.state.dominoes;
+      let newHintsUnlocked = this.state.hintsUnlocked;
+      let newResponses = JSON.parse(JSON.stringify(this.state.responses));
+      let newChatBlock = this.state.lastChatSeconds >= (newSecondsRemaining + 90);
       if (this.state.phase === 2) {
-        clearInterval(this.timer);
+        if (newSecondsRemaining === FIRST_HINT_TIME) {
+          newHintsUnlocked = 1;
+        }
+        if (newSecondsRemaining === SECOND_HINT_TIME) {
+          newHintsUnlocked = 2;
+        }
+        if (newSecondsRemaining === THIRD_HINT_TIME) {
+          newHintsUnlocked = 3;
+        }
+        if (newSecondsRemaining <= 120 && this.state.chatBlock === false) {
+          // Don't bother subject in the last two minutes.
+          newChatBlock = false;
+        }
       }
-      else {
-        this.incrementPhase();
+      if (newSecondsRemaining % 5 === 0) {
+        let state = JSON.parse(JSON.stringify(this.state));
+        let postBody = {
+          submissionTime: Date.now(),
+          state: state,
+        }
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(postBody),
+        };
+        fetch('/api/postCheckerboardState', requestOptions);
       }
+      this.setState({
+        dominoes: newDominoes,
+        notes: newNotes,
+        secondsRemaining: newSecondsRemaining,
+        hintsUnlocked: newHintsUnlocked,
+        responses: newResponses,
+        chatBlock: newChatBlock,
+      });
+      if (newSecondsRemaining === 0) {
+        if (this.state.phase === 2) {
+          clearInterval(this.timer);
+        }
+        else {
+          this.incrementPhase();
+        }
+      }
+    } else {
+      let newSecondsForInstructions = this.state.secondsForInstructions + 1;
+      this.setState({
+        secondsForInstructions: newSecondsForInstructions,
+      });
     }
   }
 
@@ -204,13 +229,10 @@ class App extends React.Component {
   render() {
     return (
       <DndProvider backend={HTML5Backend}>
-        <div style={{display: 'flex'}}>
+        <div className='main-div'>
           <div className='explanation-div'>
             <p className='explanation-p'>
               In the grid on the right, two of the squares have been crossed out. You can place dominos on the remaining squares, such that each domino covers two abutting squares. (We call two squares "abutting" if they share a common side.  This occurs if they are horizontally or vertically adjacent to one another.)
-            </p>
-            <p className='explanation-p'>
-              Consider the following question: Is it possible to perfectly cover the 62 remaining squares using 31 dominos?
             </p>
             <p className='explanation-p'>
               You can drag the domino below and place it onto the squares. You can also drag placed dominos to move them to different squares, or drag them away from the squares to remove them. You can also click on the circular arrow below to change the orientation of your next domino.
@@ -222,6 +244,7 @@ class App extends React.Component {
             addDomino={(i, j, item) => {this.addDomino(i, j, item)}}
             removeDomino={(i, j)=>{this.removeDomino(i, j)}}
             chatBlock={this.state.chatBlock}
+            updateClick={this.updateClick}
           />
           <WorkArea
             notes={this.state.notes}
@@ -235,6 +258,7 @@ class App extends React.Component {
             updateChat={this.updateChat}
             updateChatHistory={this.updateChatHistory}
             chatBlock={this.state.chatBlock}
+            ready={this.state.click1 && this.state.click2}
           />
         </div>
       </DndProvider>
