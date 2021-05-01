@@ -58,3 +58,53 @@ ol, ul {
   display: flex;
   justify-content: space-between;
 }
+
+.questionnaire-div {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  align-items: left;
+}
+
+.form-question {
+  margin-bottom: 10vh;
+}
+
+.long-answer {
+  font-size: 18px;
+  margin-top: 2vh;
+  margin-bottom: 4vh;
+  height: 25vh;
+  width: 100%;
+}
+
+.short-answer {
+  font-size: 18px;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  height: 10vh;
+  width: 100%;
+}
+
+.range-wrapper {
+  width: 85%;
+  margin-left: 7.5%;
+  margin-right: 7.5%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.range-element {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.range-input {
+  width: 15vw;
+}
+
+.range-input-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
