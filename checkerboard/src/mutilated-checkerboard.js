@@ -235,7 +235,7 @@ class App extends React.Component {
               In the grid on the right, two of the squares have been crossed out. You can place dominos on the remaining squares, such that each domino covers two abutting squares. (We call two squares "abutting" if they share a common side.  This occurs if they are horizontally or vertically adjacent to one another.)
             </p>
             <p className='explanation-p'>
-              You can drag the domino below and place it onto the squares. You can also drag placed dominos to move them to different squares, or drag them away from the squares to remove them. You can also click on the circular arrow below to change the orientation of your next domino.
+              You can drag the domino below and place it onto the squares. You can also drag dominos you have previously placed to move them to different squares, or drag them away from the squares to remove them. You can also click on the circular arrow below to change the orientation of your next domino.
             </p>
             <DominoReservoir onClick={() => {this.clearDominoes()}} />
           </div>

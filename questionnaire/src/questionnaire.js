@@ -27,7 +27,7 @@ class App extends React.Component {
       content = (
         <div className='main-div'>
           <div className='main-instructions'>
-            <p>Thank you for completing the puzzle portion of the experiment. Please fill out this questionnaire regarding your experience. There are three pages in the questionnaire (not including this one), and you should aim to spend about 4 minutes on each. You cannot go back to a previous page after moving forward.</p>
+            <p>Before we move on to the second part of the experiment, please fill out this questionnaire regarding your experience. There are three pages in the questionnaire (not including this one), and you should aim to spend about 4 minutes on each. You cannot go back to a previous page after moving forward.</p>
 
             <p>Some of the later questions might feel very similar to earlier questions. This is expected. Please answer each question anew and in earnest, independently of answers given previously.</p>
           </div>

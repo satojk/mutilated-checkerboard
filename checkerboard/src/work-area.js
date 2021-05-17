@@ -65,7 +65,7 @@ class AnswerSubmission extends React.Component {
   render() {
     let toRender;
     if (this.props.phase === 1) {
-      let submissionNotice = <p className='hint'>Use the small text box below to record your thoughts as you solve the problem. When you are ready, submit your answer to the puzzle further below.</p>;
+      let submissionNotice = <p className='hint'>Use the small text box below to record your thoughts as you solve the problem. When you are ready, submit your answer to the question above on the box further below.</p>;
       let chat = <Chat
         responses={this.props.responses}
         updateChat={this.props.updateChat}
@@ -101,7 +101,7 @@ class AnswerSubmission extends React.Component {
       )
     }
     if (this.props.phase === 2) {
-      let submissionNotice = <p className='hint'>When you are ready, submit your answer to the puzzle further below. <span style={{fontWeight:'bold'}}>Only submit an answer once you are fully confident that it is correct</span>. In the meantime, continue to record your thoughts in the small text entry box as you have been doing.</p>;
+      let submissionNotice = <p className='hint'>As you think about this problem, continue to record your thoughts in the small text entry box as you have been doing so far. When you have reached a high level of confidence regarding your answer to the problem, proceed further below to make a submission. Only submit an answer when confident. We will not end your opportunity to submit an answer without giving you a timely prior warning beforehand.</p>;
       let chat = <Chat
         responses={this.props.responses}
         updateChat={this.props.updateChat}

@@ -122,7 +122,8 @@ class App extends React.Component {
                         this.state.responses[1] !== null &&
                         this.state.responses[2] !== null);
       content = <div className='main-div'>
-        <p className='main-instructions'>Thank you for participating in our experiment! Before proceeding to it, please answer the following brief questions so we may better understand your background. Each of them gives you a statement in quotes. Please indicate, on a scale of 1 to 5, how much you agree to the given statement.</p>
+        <p className='main-instructions'>Thank you for participating in our experiment! Before proceeding to it, please answer the following brief questions so we may better understand your background.</p>
+        <p className='main-instructions'><b>This page will be updated to reflect the working document instead.</p>
         <div className='questionnaire-div'>
           {questions}
         </div>
@@ -170,8 +171,8 @@ class App extends React.Component {
     if (this.state.page === 4) {
       content = <div className='main-div'>
         <p className='main-instructions'>For the first stage of this experiment, you will be asked to solve a puzzle. The instructions for the puzzle will be on the left side of the screen, so you should begin there.</p>
-        <p className='main-instructions-more'>On the top right corner of the screen, you will find a text entry box for you to "think aloud" with, much as you did in the previous screen. Please use it similarly as described in the previous screen, giving clues to what is on your mind throughout the whole process of thinking through and solving the puzzle. If you spend a prolonged amount of time without recording a thought, a pop-up will appear on the center of the screen reminding you to record your thoughts.</p>
-        <p className='main-instructions-more'>Once you are ready to begin, click on “Next” below. This will take you to the puzzle. Once you begin, please dedicate your continued attention to the experiment for its entire duration (between 1 hour and 1 hour 15 minutes).</p>
+        <p className='main-instructions-more'>After you finish reading the instructions, you will find a text entry box for you to "think aloud" with on the top right corner of the screen, much as you did in the previous screen. Please use it similarly as described in the previous screen, giving clues to what is on your mind throughout the whole process of thinking through and solving the puzzle. If you spend a prolonged amount of time without recording a thought, a pop-up will appear on the center of the screen reminding you to record your thoughts.</p>
+        <p className='main-instructions-more'>Once you are ready to begin, click on “Next” below. This will take you to the puzzle. Once you begin, please dedicate your continued attention to the experiment until the end of the first part, which should take around 40 minutes more. You will be notified when the first part is over so that you may take a break if needed before proceeding to the second part of the experiment.</p>
         <button onClick={this.goNext} className='go-next'>Next</button>
       </div>;
     }
