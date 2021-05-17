@@ -40,12 +40,14 @@ class App extends React.Component {
       page: 0,
       currentChat: '',
       chatHistory: [],
-      responses: [null, null, null],
+      responses: ['', '', '', '', '', '', '', '', ''],
+      consent: false,
     }
     this.goNext = this.goNext.bind(this);
     this.updateChat = this.updateChat.bind(this);
     this.updateChatHistory= this.updateChatHistory.bind(this);
     this.updateResponse= this.updateResponse.bind(this);
+    this.toggleConsent= this.toggleConsent.bind(this);
   }
 
   updateResponse(questionNo, newResponse) {
@@ -76,9 +78,16 @@ class App extends React.Component {
     });
   }
 
+  toggleConsent() {
+    let newConsent = !this.state.consent;
+    this.setState({
+      consent: newConsent,
+    });
+  }
+
   goNext() {
     let newPage = this.state.page + 1;
-    if (newPage === 1) { // submit questionnaire
+    if (newPage === 2) { // submit questionnaire
       let responses = JSON.parse(JSON.stringify(this.state.responses));
       let postBody = {
         submissionTime: Date.now(),
@@ -91,7 +100,7 @@ class App extends React.Component {
       };
       fetch('/api/postMainQuestionnaire', requestOptions);
     }
-    if (newPage === 5) {
+    if (newPage === 6) {
       window.location = '/stage1';
       return;
     }
@@ -101,31 +110,109 @@ class App extends React.Component {
   }
 
   render() {
-    const rangeOptions = ['1', '2', '3', '4', '5']
-    const rangeEndpoints = ['Strongly disagree', 'Strongly agree']
-    const prompts = ['I enjoy solving puzzles.', 'Usually, when presented with a puzzle, I genuinely attempt to solve it.', 'I have previous experience with puzzles involving checkerboards and dominos.']
     let content = null;
-    let questions = prompts.map((questionPrompt, ix) => (
-      <FormQuestion
-        key={'question-' + ix.toString()}
-        type={'range'}
-        ix={ix}
-        questionPrompt={questionPrompt}
-        options={rangeOptions}
-        endpoints={rangeEndpoints}
-        value={this.state.responses[ix]}
-        updateFunction={this.updateResponse}
-      />
-    ));
     if (this.state.page === 0) {
-      let canProceed = (this.state.responses[0] !== null &&
-                        this.state.responses[1] !== null &&
-                        this.state.responses[2] !== null);
       content = <div className='main-div'>
-        <p className='main-instructions'>Thank you for participating in our experiment! Before proceeding to it, please answer the following brief questions so we may better understand your background.</p>
-        <p className='main-instructions'><b>This page will be updated to reflect the working document instead.</p>
+        <p className='main-instructions'>Thank you for participating in our experiment. There are two parts to this experiment. The first part takes around 45 minutes, and the second part takes around 30 minutes. Please complete each of the two parts in a single sitting, uninterrupted. You will be notified once the first part is over, so that you may take a break if needed before proceeding to the second part.</p>
+        <p className='main-instructions-more'>The experiment requires your focused attention and your responsiveness to questions about your thought processes throughout the study.  It contains elements resembling difficult standardized tests.  The expected duration of the study is 75 minutes and you will receive $12.50 for completing the study. If you provide conscientious responses throughout the experiment you will receive an additional bonus of $7.50, making your total earnings equal $20.  If you withdraw from the study prior to completion you will receive payment at the rate of $10 per hour for the time you spent actively participating in the study.</p>
+        <p className='main-instructions-more'>All data collected for this experiment will be anonymized prior to analysis, and no personally identifiable information collected will be disclosed at any point.</p>
+        <p className='main-instructions-more'>This experiment poses no risk over and above the ordinary risks posed by reasoning and using a computer. By checking the checkbox below, you are consenting to being part of this experiment and having your responses collected by the experimenters. Your participation is entirely voluntary, and you may withdraw your consent and terminate your participation in the experiment at any point. In this event, you will still receive the compensation for the time you spent in the experiment at the rate stated above, but will not receive the $7.50 bonus.</p>
+        <p className='main-instructions-more'>Once you have carefully read and understood all of the above, please proceed below if you wish to participate in the experiment.</p>
+        <div className='main-instructions-consent-div'>
+          <input className='main-instructions-consent-checkbox' type='checkbox' value={this.state.consent} label='consent' onClick={this.toggleConsent}/>
+          <p>"I have read and understood all of the above, and consent to participating in the experiment as described."</p>
+        </div>
+          <button onClick={this.goNext} className='go-next' disabled={!this.state.consent}>Next</button>
+      </div>;
+    }
+    if (this.state.page === 1) {
+      let canProceed = true;
+      for (let i = 0; i < 9; i++) {
+        if (this.state.responses[i] === '') {
+          canProceed = false;
+        }
+      }
+      content = <div className='main-div'>
+        <p className='main-instructions'>Before proceeding to the experiment, please answer the following brief questions so we may better understand your background.</p>
         <div className='questionnaire-div'>
-          {questions}
+          <FormQuestion
+            key={'question-0'}
+            type={'text-long'}
+            ix={0}
+            questionPrompt={'How would you describe your experience with word puzzles, number puzzzles, and logical reasoning puzzles?' }
+            value={this.state.responses[0]}
+            updateFunction={this.updateResponse}
+          />
+          <FormQuestion
+            key={'question-1'}
+            type={'dropdown'}
+            ix={1}
+            questionPrompt={'Do you have prior experience with reasoning problems involving checkerboards and dominos?'}
+            options={['', 'Yes', 'No']}
+            value={this.state.responses[1]}
+            updateFunction={this.updateResponse}
+          />
+          <FormQuestion
+            key={'question-2'}
+            type={'dropdown'}
+            ix={2}
+            questionPrompt={'How many year-long courses of high school mathematics did you take prior to attending college?'}
+            options={['', '0', '1', '2', '3', '4', '5', '6', '7 or more']}
+            value={this.state.responses[2]}
+            updateFunction={this.updateResponse}
+          />
+          <FormQuestion
+            key={'question-3'}
+            type={'dropdown'}
+            ix={3}
+            questionPrompt={'How many of your high school mathematics courses involved mathematical or logical proof?'}
+            options={['', '0', '1', '2', '3', '4', '5', '6', '7 or more']}
+            value={this.state.responses[3]}
+            updateFunction={this.updateResponse}
+          />
+          <FormQuestion
+            key={'question-4'}
+            type={'dropdown'}
+            ix={4}
+            questionPrompt={'Have you ever taken a logic course at any point during your studies?'}
+            options={['', 'Yes', 'No']}
+            value={this.state.responses[4]}
+            updateFunction={this.updateResponse}
+          />
+          <FormQuestion
+            key={'question-5'}
+            type={'dropdown'}
+            ix={5}
+            questionPrompt={'How many college-level courses have you taken requiring extensive use of mathematics?'}
+            options={['', '0', '1-3', '4-6', '7-9', '10 or more']}
+            value={this.state.responses[5]}
+            updateFunction={this.updateResponse}
+          />
+          <FormQuestion
+            key={'question-6'}
+            type={'dropdown'}
+            ix={6}
+            questionPrompt={'How many college-level courses have you taken involving mathematical or logical proof?'}
+            options={['', '0', '1', '2', '3', '4', '5', '6 or more']}
+            value={this.state.responses[6]}
+            updateFunction={this.updateResponse}
+          />
+          <FormQuestion
+            key={'question-7'}
+            type={'text-short'}
+            ix={7}
+            questionPrompt={'What is your major? Write “undeclared” if you have not yet declared a major.'}
+            value={this.state.responses[7]}
+            updateFunction={this.updateResponse}
+          />
+          <FormQuestion
+            key={'question-8'}
+            type={'text-short'}
+            ix={8}
+            questionPrompt={'When do you expect to complete your current degree program?'}
+            value={this.state.responses[8]}
+            updateFunction={this.updateResponse}
+          />
         </div>
         <p className='main-instructions-more'>When you are ready, click on "Next" below to proceed to the experiment.</p>
         <button
@@ -137,7 +224,7 @@ class App extends React.Component {
         </button>
       </div>;
     }
-    if (this.state.page === 1) {
+    if (this.state.page === 2) {
       content = <div className='main-div'>
         <p className='main-instructions'>We are interested in understanding the thoughts that people have as they think and reason while they try to solve puzzles and reasoning problems.  To study this, we will give you a puzzle to try to solve, and as you go through it, we will ask you to ‘think aloud’.  </p>
         <p className='main-instructions-more'>What is thinking aloud?  It is a process of expressing words that track where you are in solving a problem.  For example, you could think aloud while you carry out a multiplication problem like this one ‘What is 13 x 99’?  One person might say, ‘ok, 3 times 99 – that’s 297, and then I have to add 990 to that, lets see that’s 7, 8, 10,12, 1287’.  Another might say ’99 is 1 less than 100.  1300 minus 13 is 1287’.  these two ‘think aloud’ sequences reveal different ways two people solved the same problem.</p>
@@ -146,7 +233,7 @@ class App extends React.Component {
         <button onClick={this.goNext} className='go-next'>Next</button>
       </div>;
     }
-    if (this.state.page === 2) {
+    if (this.state.page === 3) {
       let canProceed = this.state.chatHistory.length > 2;
       content = <div className='main-div'>
         <p className='main-instructions'>So, remember: Please try to share high points of what you are thinking.  Each time you hit ‘enter’, we will record the time when you did, so please hit enter every time you think you’ve expressed something that entered your mind.  We won’t define what a ‘something’ is, but this could be the sequence of lines for the first ‘think aloud’ on the previous screen, for multiplying 13 by 99:  To keep it to the actual content, we’ve deleted extra words to show a minimal version of the same sequence:</p>
@@ -162,13 +249,13 @@ class App extends React.Component {
         />
       </div>;
     }
-    if (this.state.page === 3) {
+    if (this.state.page === 4) {
       content = <div className='main-div'>
         <p className='main-instructions-more'>OK, you will proceed to the experiment now. Remember, please give us hints to what you are thinking so we can know more about how you go about solving the puzzle you are about to see!</p>
         <button onClick={this.goNext} className='go-next'>Next</button>
       </div>
     }
-    if (this.state.page === 4) {
+    if (this.state.page === 5) {
       content = <div className='main-div'>
         <p className='main-instructions'>For the first stage of this experiment, you will be asked to solve a puzzle. The instructions for the puzzle will be on the left side of the screen, so you should begin there.</p>
         <p className='main-instructions-more'>After you finish reading the instructions, you will find a text entry box for you to "think aloud" with on the top right corner of the screen, much as you did in the previous screen. Please use it similarly as described in the previous screen, giving clues to what is on your mind throughout the whole process of thinking through and solving the puzzle. If you spend a prolonged amount of time without recording a thought, a pop-up will appear on the center of the screen reminding you to record your thoughts.</p>

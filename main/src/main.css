@@ -30,6 +30,22 @@ ol, ul {
   font-size: 20px;
 }
 
+.main-instructions-consent-div {
+  margin-left: 20vw;
+  margin-right: 20vw;
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  margin-top: -30px;
+}
+
+.main-instructions-consent-checkbox {
+  cursor: pointer;
+  transform: scale(1.2);
+  margin-right: 3px;
+}
+
 .go-next {
   font-size: 16px;
   margin-bottom: 3vh;
@@ -67,14 +83,14 @@ ol, ul {
 }
 
 .form-question {
-  margin-bottom: 10vh;
+  margin-bottom: 5vh;
 }
 
 .long-answer {
   font-size: 18px;
   margin-top: 2vh;
-  margin-bottom: 4vh;
-  height: 25vh;
+  margin-bottom: 2vh;
+  height: 10vh;
   width: 100%;
 }
 

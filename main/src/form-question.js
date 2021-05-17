@@ -56,6 +56,24 @@ export default function FormQuestion(props) {
       </div>
     )
   }
+  if (props.type === 'dropdown') {
+    let options = props.options.map((option, ix) =>
+      <option
+        key={props.ix.toString() + '-' + ix.toString()}
+        value={option}
+      >
+        {option}
+      </option>
+    );
+    return (
+      <div className='form-question'>
+        {questionPrompt}
+        <select value={props.value} onChange={(event) => updateFunction(props.ix, event.target.value)}>
+          {options}
+        </select>
+      </div>
+    )
+  }
   if (props.type === 'range') {
     let options = props.options.map((option, ix) =>
       <div
