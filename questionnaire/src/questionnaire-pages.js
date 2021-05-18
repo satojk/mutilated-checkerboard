@@ -1,4 +1,5 @@
 import React from 'react';
+import shuffle from 'shuffle-array';
 
 import './questionnaire.css';
 
@@ -218,8 +219,25 @@ export class QuestionnairePage2 extends React.Component {
 export class QuestionnairePage3 extends React.Component {
   constructor(props) {
     super(props);
+    let q1options = [
+      'It would be possible and easy to cover the board if the two removed squares were of non-diagonally-opposite corners (e.g. top right and bottom right).',
+      'A domino must cover, specifically, two abutting squares.',
+      'There were 62 squares to cover, so you would need exactly 31 dominos.',
+      'Adjacent squares are always of opposite colors.',
+      'If you could cover two diagonally-adjacent blocks, the problem would be easy.',
+      'You could, in principle, try every covering possible and find the answer, but that would take too long.',
+      'Both removed squares were light-colored squares.',
+      '31 is an odd number.',
+      'It would be possible and easy to cover the board if the two removed squares were abutting squares',
+      'The solution to the problem must not depend on the colors used. That is, the colors of the squares should have no influence on whether it is possible or impossible to cover them.',
+      'It is possible to arrange the 62 squares such that one could cover them with 31 dominos (for example, if they were all in a single long row, it would be easy to cover them with dominos).',
+      'Whenever you attempt to cover the 62 squares, the last 2 remaining squares are always of the same color.',
+      'The full board would have had 64 squares, and 64 is 2 to the power of 6.',
+    ];
+    shuffle(q1options);
     this.state = {
       responses: [[], ''],
+      q1options: q1options,
     }
     this.updateResponse = this.updateResponse.bind(this);
     this.submitAndGoNext = this.submitAndGoNext.bind(this);
@@ -234,7 +252,7 @@ export class QuestionnairePage3 extends React.Component {
   }
 
   submitAndGoNext() {
-    let responses = JSON.parse(JSON.stringify(this.state.responses));
+    let responses = JSON.parse(JSON.stringify(this.state));
     let postBody = {
       submissionTime: Date.now(),
       responses: responses,
@@ -256,21 +274,6 @@ export class QuestionnairePage3 extends React.Component {
       'Each item contains some possible observation about the puzzle. Check all observations which you made and were aware of at some point during solving the puzzle (NOT while reading these now).',
       'Are there other observations about the problem which you attended to and thought about during the process of solving the problem? What were they? Did you actively search for aspects of the problem such as these? How long did you spend thinking of them?',
     ];
-    const firstQuestionOptions = [
-      'It would be possible and easy to cover the board if the two removed squares were of non-diagonally-opposite corners (e.g. top right and bottom right).',
-      'A domino must cover, specifically, two abutting squares.',
-      'There were 62 squares to cover, so you would need exactly 31 dominos.',
-      'Adjacent squares are always of opposite colors.',
-      'If you could cover two diagonally-adjacent blocks, the problem would be easy.',
-      'You could, in principle, try every covering possible and find the answer, but that would take too long.',
-      'Both removed squares were light-colored squares.',
-      '31 is an odd number.',
-      'It would be possible and easy to cover the board if the two removed squares were abutting squares',
-      'The solution to the problem must not depend on the colors used. That is, the colors of the squares should have no influence on whether it is possible or impossible to cover them.',
-      'It is possible to arrange the 62 squares such that one could cover them with 31 dominos (for example, if they were all in a single long row, it would be easy to cover them with dominos).',
-      'Whenever you attempt to cover the 62 squares, the last 2 remaining squares are always of the same color.',
-      'The full board would have had 64 squares, and 64 is 2 to the power of 6.',
-    ];
     let maySubmit = this.state.responses.reduce(
       (acc, curVal) => (acc && (curVal !== '' && curVal !== null)),
       true
@@ -283,7 +286,7 @@ export class QuestionnairePage3 extends React.Component {
           ix={0}
           questionPrompt={prompts[0]}
           value={this.state.responses[0]}
-          options={firstQuestionOptions}
+          options={this.state.q1options}
           updateFunction={this.updateResponse}
         />
 
