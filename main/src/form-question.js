@@ -68,7 +68,7 @@ export default function FormQuestion(props) {
     return (
       <div className='form-question'>
         {questionPrompt}
-        <select value={props.value} onChange={(event) => updateFunction(props.ix, event.target.value)}>
+        <select className='form-dropdown' value={props.value} onChange={(event) => updateFunction(props.ix, event.target.value)}>
           {options}
         </select>
       </div>

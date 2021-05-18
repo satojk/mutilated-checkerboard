@@ -86,6 +86,10 @@ ol, ul {
   margin-bottom: 5vh;
 }
 
+.form-dropdown {
+  font-size: 18px;
+}
+
 .long-answer {
   font-size: 18px;
   margin-top: 2vh;

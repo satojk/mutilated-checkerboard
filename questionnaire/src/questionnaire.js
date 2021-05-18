@@ -38,10 +38,10 @@ class App extends React.Component {
     else if (this.state.screenNo === 1) {
       content = <QuestionnairePage1 goNext={() => this.goNext()} />;
     }
-    else if (this.state.screenNo === 22) {
+    else if (this.state.screenNo === 2) {
       content = <QuestionnairePage2 goNext={() => this.goNext()} />;
     }
-    else if (this.state.screenNo === 2) {
+    else if (this.state.screenNo === 3) {
       content = <QuestionnairePage3 goNext={() => this.goNext()} />;
     }
     else {
