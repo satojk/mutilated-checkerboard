@@ -107,6 +107,7 @@ class App extends React.Component {
     this.setState({
       page: newPage,
     })
+    window.scrollTo(0, 0);
   }
 
   render() {
