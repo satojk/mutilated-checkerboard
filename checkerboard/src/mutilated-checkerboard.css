@@ -106,7 +106,7 @@ ol, ul {
 .domino-reservoir {
   display: flex;
   align-items: center;
-  height: 20vh;
+  height: 18vh;
   width: 100%;
 }
 
@@ -120,10 +120,10 @@ ol, ul {
 }
 
 .rotator {
-  margin-left: 2.5vh;
-  margin-right: 5vh;
-  height: 10vh;
-  width: 10vh;
+  margin-left: 1vh;
+  margin-right: 2vh;
+  height: 7vh;
+  width: 7vh;
   cursor: pointer;
 }
 
