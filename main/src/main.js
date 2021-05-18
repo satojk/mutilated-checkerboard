@@ -232,6 +232,12 @@ class App extends React.Component {
         <p className='main-instructions-more'>Scientists studied thinking aloud in the 1980’s and 1990’s, and they learned a lot, but we have a lot left to learn.  One problem is that they recorded actual speech and then had to transcribe it.  Instead of that, we are looking to see if we can learn more by asking you to type quick phrases about what your are thinking.   some of us can ‘talk’ through our fingers better than others but for all of us nowadays we often share our thoughts this way, so we would like to ask you to give it a try.</p>
         <button onClick={this.goNext} className='go-next'>Next</button>
       </div>;
+      if (this.state.responses[1] === 'Yes') {
+      content = <div className='main-div'>
+        <p className='main-instructions'>Apologies - you are not eligible for participation in this study, since you reported having prior experience with reasoning problems involving checkerboards and dominos.</p>
+        <p className='main-instructions-more'>If you think this is a mistake, contact satojk@stanford.edu. Otherwise, please exit the study's website and do not make a second attempt at participating in it.</p>
+      </div>
+      }
     }
     if (this.state.page === 3) {
       let canProceed = this.state.chatHistory.length > 2;

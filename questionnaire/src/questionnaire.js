@@ -38,14 +38,18 @@ class App extends React.Component {
     else if (this.state.screenNo === 1) {
       content = <QuestionnairePage1 goNext={() => this.goNext()} />;
     }
-    else if (this.state.screenNo === 2) {
+    else if (this.state.screenNo === 22) {
       content = <QuestionnairePage2 goNext={() => this.goNext()} />;
     }
-    else if (this.state.screenNo === 3) {
+    else if (this.state.screenNo === 2) {
       content = <QuestionnairePage3 goNext={() => this.goNext()} />;
     }
     else {
-      content = <p className='main-instructions'>You have now completed the second stage of the experiment. Thank you very much! <a href='/stage3'>Click here to go to the final stage of the experiment</a>.</p>;
+      content = (
+        <div className='main-div'>
+          <p className='main-instructions'>You have now completed the first stage of the experiment. Thank you very much! If you wish, you may take a brief break now before proceeding. When you are ready, <a href='/stage3'>click here to go to the second and final stage of the experiment</a>.</p>
+        </div>
+      );
     }
 
     return (

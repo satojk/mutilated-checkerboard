@@ -41,7 +41,7 @@ export class QuestionnairePage1 extends React.Component {
 
   render() {
     const prompts = [
-      'Think back to the first few minutes after you were introduced to the puzzle. What did you first notice about the puzzle and its components? List all observations you recall making initially.',
+      'Think back to the first few minutes after you were introduced to the puzzle. What were the things you initially noticed about the puzzle and its components? List all observations you recall making initially.',
       'What approach did you take initially, and why? For approximately how long did you persist in this approach? When and why did you decide to switch approaches?',
       'After giving up on your initial approach, what else did you attempt? List all lines of thought that you recall pursuing, in chronological order, to the best of your recollection. Include observations which may have prompted these lines of thought, as well as observations made as you pursued these lines of thought.',
     ];
@@ -236,7 +236,7 @@ export class QuestionnairePage3 extends React.Component {
     ];
     shuffle(q1options);
     this.state = {
-      responses: [[], ''],
+      responses: [[], '', null, null],
       q1options: q1options,
     }
     this.updateResponse = this.updateResponse.bind(this);
@@ -270,9 +270,13 @@ export class QuestionnairePage3 extends React.Component {
   }
 
   render() {
+    const rangeOptions = ['1', '2', '3', '4', '5']
+    const rangeEndpoints = ['Strongly disagree', 'Strongly agree']
     const prompts = [
       'Each item contains some possible observation about the puzzle. Check all observations which you made and were aware of at some point during solving the puzzle (NOT while reading these now).',
-      'Are there other observations about the problem which you attended to and thought about during the process of solving the problem? What were they? Did you actively search for aspects of the problem such as these? How long did you spend thinking of them?',
+      'Please list any other observations which you attended to and thought about during the process of solving the problem. Please try to think of as many as you can and be as thorough as possible.',
+      '"I actively attempted to notice aspects of the problem such as the ones above."',
+      '"I spent quite a bit of time thinking of general observations about the problem such as the above, rather than only thinking directly about the problem objective."',
     ];
     let maySubmit = this.state.responses.reduce(
       (acc, curVal) => (acc && (curVal !== '' && curVal !== null)),
@@ -297,7 +301,27 @@ export class QuestionnairePage3 extends React.Component {
           value={this.state.responses[1]}
           updateFunction={this.updateResponse}
         />
-
+        <p>Each of the two questions below gives you a statement in quotes. For each question, please mark the answer corresponding to how much you agree with the given statement.</p>
+        <FormQuestion
+          key={'3-3'}
+          type={'range'}
+          ix={2}
+          questionPrompt={prompts[2]}
+          options={rangeOptions}
+          endpoints={rangeEndpoints}
+          value={this.state.responses[2]}
+          updateFunction={this.updateResponse}
+        />
+        <FormQuestion
+          key={'3-4'}
+          type={'range'}
+          ix={3}
+          questionPrompt={prompts[3]}
+          options={rangeOptions}
+          endpoints={rangeEndpoints}
+          value={this.state.responses[3]}
+          updateFunction={this.updateResponse}
+        />
         <button
           onClick={this.submitAndGoNext}
           className='go-next left-margin'

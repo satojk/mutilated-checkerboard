@@ -23,11 +23,12 @@ ol, ul {
 }
 
 .main-instructions {
-  width: 60vw;
   margin-top: 10vh;
   margin-bottom: 5vh;
-  font-size: 18px;
+  margin-left: 20vw;
+  margin-right: 20vw;
   text-align: justify;
+  font-size: 20px;
 }
 
 .go-next {
@@ -48,7 +49,6 @@ ol, ul {
 .long-answer {
   font-size: 18px;
   margin-top: 2vh;
-  margin-bottom: 4vh;
   height: 25vh;
   width: 100%;
 }
