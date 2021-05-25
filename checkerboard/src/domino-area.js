@@ -181,7 +181,7 @@ export function Board(props) {
     overlay = <div className='hint-overlay'>
       <div className='hint-overlay-background' />
       <div className='hint-box'>
-        <p>You have not recorded a thought in a while. Please do so now, on the upper right of the screen.</p>
+        <p>You have not recorded a thought in a while. Please do so now, on the bottom right of the screen.</p>
       </div>
     </div>;
   }
