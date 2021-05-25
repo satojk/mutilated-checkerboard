@@ -65,7 +65,7 @@ class AnswerSubmission extends React.Component {
   render() {
     let toRender;
     if (this.props.phase === 1) {
-      let submissionNotice = <p className='hint'>Use the small text box below to record your thoughts as you solve the problem. When you are ready, submit your answer to the question above on the box further below.</p>;
+      let submissionNotice = <p className='hint'>Use the small text box at the bottom to record your thoughts as you solve the problem. When you are ready, submit your answer to the question above on the larger box below.</p>;
       let chat = <Chat
         responses={this.props.responses}
         updateChat={this.props.updateChat}
@@ -74,7 +74,6 @@ class AnswerSubmission extends React.Component {
       toRender = (
         <div className='answer-div'>
           {submissionNotice}
-          {chat}
           <FormQuestion
             type={'radio'}
             ix={0}
@@ -97,11 +96,12 @@ class AnswerSubmission extends React.Component {
           >
             Submit
           </button>
+          {chat}
         </div>
       )
     }
     if (this.props.phase === 2) {
-      let submissionNotice = <p className='hint'>As you think about this problem, continue to record your thoughts in the small text entry box as you have been doing so far. When you have reached a high level of confidence regarding your answer to the problem, proceed further below to make a submission. Only submit an answer when confident. We will not end your opportunity to submit an answer without giving you a timely prior warning beforehand.</p>;
+      let submissionNotice = <p className='hint'>As you think about this problem, continue to record your thoughts in the small text entry box at the bottom as you have been doing so far. When you have reached a high level of confidence regarding your answer to the problem, proceed below to make a submission. Only submit an answer when confident. We will not end your opportunity to submit an answer without giving you a timely prior warning beforehand.</p>;
       let chat = <Chat
         responses={this.props.responses}
         updateChat={this.props.updateChat}
@@ -111,7 +111,6 @@ class AnswerSubmission extends React.Component {
         <div className='answer-div'>
           <p className='hint'><span style={{color:'red', fontWeight:'bold'}}>It is, in fact, impossible to perfectly cover the 62 remaining squares using 31 dominos.</span> Try to figure out why this is the case. That is: <b>can you find a convincing argument why it is impossible to cover the 62 remaining squares using 31 dominos?</b> This argument need not be a formal proof. It can be a plain English argument that, once explained to someone, should convince them that such a covering is impossible.</p>
           {submissionNotice}
-          {chat}
           <FormQuestion
             type={'text-long'}
             ix={2}
@@ -125,6 +124,7 @@ class AnswerSubmission extends React.Component {
           >
             Submit
           </button>
+          {chat}
         </div>
       )
     }
@@ -166,6 +166,39 @@ class WorkArea extends React.Component {
   }
 
   render() {
+    if (this.props.instructionPhase === 0) {
+      return <div className='work-area'>
+        <p className='hint'>On this side of the screen, we will display prompts and an interface for you to respond to our questions.</p>
+        <button
+          className='submit-answer'
+          onClick={this.props.incrementInstructionPhase}
+        >
+          Next
+        </button>
+      </div>;
+    }
+    if (this.props.instructionPhase === 1) {
+      return <div className='work-area'>
+        <p className='hint'>You are about to see an important visual workspace for the puzzle. Once you click on "Next" below, the workspace will become visible, alongside instructions on how to use it on the far left. Once you have read those, return here for further instructions.</p>
+        <button
+          className='submit-answer'
+          onClick={this.props.incrementInstructionPhase}
+        >
+          Next
+        </button>
+      </div>;
+    }
+    if (this.props.instructionPhase === 2) {
+      return <div className='work-area'>
+        <p className='hint'>Read the material on the left, and experiment briefly with placing dominos on the grid, then return here and click on "Next" below.</p>
+        <button
+          className='submit-answer'
+          onClick={this.props.incrementInstructionPhase}
+        >
+          Next
+        </button>
+      </div>;
+    }
     let minutes = Math.floor(this.props.secondsRemaining / 60).toString();
     let seconds = (this.props.secondsRemaining % 60).toString().padStart(2, '0');
 

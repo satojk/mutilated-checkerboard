@@ -32,6 +32,7 @@ class App extends React.Component {
       phase: 1,
       click1: false,
       click2: false,
+      instructionPhase: 0,
     }
     this.countDown = this.countDown.bind(this);
     this.updateResponse = this.updateResponse.bind(this);
@@ -40,6 +41,7 @@ class App extends React.Component {
     this.updateChatHistory= this.updateChatHistory.bind(this);
     this.updateClick= this.updateClick.bind(this);
     this.timer = setInterval(this.countDown, 1000);
+    this.incrementInstructionPhase = this.incrementInstructionPhase.bind(this);
   }
 
   updateResponse(questionNo, newResponse) {
@@ -74,7 +76,6 @@ class App extends React.Component {
   }
 
   updateClick(isBottomCorner) {
-
     if (isBottomCorner) {
       this.setState({
         click1: true,
@@ -109,6 +110,17 @@ class App extends React.Component {
       phase: newPhase,
       secondsRemaining: newSecondsRemaining,
       lastChatSeconds: newLastChatSeconds,
+    });
+  }
+
+  incrementInstructionPhase() {
+    let newInstructionPhase = this.state.instructionPhase + 1;
+    let newClick1 = false;
+    let newClick2 = false;
+    this.setState({
+      instructionPhase: newInstructionPhase,
+      click1: newClick1,
+      click2: newClick2,
     });
   }
 
@@ -227,24 +239,31 @@ class App extends React.Component {
   }
 
   render() {
+    let explanationDiv = <div className='explanation-div' />;
+    let boardIsDummy = true;
+    if (this.state.instructionPhase >= 2) {
+      explanationDiv = <div className='explanation-div'>
+        <p className='explanation-p'>
+          In the grid on the right, two of the squares have been crossed out. You can place dominos on the remaining squares, such that each domino covers two abutting squares. (We call two squares "abutting" if they share a common side.  This occurs if they are horizontally or vertically adjacent to one another.)
+        </p>
+        <p className='explanation-p'>
+          You can drag the domino below and place it onto the squares. You can also drag dominos you have previously placed to move them to different squares, or drag them away from the squares to remove them. You can also click on the circular arrow next to the domino below to change the orientation of your next domino.
+        </p>
+        <DominoReservoir onClick={() => {this.clearDominoes()}} />
+      </div>;
+      boardIsDummy = false;
+    }
     return (
       <DndProvider backend={HTML5Backend}>
         <div className='main-div'>
-          <div className='explanation-div'>
-            <p className='explanation-p'>
-              In the grid on the right, two of the squares have been crossed out. You can place dominos on the remaining squares, such that each domino covers two abutting squares. (We call two squares "abutting" if they share a common side.  This occurs if they are horizontally or vertically adjacent to one another.)
-            </p>
-            <p className='explanation-p'>
-              You can drag the domino below and place it onto the squares. You can also drag dominos you have previously placed to move them to different squares, or drag them away from the squares to remove them. You can also click on the circular arrow next to the domino below to change the orientation of your next domino.
-            </p>
-            <DominoReservoir onClick={() => {this.clearDominoes()}} />
-          </div>
+          {explanationDiv}
           <Board
             dominoes={this.state.dominoes}
             addDomino={(i, j, item) => {this.addDomino(i, j, item)}}
             removeDomino={(i, j)=>{this.removeDomino(i, j)}}
             chatBlock={this.state.chatBlock}
             updateClick={this.updateClick}
+            dummy={boardIsDummy}
           />
           <WorkArea
             notes={this.state.notes}
@@ -255,10 +274,12 @@ class App extends React.Component {
             responses={this.state.responses}
             updateResponse={this.updateResponse}
             incrementPhase={this.incrementPhase}
+            incrementInstructionPhase={this.incrementInstructionPhase}
             updateChat={this.updateChat}
             updateChatHistory={this.updateChatHistory}
             chatBlock={this.state.chatBlock}
             ready={this.state.click1 && this.state.click2}
+            instructionPhase={this.state.instructionPhase}
           />
         </div>
       </DndProvider>
