@@ -1,5 +1,5 @@
 body {
-  font-size: 18px;
+  font-size: 20px;
   margin: 20px;
 }
 
@@ -14,30 +14,30 @@ ol, ul {
 }
 
 .main-instructions {
-  margin-top: 10vh;
-  margin-bottom: 5vh;
-  margin-left: 20vw;
-  margin-right: 20vw;
+  margin-top: 60px;
+  margin-bottom: 20px;
+  margin-left: 350px;
+  margin-right: 350px;
   text-align: justify;
   font-size: 20px;
 }
 
 .main-instructions-more {
-  margin-bottom: 5vh;
-  margin-left: 20vw;
-  margin-right: 20vw;
+  margin-bottom: 20px;
+  margin-left: 350px;
+  margin-right: 350px;
   text-align: justify;
   font-size: 20px;
 }
 
 .main-instructions-consent-div {
-  margin-left: 20vw;
-  margin-right: 20vw;
+  margin-left: 350px;
+  margin-right: 350px;
   align-self: flex-start;
   display: flex;
   align-items: center;
   font-size: 20px;
-  margin-top: -30px;
+  margin-top: -15px;
 }
 
 .main-instructions-consent-checkbox {
@@ -48,25 +48,25 @@ ol, ul {
 
 .go-next {
   font-size: 16px;
-  margin-bottom: 3vh;
+  margin-bottom: 20px;
   cursor: pointer;
 }
 
 .hint {
-  width: 30vw;
-  font-size: 18px;
+  width: 400px;
+  font-size: 20px;
   text-align: justify;
 }
 
 .chat-box {
   font-size: 16px;
-  height: 5vh;
+  height: 30px;
   width: 100%;
 }
 
 .submit-answer {
-  font-size: 18px;
-  margin-bottom: 3vh;
+  font-size: 20px;
+  margin-bottom: 20px;
   cursor: pointer;
 }
 
@@ -83,26 +83,26 @@ ol, ul {
 }
 
 .form-question {
-  margin-bottom: 5vh;
+  margin-bottom: 30px;
 }
 
 .form-dropdown {
-  font-size: 18px;
+  font-size: 20px;
 }
 
 .long-answer {
-  font-size: 18px;
+  font-size: 20px;
   margin-top: 2vh;
-  margin-bottom: 2vh;
-  height: 10vh;
+  margin-bottom: 20px;
+  height: 100px;
   width: 100%;
 }
 
 .short-answer {
-  font-size: 18px;
-  margin-top: 2vh;
-  margin-bottom: 2vh;
-  height: 10vh;
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  height: 100px;
   width: 100%;
 }
 
@@ -112,6 +112,7 @@ ol, ul {
   margin-right: 7.5%;
   display: flex;
   justify-content: space-between;
+  font-size: 18px;
 }
 
 .range-element {
@@ -121,7 +122,7 @@ ol, ul {
 }
 
 .range-input {
-  width: 15vw;
+  width: 200px;
 }
 
 .range-input-wrapper {

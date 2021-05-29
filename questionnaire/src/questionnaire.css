@@ -8,7 +8,7 @@ ol, ul {
 }
 
 .form-question {
-  margin-bottom: 10vh;
+  margin-bottom: 50px;;
 }
 
 .form-question-small-margin {
@@ -16,8 +16,8 @@ ol, ul {
 }
 
 .narrow {
-  margin-left: 30vw;
-  margin-right: 30vw;
+  margin-left: 300px;
+  margin-right: 300px;
 }
 
 .main-div {
@@ -27,41 +27,40 @@ ol, ul {
 }
 
 .main-instructions {
-  margin-top: 10vh;
-  margin-bottom: 5vh;
-  margin-left: 20vw;
-  margin-right: 20vw;
+  margin-top: 60px;
+  margin-bottom: 30px;
+  margin-left: 300px;
+  margin-right: 300px;
   text-align: justify;
   font-size: 20px;
 }
 
 .go-next {
-  margin-top: 5vh;
-  margin-bottom: 10vh;
+  margin-bottom: 60px;
   font-size: 16px;
   cursor: pointer;
 }
 
 .questionnaire-page {
-  margin-left: 30vh;
-  margin-right: 30vh;
-  margin-top: 10vh;
+  margin-left: 300px;
+  margin-right: 300px;
+  margin-top: 60px;
   font-size: 18px;
   text-align: justify;
 }
 
 .long-answer {
   font-size: 18px;
-  margin-top: 2vh;
-  height: 25vh;
+  margin-top: 12px;
+  height: 100px;
   width: 100%;
 }
 
 .short-answer {
   font-size: 18px;
-  margin-top: 2vh;
-  margin-bottom: 2vh;
-  height: 10vh;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  height: 100px;
   width: 100%;
 }
 
@@ -80,56 +79,12 @@ ol, ul {
 }
 
 .range-input {
-  width: 15vw;
+  width: 200px;
 }
 
 .range-input-wrapper {
   display: flex;
   justify-content: space-between;
-}
-
-.test-instructions {
-  font-size: 18px;
-  width: 40vw;
-  text-align: justify;
-  margin-right: 10vw;
-}
-
-.test-work-area {
-  font-size: 18px;
-  max-height: 90vh;
-  width: 60vw;
-  overflow-y: auto;
-}
-
-.syllogism-box {
-  width: 22vw;
-  padding-left: 1vw;
-  padding-right: 1vw;
-  padding-bottom: 3vw;
-}
-
-.topics {
-  font-size: 18px;
-  width: 50vw;
-  height: 90vh;
-}
-
-.topics-text-box {
-  font-size: 18px;
-  border: 2px solid;
-  padding: 2.5vh;
-  width: 80%;
-  height: 75vh;
-}
-
-.topic-in-progress-box {
-  font-size: 18px;
-  border: 1px solid;
-  padding: 1vh;
-  margin-right: 2vh;
-  width: 25vw;
-  height: 1.5vw;
 }
 
 .observation-to-respond {

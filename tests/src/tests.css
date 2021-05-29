@@ -14,8 +14,8 @@ ol, ul {
 }
 
 .main-instructions {
-  margin-top: 10vh;
-  margin-bottom: 5vh;
+  margin-top: 60px;
+  margin-bottom: 30px;
   font-size: 18px;
 }
 
@@ -25,71 +25,71 @@ ol, ul {
 
 .go-next {
   font-size: 18px;
-  margin-bottom: 3vh;
+  margin-bottom: 20px;
   cursor: pointer;
 }
 
 .test-instructions {
   font-size: 18px;
-  width: 40vw;
+  width: 600px;
   text-align: justify;
-  margin-right: 10vw;
+  margin-right: 100px;
 }
 
 .test-work-area {
   font-size: 18px;
   max-height: 90vh;
-  width: 60vw;
+  width: 500px;
   overflow-y: auto;
 }
 
 .syllogism-box {
-  width: 22vw;
-  padding-left: 1vw;
-  padding-right: 1vw;
-  padding-bottom: 3vw;
+  width: 25px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 30px;
 }
 
 .topics {
   font-size: 18px;
-  width: 50vw;
-  height: 90vh;
+  width: 500px;
+  height: 800px;
 }
 
 .topics-text-box {
   font-size: 18px;
   border: 2px solid;
-  padding: 2.5vh;
+  padding: 25px;
   width: 80%;
-  height: 75vh;
+  height: 800px;
 }
 
 .topic-in-progress-box {
   font-size: 18px;
   border: 1px solid;
-  padding: 1vh;
-  margin-right: 2vh;
-  width: 25vw;
-  height: 1.5vw;
+  padding: 10px;
+  margin-right: 20px;
+  width: 250px;
+  height: 15px;
 }
 
 .form-question {
-  margin-bottom: 10vh;
+  margin-bottom: 100px;
 }
 
 .long-answer {
   font-size: 18px;
-  margin-top: 2vh;
-  margin-bottom: 4vh;
-  height: 25vh;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  height: 200;
   width: 100%;
 }
 
 .short-answer {
   font-size: 18px;
-  margin-top: 2vh;
-  margin-bottom: 2vh;
-  height: 10vh;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  height: 100px;
   width: 100%;
 }
 
