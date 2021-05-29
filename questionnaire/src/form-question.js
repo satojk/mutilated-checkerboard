@@ -10,6 +10,13 @@ export default function FormQuestion(props) {
   );
   let ixOffset = props.ixOffset ? props.ixOffset : 0;
   const questionPrompt = <p><b>{(props.ix+1+ixOffset).toString()}.</b> {props.questionPrompt}</p>
+  if (props.type === 'prompt') {
+    return (
+      <div className='form-question-small-margin'>
+        {questionPrompt}
+      </div>
+    );
+  }
   if (props.type === 'text-long') {
     return (
       <div className='form-question'>

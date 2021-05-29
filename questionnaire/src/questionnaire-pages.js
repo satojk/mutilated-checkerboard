@@ -219,33 +219,57 @@ export class QuestionnairePage2 extends React.Component {
 export class QuestionnairePage3 extends React.Component {
   constructor(props) {
     super(props);
-    let q1options = [
-      'It would be possible and easy to cover the board if the two removed squares were of non-diagonally-opposite corners (e.g. top right and bottom right).',
-      'A domino must cover, specifically, two abutting squares.',
-      'There were 62 squares to cover, so you would need exactly 31 dominos.',
-      'Adjacent squares are always of opposite colors.',
-      'If you could cover two diagonally-adjacent blocks, the problem would be easy.',
-      'You could, in principle, try every covering possible and find the answer, but that would take too long.',
-      'Both removed squares were light-colored squares.',
-      '31 is an odd number.',
-      'It would be possible and easy to cover the board if the two removed squares were abutting squares',
-      'The solution to the problem must not depend on the colors used. That is, the colors of the squares should have no influence on whether it is possible or impossible to cover them.',
-      'It is possible to arrange the 62 squares such that one could cover them with 31 dominos (for example, if they were all in a single long row, it would be easy to cover them with dominos).',
-      'Whenever you attempt to cover the 62 squares, the last 2 remaining squares are always of the same color.',
-      'The full board would have had 64 squares, and 64 is 2 to the power of 6.',
+    let q1Options = [
+      '"It would be possible and easy to cover the board if the two removed squares were of non-diagonally-opposite corners (e.g. top right and bottom right)."',
+      '"A domino must cover, specifically, two abutting squares."',
+      '"There were 62 squares to cover, so you would need exactly 31 dominos."',
+      '"Adjacent squares are always of opposite colors."',
+      '"If you could cover two diagonally-adjacent blocks, the problem would be easy."',
+      '"You could, in principle, try every covering possible and find the answer, but that would take too long."',
+      '"Both removed squares were light-colored squares."',
+      '"31 is an odd number."',
+      '"It would be possible and easy to cover the board if the two removed squares were abutting squares"',
+      '"The solution to the problem must not depend on the colors used. That is, the colors of the squares should have no influence on whether it is possible or impossible to cover them."',
+      '"It is possible to arrange the 62 squares such that one could cover them with 31 dominos (for example, if they were all in a single long row, it would be easy to cover them with dominos)."',
+      '"Whenever you attempt to cover the 62 squares, the last 2 remaining squares are always of the same color."',
+      '"The full board would have had 64 squares, and 64 is 2 to the power of 6."',
     ];
-    shuffle(q1options);
+    shuffle(q1Options);
     this.state = {
-      responses: [[], '', null, null],
-      q1options: q1options,
+      responses: [[[], []], '', null, null],
+      q1Options: q1Options,
+      nextQ1Option: 0,
     }
     this.updateResponse = this.updateResponse.bind(this);
+    this.updateQ1Response = this.updateQ1Response.bind(this);
+    this.toggleQ1Response = this.toggleQ1Response.bind(this);
     this.submitAndGoNext = this.submitAndGoNext.bind(this);
   }
 
   updateResponse(questionNo, newResponse) {
     let newResponses = JSON.parse(JSON.stringify(this.state.responses));
     newResponses[questionNo] = newResponse;
+    this.setState({
+      responses: newResponses,
+    });
+  }
+
+  updateQ1Response(wasObserved) {
+    let i = this.state.nextQ1Option;
+    let newResponses = JSON.parse(JSON.stringify(this.state.responses));
+    let newNextQ1Option = i + 1;
+    newResponses[0][wasObserved ? 0 : 1].push(this.state.q1Options[i]);
+    this.setState({
+      responses: newResponses,
+      nextQ1Option: newNextQ1Option,
+    });
+  }
+
+  toggleQ1Response(i, wasObserved) {
+    let newResponses = JSON.parse(JSON.stringify(this.state.responses));
+    let q1OptionToToggle = newResponses[0][wasObserved ? 0 : 1][i];
+    newResponses[0][wasObserved ? 1 : 0].push(q1OptionToToggle);
+    newResponses[0][wasObserved ? 0 : 1].splice(i, 1);
     this.setState({
       responses: newResponses,
     });
@@ -273,7 +297,7 @@ export class QuestionnairePage3 extends React.Component {
     const rangeOptions = ['1', '2', '3', '4', '5']
     const rangeEndpoints = ['Strongly disagree', 'Strongly agree']
     const prompts = [
-      'Each item contains some possible observation about the puzzle. Check all observations which you made and were aware of at some point during solving the puzzle (NOT while reading these now).',
+      'Below we will present 13 possible observations about the puzzle in quotes, one at a time. For each observation, click "Yes" if you were aware of it and thought about it at some point during solving the puzzle (NOT) while reading these now), or "No" if you did not think about it during solving the puzzle.',
       'Please list any other observations which you attended to and thought about during the process of solving the problem. Please try to think of as many as you can and be as thorough as possible.',
       '"I actively attempted to notice aspects of the problem such as the ones above."',
       '"I spent quite a bit of time thinking of general observations about the problem such as the above, rather than only thinking directly about the problem objective."',
@@ -282,17 +306,62 @@ export class QuestionnairePage3 extends React.Component {
       (acc, curVal) => (acc && (curVal !== '' && curVal !== null)),
       true
     );
+
+    let observationsAware = this.state.responses[0][0].map((obs, ix) => <li
+        className='observation-li'
+        key={'true-obs-' + ix.toString()}
+        onClick={() => {this.toggleQ1Response(ix, true)}}
+      >
+        {obs}
+    </li>);
+    let observationsNotAware = this.state.responses[0][1].map((obs, ix) => <li
+        className='observation-li'
+        key={'false-obs-' + ix.toString()}
+        onClick={() => {this.toggleQ1Response(ix, false)}}
+      >
+        {obs}
+    </li>);
+
+    let nextObservation;
+    if (this.state.nextQ1Option < this.state.q1Options.length) {
+      nextObservation = <div className='observation-to-respond'>
+        <p className='observation-text'><b>{(this.state.nextQ1Option+1).toString()}</b>: {this.state.q1Options[this.state.nextQ1Option]}</p>
+        <div className='observation-response-button-div'>
+          <button
+              className='observation-response-button'
+              onClick={() => this.updateQ1Response(true)}>Yes
+          </button>
+          <button
+              className='observation-response-button'
+              onClick={() => this.updateQ1Response(false)}>No
+          </button>
+        </div>
+      </div>
+    }
+    else {
+      nextObservation = <div>
+        <p>The observations are divided in the two columns below according to your answers. If you wish to change your answer to one of the observations, you may click on it to change which column it is in. If you are satisfied with your answers, proceed further below to the next question.</p>
+        <div className='observations-div'>
+          <div className='observations-subdiv'>
+            <p className='observations-subdiv-title'>Observations you were aware of:</p>
+            <ul>{observationsAware}</ul>
+          </div>
+          <div className='observations-subdiv'>
+            <p className='observations-subdiv-title'>Observations you were <b>not</b> aware of:</p>
+            <ul>{observationsNotAware}</ul>
+          </div>
+        </div>
+      </div>
+    }
     return (
       <div className='questionnaire-page'>
         <p>Recall that two squares are said to be “abutting” if they share a common side.</p>
         <FormQuestion
-          type={'checkbox'}
+          type={'prompt'}
           ix={0}
           questionPrompt={prompts[0]}
-          value={this.state.responses[0]}
-          options={this.state.q1options}
-          updateFunction={this.updateResponse}
         />
+        {nextObservation}
 
         <FormQuestion
           type={'text-long'}

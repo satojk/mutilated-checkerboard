@@ -11,6 +11,10 @@ ol, ul {
   margin-bottom: 10vh;
 }
 
+.form-question-small-margin {
+  margin-bottom: 15px;
+}
+
 .narrow {
   margin-left: 30vw;
   margin-right: 30vw;
@@ -126,4 +130,41 @@ ol, ul {
   margin-right: 2vh;
   width: 25vw;
   height: 1.5vw;
+}
+
+.observation-to-respond {
+  width: 70%;
+  margin-left: 15%;
+  margin-right: 15%;
+}
+
+.observation-text {
+  text-align: center;
+}
+
+.observations-div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.observations-subdiv {
+  width: 45%;
+}
+
+.observation-response-button-div {
+  display: flex;
+  justify-content: center;
+}
+
+.observation-response-button {
+  margin-top: 10px;
+  margin-bottom: 50px;
+  margin-left: 30px;
+  margin-right: 30px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.observation-li {
+  cursor: pointer;
 }
