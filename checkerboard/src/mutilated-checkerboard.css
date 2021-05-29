@@ -149,6 +149,7 @@ ol, ul {
 .work-area {
   flex-grow: 1;
   position: relative;
+  min-width: 300px;
 }
 
 .hint-overlay {
