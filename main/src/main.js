@@ -40,10 +40,11 @@ class App extends React.Component {
       page: 0,
       currentChat: '',
       chatHistory: [],
-      responses: [null, null, null, '', '', '', '', '', '', '', ''],
+      responses: [null, null, null, '', '', '', '', '', '', '', '', null, null],
       consent: false,
     }
     this.goNext = this.goNext.bind(this);
+    this.goBack = this.goBack.bind(this);
     this.updateChat = this.updateChat.bind(this);
     this.updateChatHistory= this.updateChatHistory.bind(this);
     this.updateResponse= this.updateResponse.bind(this);
@@ -100,12 +101,28 @@ class App extends React.Component {
       };
       fetch('/api/postMainQuestionnaire', requestOptions);
     }
-    if (newPage === 6) {
+    if (newPage === 6 && this.state.responses[12] === 1) {
       window.location = '/stage1';
       return;
     }
     this.setState({
       page: newPage,
+    })
+    window.scrollTo(0, 0);
+  }
+
+  goBack() {
+    let newPage = this.state.page - 1;
+    let newResponses = JSON.parse(JSON.stringify(this.state.responses));
+    if (newPage === 2) {
+      newResponses[11] = null;
+    }
+    if (newPage === 5) {
+      newResponses[12] = null;
+    }
+    this.setState({
+      page: newPage,
+      responses: newResponses,
     })
     window.scrollTo(0, 0);
   }
@@ -140,7 +157,7 @@ class App extends React.Component {
             key={'question-0'}
             type={'range'}
             ix={0}
-            questionPrompt={'Which of the following best describes your experience and proficiency with word puzzles like anagrams and crossword puzzles, relative to the average Stanford undergraduate student?' }
+            questionPrompt={<span>Which of the following best describes your experience and proficiency with <b>word puzzles</b> like anagrams and crossword puzzles, relative to the average Stanford undergraduate student?</span> }
             options={['Very little', 'Less than average', 'Average', 'More than average', 'Very extensive']}
             endpoints={['', '']}
             value={this.state.responses[0]}
@@ -150,7 +167,7 @@ class App extends React.Component {
             key={'question-1'}
             type={'range'}
             ix={1}
-            questionPrompt={'Which of the following best describes your experience and proficiency with puzzles involving numbers like sudoku, relative to the average Stanford undergraduate student?' }
+            questionPrompt={<span>Which of the following best describes your experience and proficiency with <b>puzzles involving numbers</b> like sudoku, relative to the average Stanford undergraduate student?</span> }
             options={['Very little', 'Less than average', 'Average', 'More than average', 'Very extensive']}
             endpoints={['', '']}
             value={this.state.responses[1]}
@@ -160,7 +177,7 @@ class App extends React.Component {
             key={'question-2'}
             type={'range'}
             ix={2}
-            questionPrompt={'Which of the following best describes your experience and proficiency with logical reasoning puzzles, relative to the average Stanford undergraduate student?' }
+            questionPrompt={<span>Which of the following best describes your experience and proficiency with <b>logical reasoning puzzles</b>, relative to the average Stanford undergraduate student?</span> }
             options={['Very little', 'Less than average', 'Average', 'More than average', 'Very extensive']}
             endpoints={['', '']}
             value={this.state.responses[2]}
@@ -253,7 +270,24 @@ class App extends React.Component {
         <p className='main-instructions-more'>What is thinking aloud?  It is a process of expressing words that track where you are in solving a problem.  For example, you could think aloud while you carry out a multiplication problem like this one ‘What is 13 x 99’?  One person might say, ‘ok, 3 times 99 – that’s 297, and then I have to add 990 to that, lets see that’s 7, 8, 10,12, 1287’.  Another might say ’99 is 1 less than 100.  1300 minus 13 is 1287’.  these two ‘think aloud’ sequences reveal different ways two people solved the same problem.</p>
         <p className='main-instructions-more'>Thinking aloud isn’t a matter of unpacking all of your thoughts in detail – it is a matter of giving clues to what is in you head.  for example, the first person did not tell us how they got 990, or that they added the 1’s first, then the twos, then added a carry to the 9 in the hundred’s column.  But with these clues we can learn much more about their thought process than if they had said nothing.</p>
         <p className='main-instructions-more'>Scientists studied thinking aloud in the 1980’s and 1990’s, and they learned a lot, but we have a lot left to learn.  One problem is that they recorded actual speech and then had to transcribe it.  Instead of that, we are looking to see if we can learn more by asking you to type quick phrases about what you are thinking. Some of us can ‘talk’ through our fingers better than others but for all of us nowadays we often share our thoughts this way, so we would like to ask you to give it a try.</p>
-        <button onClick={this.goNext} className='go-next'>Next</button>
+        <p className='main-instructions-more'>To check your understanding, please answer the question below before proceeding:</p>
+        <FormQuestion
+          key={'question-11'}
+          type={'radio'}
+          ix={11}
+          questionPrompt={'Which of the following is consistent with that you read above?'}
+          options={["Thinking aloud means giving a detailed account of all your thoughts.", "Thinking aloud was studied in the 20th century in both speech, as well as written forms.", "Thinking aloud provides clues with which we can learn a lot about people's thought processes."]}
+          value={this.state.responses[11]}
+          updateFunction={this.updateResponse}
+          hideIx={true}
+        />
+        <button
+          onClick={this.goNext}
+          disabled={this.state.responses[11] === null}
+          className='go-next'
+        >
+            Next
+        </button>
       </div>;
       if (this.state.responses[3] === 'Yes') {
       content = <div className='main-div'>
@@ -277,6 +311,12 @@ class App extends React.Component {
           goNext={this.goNext}
         />
       </div>;
+      if (this.state.responses[11] !== 2) {
+        content = <div className='main-div'>
+          <p className='main-instructions'>The answer you gave to the question in the previous page is not consistent with the information given there. Please click on "Go back" below, carefully read the text in the page, and proceed.</p>
+          <button onClick={this.goBack} className='go-next'>Go back</button>
+        </div>
+      }
     }
     if (this.state.page === 4) {
       content = <div className='main-div'>
@@ -289,8 +329,31 @@ class App extends React.Component {
         <p className='main-instructions'>For the first stage of this experiment, you will be asked to solve a puzzle. The instructions will first be displayed on the right side of the screen, so you should begin there.</p>
         <p className='main-instructions-more'>After you finish reading the instructions, you will find a text entry box for you to "think aloud" with on the bottom right corner of the screen, much as you did in the previous screen. Please use it similarly as described in the previous screen, giving clues to what is on your mind throughout the whole process of thinking through and solving the puzzle. If you spend a prolonged amount of time without recording a thought, a pop-up will appear on the center of the screen reminding you to record your thoughts. Please record anything that has entered your mind about the problem since the last prompt.</p>
         <p className='main-instructions-more'>Once you are ready to begin, click on “Next” below. This will take you to the puzzle. Once you begin, please dedicate your continued attention to the experiment until the end of the first part, which should take around 40 minutes more. You will be notified when the first part is over so that you may take a break if needed before proceeding to the second part of the experiment.</p>
-        <button onClick={this.goNext} className='go-next'>Next</button>
+        <p className='main-instructions-more'>To check your understanding, please answer the question below before proceeding:</p>
+        <FormQuestion
+          key={'question-12'}
+          type={'radio'}
+          ix={12}
+          questionPrompt={'Which of the following is consistent with that you read above?'}
+          options={["At specific points during the puzzle, we will ask you to \"think aloud\".", "You will be notified when the first part of the experiment is over, at which point you may take a break before proceeding.", "The instructions in the next page will be displayed in the center of the screen."]}
+          value={this.state.responses[12]}
+          updateFunction={this.updateResponse}
+          hideIx={true}
+        />
+        <button
+          onClick={this.goNext}
+          disabled={this.state.responses[12] === null}
+          className='go-next'
+        >
+            Next
+        </button>
       </div>;
+    }
+    if (this.state.page === 6) {
+      content = <div className='main-div'>
+        <p className='main-instructions'>The answer you gave to the question in the previous page is not consistent with the information given there. Please click on "Go back" below, carefully read the text in the page, and proceed.</p>
+        <button onClick={this.goBack} className='go-next'>Go back</button>
+      </div>
     }
     return (
       content

@@ -9,7 +9,10 @@ export default function FormQuestion(props) {
     props.updateFunction
   );
   let ixOffset = props.ixOffset ? props.ixOffset : 0;
-  const questionPrompt = <p><b>{(props.ix+1+ixOffset).toString()}.</b> {props.questionPrompt}</p>
+  let ix = (props.hideIx ?
+            '' :
+            (props.ix+1+ixOffset).toString() + '.')
+  const questionPrompt = <p><b>{ix}</b> {props.questionPrompt}</p>
   if (props.type === 'text-long') {
     return (
       <div className='form-question'>
