@@ -39,38 +39,11 @@ function HintOverlay(props) {
   )
 }
 
-function Chat(props) {
-  let lastRecorded = 'You have not recorded any thoughts yet.'
-  if (props.responses[3].length) {
-    lastRecorded = props.responses[3].slice(-1)[0];
-  }
-  return (
-    <div className='chat-div'>
-      <p className='hint'>Last recorded thought: {lastRecorded}</p>
-      <textarea
-        className='chat-box'
-        value={props.responses[4]}
-        onChange={(event) => props.updateChat(event.target.value)}
-        onKeyPress={(event) => {if (event.key === 'Enter') {props.updateChatHistory()}}}
-      />
-      <button
-          className='submit-answer'
-          onClick={() => props.updateChatHistory()}>Record thought
-      </button>
-    </div>
-  )
-}
-
 class AnswerSubmission extends React.Component {
   render() {
     let toRender;
     if (this.props.phase === 1) {
-      let submissionNotice = <p className='hint'>Use the small text box at the bottom to record your thoughts as you solve the problem. When you are ready, submit your answer to the question above on the larger box below.</p>;
-      let chat = <Chat
-        responses={this.props.responses}
-        updateChat={this.props.updateChat}
-        updateChatHistory={this.props.updateChatHistory}
-      />;
+      let submissionNotice = <p className='hint'>Use the small text box underneath the squares to record your thoughts as you solve the problem. When you are ready, submit your answer to the question above on the larger box below.</p>;
       toRender = (
         <div className='answer-div'>
           {submissionNotice}
@@ -91,22 +64,17 @@ class AnswerSubmission extends React.Component {
             updateFunction={this.props.updateResponse}
           />
           <button
+            disabled={this.props.responses[0] === null || this.props.responses[1] === ''}
             className='submit-answer'
             onClick={this.props.incrementPhase}
           >
             Submit
           </button>
-          {chat}
         </div>
       )
     }
     if (this.props.phase === 2) {
       let submissionNotice = <p className='hint'>As you think about this problem, continue to record your thoughts in the small text entry box at the bottom as you have been doing so far. When you have reached a high level of confidence regarding your answer to the problem, proceed below to make a submission. Only submit an answer when confident. We will not end your opportunity to submit an answer without giving you a timely prior warning beforehand.</p>;
-      let chat = <Chat
-        responses={this.props.responses}
-        updateChat={this.props.updateChat}
-        updateChatHistory={this.props.updateChatHistory}
-      />;
       toRender = (
         <div className='answer-div'>
           <p className='hint'><span style={{color:'red', fontWeight:'bold'}}>It is, in fact, impossible to perfectly cover the 62 remaining squares using 31 dominos.</span> Try to figure out why this is the case. That is: <b>can you find a convincing argument why it is impossible to cover the 62 remaining squares using 31 dominos?</b> This argument need not be a formal proof. It can be a plain English argument that, once explained to someone, should convince them that such a covering is impossible.</p>
@@ -119,12 +87,12 @@ class AnswerSubmission extends React.Component {
             updateFunction={this.props.updateResponse}
           />
           <button
+            disabled={this.props.responses[2] === ''}
             className='submit-answer'
             onClick={this.props.incrementPhase}
           >
             Submit
           </button>
-          {chat}
         </div>
       )
     }
@@ -243,8 +211,6 @@ class WorkArea extends React.Component {
       phase={this.props.phase}
       incrementPhase={this.props.incrementPhase}
       secondsRemaining={this.props.secondsRemaining}
-      updateChat={this.props.updateChat}
-      updateChatHistory={this.props.updateChatHistory}
     />;
     return (
       <div className='work-area'>

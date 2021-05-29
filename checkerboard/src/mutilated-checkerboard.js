@@ -5,7 +5,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import './mutilated-checkerboard.css';
 
 import WorkArea from './work-area.js';
-import { ItemTypes, Board, DominoReservoir } from './domino-area.js';
+import { ItemTypes, Board, DominoReservoir, Chat } from './domino-area.js';
 
 //const FIRST_HINT_TIME = 1780; // 1380
 //const SECOND_HINT_TIME = 1770; // 900
@@ -76,6 +76,9 @@ class App extends React.Component {
   }
 
   updateClick(isBottomCorner) {
+    if (this.state.instructionPhase < 3) {
+      return;
+    }
     if (isBottomCorner) {
       this.setState({
         click1: true,
@@ -241,6 +244,7 @@ class App extends React.Component {
   render() {
     let explanationDiv = <div className='explanation-div' />;
     let boardIsDummy = true;
+    let chat = null
     if (this.state.instructionPhase >= 2) {
       explanationDiv = <div className='explanation-div'>
         <p className='explanation-p'>
@@ -253,18 +257,28 @@ class App extends React.Component {
       </div>;
       boardIsDummy = false;
     }
+    if (this.state.click1 && this.state.click2) {
+      chat = <Chat
+        responses={this.state.responses}
+        updateChat={this.updateChat}
+        updateChatHistory={this.updateChatHistory}
+      />;
+    }
     return (
       <DndProvider backend={HTML5Backend}>
         <div className='main-div'>
           {explanationDiv}
-          <Board
-            dominoes={this.state.dominoes}
-            addDomino={(i, j, item) => {this.addDomino(i, j, item)}}
-            removeDomino={(i, j)=>{this.removeDomino(i, j)}}
-            chatBlock={this.state.chatBlock}
-            updateClick={this.updateClick}
-            dummy={boardIsDummy}
-          />
+          <div>
+            <Board
+              dominoes={this.state.dominoes}
+              addDomino={(i, j, item) => {this.addDomino(i, j, item)}}
+              removeDomino={(i, j)=>{this.removeDomino(i, j)}}
+              chatBlock={this.state.chatBlock}
+              updateClick={this.updateClick}
+              dummy={boardIsDummy}
+            />
+            {chat}
+          </div>
           <WorkArea
             notes={this.state.notes}
             handleNotepadChange={(event) => this.updateNotes(event.target.value)}
@@ -275,8 +289,6 @@ class App extends React.Component {
             updateResponse={this.updateResponse}
             incrementPhase={this.incrementPhase}
             incrementInstructionPhase={this.incrementInstructionPhase}
-            updateChat={this.updateChat}
-            updateChatHistory={this.updateChatHistory}
             chatBlock={this.state.chatBlock}
             ready={this.state.click1 && this.state.click2}
             instructionPhase={this.state.instructionPhase}

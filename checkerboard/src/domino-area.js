@@ -193,6 +193,28 @@ export function Board(props) {
   );
 }
 
+export function Chat(props) {
+  let lastRecorded = 'You have not recorded any thoughts yet.'
+  if (props.responses[3].length) {
+    lastRecorded = props.responses[3].slice(-1)[0];
+  }
+  return (
+    <div className='chat-div'>
+      <p className='hint'>Last recorded thought: {lastRecorded}</p>
+      <textarea
+        className='chat-box'
+        value={props.responses[4]}
+        onChange={(event) => props.updateChat(event.target.value)}
+        onKeyPress={(event) => {if (event.key === 'Enter') {props.updateChatHistory()}}}
+      />
+      <button
+          className='submit-answer'
+          onClick={() => props.updateChatHistory()}>Record thought
+      </button>
+    </div>
+  )
+}
+
 function Rotator(props) {
   return (
     <img
