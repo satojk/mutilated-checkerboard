@@ -16,6 +16,12 @@ input {
 .instructions {
   width: 50vw;
   margin-top: 20vh;
+  margin-bottom: 40px;
+  text-align: justify;
+}
+
+.instructions-more {
+  width: 50vw;
   margin-bottom: 10vh;
   text-align: justify;
 }
