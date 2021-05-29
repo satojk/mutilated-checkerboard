@@ -327,7 +327,7 @@ class App extends React.Component {
     if (this.state.page === 5) {
       content = <div className='main-div'>
         <p className='main-instructions'>For the first stage of this experiment, you will be asked to solve a puzzle. The instructions will first be displayed on the right side of the screen, so you should begin there.</p>
-        <p className='main-instructions-more'>After you finish reading the instructions, you will find a text entry box for you to "think aloud" with on the bottom right corner of the screen, much as you did in the previous screen. Please use it similarly as described in the previous screen, giving clues to what is on your mind throughout the whole process of thinking through and solving the puzzle. If you spend a prolonged amount of time without recording a thought, a pop-up will appear on the center of the screen reminding you to record your thoughts. Please record anything that has entered your mind about the problem since the last prompt.</p>
+        <p className='main-instructions-more'>After you finish reading the instructions, you will find a text entry box for you to "think aloud" with on the bottom of the screen, much as you did in the previous screen. Please use it similarly as described in the previous screen, giving clues to what is on your mind throughout the whole process of thinking through and solving the puzzle. If you spend a prolonged amount of time without recording a thought, a pop-up will appear on the center of the screen reminding you to record your thoughts. Please record anything that has entered your mind about the problem since the last prompt.</p>
         <p className='main-instructions-more'>Once you are ready to begin, click on “Next” below. This will take you to the puzzle. Once you begin, please dedicate your continued attention to the experiment until the end of the first part, which should take around 40 minutes more. You will be notified when the first part is over so that you may take a break if needed before proceeding to the second part of the experiment.</p>
         <p className='main-instructions-more'>To check your understanding, please answer the question below before proceeding:</p>
         <FormQuestion
@@ -335,7 +335,7 @@ class App extends React.Component {
           type={'radio'}
           ix={12}
           questionPrompt={'Which of the following is consistent with that you read above?'}
-          options={["At specific points during the puzzle, we will ask you to \"think aloud\".", "You will be notified when the first part of the experiment is over, at which point you may take a break before proceeding.", "The instructions in the next page will be displayed in the center of the screen."]}
+          options={["As you solve the puzzle, we will ask you to \"think aloud\" via speech.", "You will be notified when the first part of the experiment is over, at which point you may take a break before proceeding.", "The instructions in the next page will be displayed in the center of the screen."]}
           value={this.state.responses[12]}
           updateFunction={this.updateResponse}
           hideIx={true}
