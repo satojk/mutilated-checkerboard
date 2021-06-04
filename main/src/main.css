@@ -16,31 +16,24 @@ ol, ul {
 .main-instructions {
   margin-top: 60px;
   margin-bottom: 20px;
-  margin-left: 350px;
-  margin-right: 350px;
   text-align: justify;
   font-size: 20px;
-  min-width: 400px;
+  max-width: 800px;
 }
 
 .main-instructions-more {
   margin-bottom: 20px;
-  margin-left: 350px;
-  margin-right: 350px;
   text-align: justify;
   font-size: 20px;
-  min-width: 400px;
+  max-width: 800px;
 }
 
 .main-instructions-consent-div {
-  margin-left: 350px;
-  margin-right: 350px;
-  align-self: flex-start;
   display: flex;
   align-items: center;
   font-size: 20px;
   margin-top: -15px;
-  min-width: 400px;
+  max-width: 800px;
 }
 
 .main-instructions-consent-checkbox {
@@ -56,7 +49,7 @@ ol, ul {
 }
 
 .hint {
-  min-width: 400px;
+  max-width: 800px;
   font-size: 20px;
   text-align: justify;
 }
@@ -81,7 +74,7 @@ ol, ul {
 .questionnaire-div {
   display: flex;
   flex-direction: column;
-  width: 50%;
+  max-width: 800px;
   align-items: left;
 }
 
@@ -110,9 +103,9 @@ ol, ul {
 }
 
 .range-wrapper {
-  width: 85%;
-  margin-left: 7.5%;
-  margin-right: 7.5%;
+  width: 95%;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
   display: flex;
   justify-content: space-between;
   font-size: 18px;

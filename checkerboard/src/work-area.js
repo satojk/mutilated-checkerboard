@@ -43,7 +43,7 @@ class AnswerSubmission extends React.Component {
   render() {
     let toRender;
     if (this.props.phase === 1) {
-      let submissionNotice = <p className='hint'>Use the small text box underneath the squares to record your thoughts as you solve the problem. When you are ready, submit your answer to the question above on the larger box below.</p>;
+      let submissionNotice = <p className='hint'>Use the small text box underneath the squares to record your thoughts as you solve the problem. If you achieve confidence in an answer to the question above, respond to the questions below.</p>;
       toRender = (
         <div className='answer-div'>
           {submissionNotice}
@@ -51,7 +51,7 @@ class AnswerSubmission extends React.Component {
             type={'radio'}
             ix={0}
             questionPrompt={'Do you think it is possible to perfectly cover the 62 remaining squares using 31 dominos?'}
-            options={['I am very confident that such a covering is possible.', 'I am very confident that such a covering is impossible.']}
+            options={['I am confident that such a covering is possible.', 'I am confident that such a covering is impossible.']}
             value={this.props.responses[0]}
             updateFunction={this.props.updateResponse}
             hideIx={true}

@@ -156,7 +156,7 @@ export class QuestionnairePage2 extends React.Component {
       '"Initially, I immediately tried thinking of reasons why it would be *possible* to cover the board with dominos."',
       '"Initially, I was unsure whether it was possible or not to cover the board with dominos."',
       '"To help me understand whether it would be possible to cover the board or not, I tried to make as many observations as I could about the problem"',
-      '"In the end, I was very confident regarding the answer I submitted"'
+      '"In the end, I was very confident that I gave a convincing reason why the board could not be covered."'
     ];
     if (ixToAdd > 0) {
       prompts.push('"By the time the first hint was given, I had already thought about the colors of the squares." (Note: the first hint suggested that you pay attention to the colors of the squares)');
@@ -300,7 +300,7 @@ export class QuestionnairePage3 extends React.Component {
       'Below we will present 13 possible observations about the puzzle in quotes, one at a time. For each observation, click "Yes" if you were aware of it and thought about it at some point during solving the puzzle (NOT while reading these now), or "No" if you did not think about it during solving the puzzle.',
       'Please list any other observations which you attended to and thought about during the process of solving the problem. Please try to think of as many as you can and be as thorough as possible.',
       '"I actively attempted to notice aspects of the problem such as the ones above."',
-      '"I spent quite a bit of time thinking of general observations about the problem such as the above, rather than only thinking directly about the problem objective."',
+      '"I spent quite a bit of time thinking of general observations about the problem like those in the list above, rather than thinking directly about the problem objective."',
     ];
     let maySubmit = this.state.responses.reduce(
       (acc, curVal) => (acc && (curVal !== '' && curVal !== null)),
