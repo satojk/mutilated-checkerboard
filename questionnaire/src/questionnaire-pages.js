@@ -236,40 +236,17 @@ export class QuestionnairePage3 extends React.Component {
     ];
     shuffle(q1Options);
     this.state = {
-      responses: [[[], []], '', null, null],
+      responses: [null, null, null, null, null, null, null, null, null, null, null, null, null, '', null, null],
       q1Options: q1Options,
       nextQ1Option: 0,
     }
     this.updateResponse = this.updateResponse.bind(this);
-    this.updateQ1Response = this.updateQ1Response.bind(this);
-    this.toggleQ1Response = this.toggleQ1Response.bind(this);
     this.submitAndGoNext = this.submitAndGoNext.bind(this);
   }
 
   updateResponse(questionNo, newResponse) {
     let newResponses = JSON.parse(JSON.stringify(this.state.responses));
     newResponses[questionNo] = newResponse;
-    this.setState({
-      responses: newResponses,
-    });
-  }
-
-  updateQ1Response(wasObserved) {
-    let i = this.state.nextQ1Option;
-    let newResponses = JSON.parse(JSON.stringify(this.state.responses));
-    let newNextQ1Option = i + 1;
-    newResponses[0][wasObserved ? 0 : 1].push(this.state.q1Options[i]);
-    this.setState({
-      responses: newResponses,
-      nextQ1Option: newNextQ1Option,
-    });
-  }
-
-  toggleQ1Response(i, wasObserved) {
-    let newResponses = JSON.parse(JSON.stringify(this.state.responses));
-    let q1OptionToToggle = newResponses[0][wasObserved ? 0 : 1][i];
-    newResponses[0][wasObserved ? 1 : 0].push(q1OptionToToggle);
-    newResponses[0][wasObserved ? 0 : 1].splice(i, 1);
     this.setState({
       responses: newResponses,
     });
@@ -306,53 +283,19 @@ export class QuestionnairePage3 extends React.Component {
       (acc, curVal) => (acc && (curVal !== '' && curVal !== null)),
       true
     );
+    let observationQuestions = this.state.q1Options.map((observation, ix) => <FormQuestion
+      key={'observation-question' + ix.toString()}
+      questionPrompt={observation}
+      options={['Yes', 'No']}
+      value={this.state.responses[ix]}
+      updateFunction={this.updateResponse}
+      type={'radio'}
+      ix={ix}
+      prefix={'1.'}
+      dummy={ix > 0 && this.state.responses[ix-1] === null}
+    />);
+    let lastQsP = this.state.responses[12] === null ? <p></p> : <p>Each of the two questions below gives you a statement in quotes. For each question, please mark the answer corresponding to how much you agree with the given statement.</p>;
 
-    let observationsAware = this.state.responses[0][0].map((obs, ix) => <li
-        className='observation-li'
-        key={'true-obs-' + ix.toString()}
-        onClick={() => {this.toggleQ1Response(ix, true)}}
-      >
-        {obs}
-    </li>);
-    let observationsNotAware = this.state.responses[0][1].map((obs, ix) => <li
-        className='observation-li'
-        key={'false-obs-' + ix.toString()}
-        onClick={() => {this.toggleQ1Response(ix, false)}}
-      >
-        {obs}
-    </li>);
-
-    let nextObservation;
-    if (this.state.nextQ1Option < this.state.q1Options.length) {
-      nextObservation = <div className='observation-to-respond'>
-        <p className='observation-text'><b>{(this.state.nextQ1Option+1).toString()}</b>: {this.state.q1Options[this.state.nextQ1Option]}</p>
-        <div className='observation-response-button-div'>
-          <button
-              className='observation-response-button'
-              onClick={() => this.updateQ1Response(true)}>Yes
-          </button>
-          <button
-              className='observation-response-button'
-              onClick={() => this.updateQ1Response(false)}>No
-          </button>
-        </div>
-      </div>
-    }
-    else {
-      nextObservation = <div>
-        <p>The observations are divided in the two columns below according to your answers. If you wish to change what you answered to an observation, you may click on it to change which column it is in. If you are satisfied with your answers, proceed further below to the next question.</p>
-        <div className='observations-div'>
-          <div className='observations-subdiv'>
-            <p className='observations-subdiv-title'>Observations you were aware of:</p>
-            <ul>{observationsAware}</ul>
-          </div>
-          <div className='observations-subdiv'>
-            <p className='observations-subdiv-title'>Observations you were <b>not</b> aware of:</p>
-            <ul>{observationsNotAware}</ul>
-          </div>
-        </div>
-      </div>
-    }
     return (
       <div className='questionnaire-page'>
         <p>Recall that two squares are said to be “abutting” if they share a common side.</p>
@@ -361,35 +304,41 @@ export class QuestionnairePage3 extends React.Component {
           ix={0}
           questionPrompt={prompts[0]}
         />
-        {nextObservation}
+        {observationQuestions}
 
         <FormQuestion
           type={'text-long'}
-          ix={1}
+          ix={13}
+          displayIx={2}
           questionPrompt={prompts[1]}
-          value={this.state.responses[1]}
+          value={this.state.responses[13]}
           updateFunction={this.updateResponse}
+          dummy={this.state.responses[12] === null}
         />
-        <p>Each of the two questions below gives you a statement in quotes. For each question, please mark the answer corresponding to how much you agree with the given statement.</p>
+        {lastQsP}
         <FormQuestion
           key={'3-3'}
           type={'range'}
-          ix={2}
+          ix={14}
+          displayIx={3}
           questionPrompt={prompts[2]}
           options={rangeOptions}
           endpoints={rangeEndpoints}
-          value={this.state.responses[2]}
+          value={this.state.responses[14]}
           updateFunction={this.updateResponse}
+          dummy={this.state.responses[12] === null}
         />
         <FormQuestion
           key={'3-4'}
           type={'range'}
-          ix={3}
+          ix={15}
+          displayIx={4}
           questionPrompt={prompts[3]}
           options={rangeOptions}
           endpoints={rangeEndpoints}
-          value={this.state.responses[3]}
+          value={this.state.responses[15]}
           updateFunction={this.updateResponse}
+          dummy={this.state.responses[12] === null}
         />
         <button
           onClick={this.submitAndGoNext}

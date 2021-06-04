@@ -53,7 +53,7 @@ class App extends React.Component {
     }
 
     return (
-      <div>
+      <div className='main-div'>
         {content}
       </div>
     )

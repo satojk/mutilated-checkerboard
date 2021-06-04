@@ -3,13 +3,18 @@ import React from 'react';
 import './questionnaire.css';
 
 export default function FormQuestion(props) {
+  if (props.dummy) {
+    return <div></div>
+  }
   let updateFunction = (
     props.fixed === true ?
     () => {} :
     props.updateFunction
   );
   let ixOffset = props.ixOffset ? props.ixOffset : 0;
-  const questionPrompt = <p><b>{(props.ix+1+ixOffset).toString()}.</b> {props.questionPrompt}</p>
+  let prefix = props.prefix ? props.prefix : '';
+  let displayIx = props.displayIx ? props.displayIx : props.ix + 1 + ixOffset
+  const questionPrompt = <p><b>{prefix + displayIx.toString()}.</b> {props.questionPrompt}</p>
   if (props.type === 'prompt') {
     return (
       <div className='form-question-small-margin'>
