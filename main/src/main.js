@@ -10,7 +10,7 @@ function Chat(props) {
     lastRecorded = props.chatHistory.slice(-1)[0];
   }
   return (
-    <div>
+    <div className='chat-div'>
       <p className='hint'>Last recorded thought: {lastRecorded}</p>
       <textarea
         className='chat-box'

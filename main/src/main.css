@@ -54,6 +54,10 @@ ol, ul {
   text-align: justify;
 }
 
+.chat-div {
+  width: 400px;
+}
+
 .chat-box {
   font-size: 16px;
   height: 30px;
