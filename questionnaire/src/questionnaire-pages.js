@@ -276,7 +276,7 @@ export class QuestionnairePage3 extends React.Component {
     const prompts = [
       'Below we will present 13 possible observations about the puzzle in quotes, one at a time. For each observation, click "Yes" if you were aware of it and thought about it at some point during solving the puzzle (NOT while reading these now), or "No" if you did not think about it during solving the puzzle.',
       'Please list any other observations which you attended to and thought about during the process of solving the problem. Please try to think of as many as you can and be as thorough as possible.',
-      '"I actively attempted to notice aspects of the problem such as the ones above."',
+      '"I actively attempted to notice aspects of the problem like those in the list above."',
       '"I spent quite a bit of time thinking of general observations about the problem like those in the list above, rather than thinking directly about the problem objective."',
     ];
     let maySubmit = this.state.responses.reduce(
