@@ -74,24 +74,21 @@ class AnswerSubmission extends React.Component {
       )
     }
     if (this.props.phase === 2) {
-      let submissionNotice = <p className='hint'>As you think about this problem, continue to record your thoughts in the small text entry box at the bottom as you have been doing so far. When you have reached a high level of confidence regarding your answer to the problem, proceed below to make a submission. Only submit an answer when confident. We will not end your opportunity to submit an answer without giving you a timely prior warning beforehand.</p>;
+      let submissionNotice = <p className='hint'>As you think about this problem, continue to record your thoughts in the small text entry box at the bottom as you have been doing so far. As before, be thorough in recording your thoughts, including hunches, ideas, plans, and anything else which you might think. When you feel that the thoughts you have recorded include a convincing argument for why it is impossible to cover the 62 remaining squares, check the box below and click on "Next" to proceed.</p>;
       toRender = (
         <div className='answer-div'>
           <p className='hint'><span style={{color:'red', fontWeight:'bold'}}>It is, in fact, impossible to perfectly cover the 62 remaining squares using 31 dominos.</span> Try to figure out why this is the case. That is: <b>can you find a convincing argument why it is impossible to cover the 62 remaining squares using 31 dominos?</b> This argument need not be a formal proof. It can be a plain English argument that, once explained to someone, should convince them that such a covering is impossible.</p>
           {submissionNotice}
-          <FormQuestion
-            type={'text-long'}
-            ix={2}
-            questionPrompt={'Can you find a convincing argument why it is impossible to cover the 62 remaining squares using 31 dominos?'}
-            value={this.props.responses[2]}
-            updateFunction={this.props.updateResponse}
-          />
+          <div className='checkerboard-checkbox-div'>
+            <input className='checkerboard-checkbox' type='checkbox' checked={this.props.responses[2]} label='consent' onClick={() => this.props.updateResponse(2, !this.props.responses[2])}/>
+            <p>"In recording my thoughts, I believe I have provided a convincing argument for why it is impossible to cover the 62 remaining squares using 31 dominos."</p>
+          </div>
           <button
-            disabled={this.props.responses[2] === ''}
+            disabled={this.props.responses[2] === false}
             className='submit-answer'
             onClick={this.props.incrementPhase}
           >
-            Submit
+            Next
           </button>
         </div>
       )
@@ -159,6 +156,7 @@ class WorkArea extends React.Component {
     if (this.props.instructionPhase === 2) {
       return <div className='work-area'>
         <p className='hint'>Read the material on the left, and experiment briefly with placing dominos on the grid, then return here and click on "Next" below.</p>
+        <p className='hint'>You might find that using the interface is slow and clunky. Later on, as you build better intuition for the puzzle, we encourage you to carry out most of the work in your imagination (recording your thoughts throughout once you are given the opportunity), using the interface only to facilitate your imagining.</p>
         <button
           className='submit-answer'
           onClick={this.props.incrementInstructionPhase}

@@ -23,7 +23,7 @@ class App extends React.Component {
         vertical: [],
         horizontal: [],
       },
-      responses: [null, '', '', [], ''], // 1a, 1b, 2, chat history, curr chat
+      responses: [null, '', false, [], ''], // 1a, 1b, 2, chat history, curr chat
       secondsForInstructions: 0,
       secondsRemaining: 420, // 420
       lastChatSeconds: 420,
