@@ -76,7 +76,7 @@ class App extends React.Component {
   }
 
   updateClick(isBottomCorner) {
-    if (this.state.instructionPhase < 3) {
+    if (this.state.instructionPhase < 4) {
       return;
     }
     if (isBottomCorner) {

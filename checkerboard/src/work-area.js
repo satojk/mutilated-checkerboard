@@ -74,7 +74,11 @@ class AnswerSubmission extends React.Component {
       )
     }
     if (this.props.phase === 2) {
-      let submissionNotice = <p className='hint'>As you think about this problem, continue to record your thoughts in the small text entry box at the bottom as you have been doing so far. As before, be thorough in recording your thoughts, including hunches, ideas, plans, and anything else which you might think. When you feel that the thoughts you have recorded include a convincing argument for why it is impossible to cover the 62 remaining squares, check the box below and click on "Next" to proceed.</p>;
+      let submissionNotice = <div>
+        <p className='hint'>As you think about this problem, continue to record your thoughts in the small text entry box at the bottom as you have been doing so far. As before, be liberal in recording your thoughts, including hunches, ideas, plans, and anything else that you might think. We would also like you to use the same text box to record your attempt at a convincing argument for why it is impossible to cover the 62 squares.</p>
+        <p className='hint'>When you feel that the thoughts you have recorded include a convincing argument for why it is impossible to cover the 62 remaining squares, check the box below and click on "Next" to proceed.</p>
+      </div>
+
       toRender = (
         <div className='answer-div'>
           <p className='hint'><span style={{color:'red', fontWeight:'bold'}}>It is, in fact, impossible to perfectly cover the 62 remaining squares using 31 dominos.</span> Try to figure out why this is the case. That is: <b>can you find a convincing argument why it is impossible to cover the 62 remaining squares using 31 dominos?</b> This argument need not be a formal proof. It can be a plain English argument that, once explained to someone, should convince them that such a covering is impossible.</p>
@@ -156,7 +160,18 @@ class WorkArea extends React.Component {
     if (this.props.instructionPhase === 2) {
       return <div className='work-area'>
         <p className='hint'>Read the material on the left, and experiment briefly with placing dominos on the grid, then return here and click on "Next" below.</p>
+        <button
+          className='submit-answer'
+          onClick={this.props.incrementInstructionPhase}
+        >
+          Next
+        </button>
+      </div>;
+    }
+    if (this.props.instructionPhase === 3) {
+      return <div className='work-area'>
         <p className='hint'>You might find that using the interface is slow and clunky. Later on, as you build better intuition for the puzzle, we encourage you to carry out most of the work in your imagination (recording your thoughts throughout once you are given the opportunity), using the interface only to facilitate your imagining.</p>
+        <p className='hint'>Click on "Next" below.</p>
         <button
           className='submit-answer'
           onClick={this.props.incrementInstructionPhase}
