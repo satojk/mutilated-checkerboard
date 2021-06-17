@@ -88,7 +88,7 @@ export class NonsenseSyllogismsInstructions extends React.Component {
           <p>Now try the practice problems given on the right. The first two syllogisms have been correctly marked.</p>
 
           <p>The answers to the other five problems are as follows: 3 is Poor reasoning; 4 is Good reasoning; 5 is Good reasoning; 6 is Poor reasoning; 7 is Good reasoning.</p>
-          <p>You will have <u>4 minutes</u> for each of the two parts of this test. Each part has one page. Click on "Next" to go to the first part (this will start the timer).</p>
+          <p>You will have <u>4 minutes</u> for each of the two parts of this test. Each part consists of one page with 15 problems. Click on "Next" to go to the first part (this will start the timer).</p>
           <p className='timer'>Time remaining: {this.props.minutes}:{this.props.seconds} (stopped)</p>
           <button
             onClick={this.submitAndGoNext}
@@ -190,7 +190,6 @@ export class NonsenseSyllogismsPartA extends React.Component {
       <div style={{display: 'flex'}}>
         <div className='test-instructions'>
           <h3>Nonsense Syllogisms Test - Part 1</h3>
-          <p>Select "Good reasoning" if the conclusion shows good reasoning. Select "Poor reasoning" if it is poor reasoning. Select "Skip" if you are not sure and do not want to guess.</p>
           <p>This page contains questions 1 to 15 (notice the scrollbar on the right).</p>
           <p className='timer'>Time remaining: {this.props.minutes}:{this.props.seconds}</p>
           <button
@@ -294,7 +293,6 @@ export class NonsenseSyllogismsPartB extends React.Component {
       <div style={{display: 'flex'}}>
         <div className='test-instructions'>
           <h3>Nonsense Syllogisms Test - Part 2</h3>
-          <p>Select "Good reasoning" if the conclusion shows good reasoning. Select "Poor reasoning" if it is poor reasoning. Select "Skip" if you are not sure and do not want to guess.</p>
           <p>This page contains questions 16 to 30 (notice the scrollbar on the right).</p>
           <p className='timer'>Time remaining: {this.props.minutes}:{this.props.seconds}</p>
           <button
