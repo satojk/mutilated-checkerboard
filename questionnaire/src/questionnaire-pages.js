@@ -236,7 +236,7 @@ export class QuestionnairePage3 extends React.Component {
     ];
     shuffle(q1Options);
     this.state = {
-      responses: [null, null, null, null, null, null, null, null, null, null, null, null, null, '', null, null],
+      responses: [null, null, null, null, null, null, null, null, null, null, null, null, null, '', null],
       q1Options: q1Options,
       nextQ1Option: 0,
     }
@@ -276,8 +276,7 @@ export class QuestionnairePage3 extends React.Component {
     const prompts = [
       'Below we will present 13 possible observations about the puzzle in quotes, one at a time. For each observation, click "Yes" if you were aware of it and thought about it at some point during solving the puzzle (NOT while reading these now), or "No" if you did not think about it during solving the puzzle.',
       'Please list any other observations which you attended to and thought about during the process of solving the problem. Please try to think of as many as you can and be as thorough as possible.',
-      '"I actively attempted to notice aspects of the problem like those in the list above."',
-      '"I spent quite a bit of time thinking of general observations about the problem like those in the list above, rather than thinking directly about the problem objective."',
+      'How strongly do you agree with the following statement in quotes? "I actively attempted to make general observations about the problem like those in the list above."',
     ];
     let maySubmit = this.state.responses.reduce(
       (acc, curVal) => (acc && (curVal !== '' && curVal !== null)),
@@ -294,7 +293,6 @@ export class QuestionnairePage3 extends React.Component {
       prefix={'1.'}
       dummy={ix > 0 && this.state.responses[ix-1] === null}
     />);
-    let lastQsP = this.state.responses[12] === null ? <p></p> : <p>Each of the two questions below gives you a statement in quotes. For each question, please mark the answer corresponding to how much you agree with the given statement.</p>;
 
     return (
       <div className='questionnaire-page'>
@@ -315,7 +313,6 @@ export class QuestionnairePage3 extends React.Component {
           updateFunction={this.updateResponse}
           dummy={this.state.responses[12] === null}
         />
-        {lastQsP}
         <FormQuestion
           key={'3-3'}
           type={'range'}
@@ -325,18 +322,6 @@ export class QuestionnairePage3 extends React.Component {
           options={rangeOptions}
           endpoints={rangeEndpoints}
           value={this.state.responses[14]}
-          updateFunction={this.updateResponse}
-          dummy={this.state.responses[12] === null}
-        />
-        <FormQuestion
-          key={'3-4'}
-          type={'range'}
-          ix={15}
-          displayIx={4}
-          questionPrompt={prompts[3]}
-          options={rangeOptions}
-          endpoints={rangeEndpoints}
-          value={this.state.responses[15]}
           updateFunction={this.updateResponse}
           dummy={this.state.responses[12] === null}
         />
