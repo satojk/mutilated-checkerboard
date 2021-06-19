@@ -84,6 +84,7 @@ ol, ul {
 
 .form-question {
   margin-bottom: 30px;
+  max-width: 800px;
 }
 
 .form-dropdown {
