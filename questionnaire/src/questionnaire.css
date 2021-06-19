@@ -122,3 +122,8 @@ ol, ul {
 .observation-li {
   cursor: pointer;
 }
+
+.questionnaire-intermission-p {
+  margin-top: 80px;
+  margin-bottom: 50px;
+}

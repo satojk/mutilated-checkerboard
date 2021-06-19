@@ -41,41 +41,25 @@ export class QuestionnairePage1 extends React.Component {
 
   render() {
     const prompts = [
-      'Think back to the first few minutes after you were introduced to the puzzle. What were the things you initially noticed about the puzzle and its components? List all observations you recall making initially.',
-      'What approach did you take initially, and why? For approximately how long did you persist in this approach? When and why did you decide to switch approaches?',
-      'After giving up on your initial approach, what else did you attempt? List all lines of thought that you recall pursuing, in chronological order, to the best of your recollection. Include observations which may have prompted these lines of thought, as well as observations made as you pursued these lines of thought.',
+      'Think back to the very beginning when you were first introduced to the puzzle. What did you think and do in the first few minutes?',
+      'In the first few minutes of the puzzle, what were the things you initially noticed about the puzzle and its components? List all observations you recall making initially.',
+      'What approaches did you take initially, and why? List all lines of thought that you recall pursuing (in chronological order), alongside how long you pursued each of them, to the best of your recollection. Include observations which may have prompted these lines of thought, as well as observations made as you pursued these lines of thought.',
     ];
     let maySubmit = this.state.responses.reduce(
-      (acc, curVal) => (acc && curVal !== ''),
+      (acc, curVal) => (acc && (curVal !== '')),
       true
     );
+    let qs = prompts.map((qPrompt, ix) => <FormQuestion
+      type={'text-long'}
+      ix={ix}
+      questionPrompt={qPrompt}
+      value={this.state.responses[ix]}
+      updateFunction={this.updateResponse}
+    />);
     return (
       <div className='questionnaire-page'>
         <p>For these first three questions, consider solely the first stage of the puzzle, <b>before</b> you were told that it was impossible to perfectly cover all squares.</p>
-        <FormQuestion
-          type={'text-long'}
-          ix={0}
-          questionPrompt={prompts[0]}
-          value={this.state.responses[0]}
-          updateFunction={this.updateResponse}
-        />
-
-        <FormQuestion
-          type={'text-long'}
-          ix={1}
-          questionPrompt={prompts[1]}
-          value={this.state.responses[1]}
-          updateFunction={this.updateResponse}
-        />
-
-        <FormQuestion
-          type={'text-long'}
-          ix={2}
-          questionPrompt={prompts[2]}
-          value={this.state.responses[2]}
-          updateFunction={this.updateResponse}
-        />
-
+        {qs}
         <button
           onClick={this.submitAndGoNext}
           className='go-next left-margin'
@@ -92,7 +76,7 @@ export class QuestionnairePage2 extends React.Component {
   constructor(props) {
     super(props);
     let responses = [];
-    for (let i = 0; i < 14; i++) {
+    for (let i = 0; i < 15; i++) {
       responses.push(null)
     }
     this.state = {
@@ -155,8 +139,9 @@ export class QuestionnairePage2 extends React.Component {
       '"Initially, I immediately tried thinking of reasons why it would be *impossible* to cover the board with dominos."',
       '"Initially, I immediately tried thinking of reasons why it would be *possible* to cover the board with dominos."',
       '"Initially, I was unsure whether it was possible or not to cover the board with dominos."',
-      '"To help me understand whether it would be possible to cover the board or not, I tried to make as many observations as I could about the problem"',
-      '"In the end, I was very confident that I gave a convincing reason why the board could not be covered."'
+      '"Initially, to help me understand whether it would be possible to cover the board or not, I tried to make as many observations as I could about the problem"',
+      '"In the end, I was very confident that I gave a convincing reason why the board could not be covered."',
+      '"By the time I was told it was impossible to perfectly cover the board, I was already convinced that it was impossible to perfectly cover the board.',
     ];
     if (ixToAdd > 0) {
       prompts.push('"By the time the first hint was given, I had already thought about the colors of the squares." (Note: the first hint suggested that you pay attention to the colors of the squares)');
@@ -169,16 +154,16 @@ export class QuestionnairePage2 extends React.Component {
     }
     prompts = prompts.concat(
       '"I persisted for too long in wrong approaches."',
-      'Briefly explain your answer to question ' + (7+ixToAdd).toString() + ' above.',
+      'Briefly explain your answer to question ' + (8+ixToAdd).toString() + ' above.',
       '"I felt stuck many times and/or for long periods of time."',
-      'Briefly explain your answer to question ' + (9+ixToAdd).toString() + ' above',
+      'Briefly explain your answer to question ' + (10+ixToAdd).toString() + ' above',
       '"The main problem I had was realizing why it was not possible to cover the board with 31 dominoes. Once I realized why it was impossible, I was able to easily explain the reason why I knew it was impossible."',
-      'Briefly explain your answer to question ' + (11+ixToAdd).toString() + ' above.',
+      'Briefly explain your answer to question ' + (12+ixToAdd).toString() + ' above.',
       '"The main difficulty of the puzzle was phrasing the argument, rather than discovering the right way to see the problem."',
-      'Briefly explain your answer to question ' + (13+ixToAdd).toString() + ' above.'
+      'Briefly explain your answer to question ' + (14+ixToAdd).toString() + ' above.'
     )
     let questions = prompts.map((questionPrompt, ix) => (
-      ix === (7+ixToAdd) || ix === (9+ixToAdd) || ix === (11+ixToAdd) || ix === (13+ixToAdd) ?
+      ix === (8+ixToAdd) || ix === (10+ixToAdd) || ix === (12+ixToAdd) || ix === (14+ixToAdd) ?
       <FormQuestion
         key={'2-' + ix.toString()}
         type={'text-short'}
@@ -199,10 +184,17 @@ export class QuestionnairePage2 extends React.Component {
       />
     ));
 
+    let timeSpecificQuestions = 2 + ixToAdd;
+
     return (
       <div className='questionnaire-page'>
       <p>Each of the questions in this page gives you a statement in quotes. For each question, please mark the answer corresponding to how much you agree with the given statement.</p>
-      {questions}
+      <p>The first 5 questions refer to the beginning of the first stage of the puzzle, <b>before</b> you were told that it was impossible to perfectly cover all squares.</p>
+      {questions.slice(0, 5)}
+      <p className='questionnaire-intermission-p'>For the next {timeSpecificQuestions} questions, consider the moment specified in each question.</p>
+      {questions.slice(5, 7+ixToAdd)}
+      <p className='questionnaire-intermission-p'>For the remaining questions, consider the entirety of your experience solving the puzzle.</p>
+      {questions.slice(7+ixToAdd)}
 
         <button
           onClick={this.submitAndGoNext}
@@ -297,6 +289,7 @@ export class QuestionnairePage3 extends React.Component {
     return (
       <div className='questionnaire-page'>
         <p>Recall that two squares are said to be “abutting” if they share a common side.</p>
+        <p>For the questions on this page, consider the entirety of your experience solving the puzzle.</p>
         <FormQuestion
           type={'prompt'}
           ix={0}
