@@ -211,7 +211,7 @@ export class QuestionnairePage2 extends React.Component {
 export class QuestionnairePage3 extends React.Component {
   constructor(props) {
     super(props);
-    let q1Options = [
+    let q1Observations = [
       '"It would be possible and easy to cover the board if the two removed squares were of non-diagonally-opposite corners (e.g. top right and bottom right)."',
       '"A domino must cover two abutting squares."',
       '"There were 62 squares to cover, so you would need exactly 31 dominos."',
@@ -226,14 +226,27 @@ export class QuestionnairePage3 extends React.Component {
       '"Whenever you attempt to cover the 62 squares, the last 2 remaining squares are always of the same color."',
       '"The full board would have had 64 squares, and 64 is 2 to the power of 6."',
     ];
-    shuffle(q1Options);
+    shuffle(q1Observations);
     this.state = {
+      loading: true,
+      hintsReceived: 0,
       responses: [null, null, null, null, null, null, null, null, null, null, null, null, null, '', null],
-      q1Options: q1Options,
+      q1Observations: q1Observations,
       nextQ1Option: 0,
     }
     this.updateResponse = this.updateResponse.bind(this);
     this.submitAndGoNext = this.submitAndGoNext.bind(this);
+  }
+
+  componentDidMount() {
+    fetch('/api/getCheckerboardLastState')
+      .then((response) => response.json())
+      .then((data) => {
+        this.setState({
+          loading: false,
+          hintsReceived: data.state.hintsUnlocked,
+        })
+      });
   }
 
   updateResponse(questionNo, newResponse) {
@@ -263,21 +276,31 @@ export class QuestionnairePage3 extends React.Component {
   }
 
   render() {
+    if (this.state.loading) {
+      return <p>Loading...</p>;
+    }
     const rangeOptions = ['1', '2', '3', '4', '5']
     const rangeEndpoints = ['Strongly disagree', 'Strongly agree']
     const prompts = [
-      'Below we will present 13 possible observations about the puzzle in quotes, one at a time. For each observation, click "Yes" if you were aware of it and thought about it at some point as you were trying to solve the puzzle (NOT while reading these now), or "No" if you did not think about it as you were trying to solve the puzzle.',
+      'Below we will present 13 possible observations about the puzzle in quotes, one at a time. For each observation, choose the option which best represent when, if ever, you were aware of and thought about the given observation as you were trying to solve the problem.',
       'Please list any other observations which you attended to and thought about during the process of solving the problem. Please try to think of as many as you can and be as thorough as possible.',
       'How strongly do you agree with the following statement in quotes? "I actively attempted to make general observations about the problem like those in the list above."',
     ];
+    let q1Options = ['Before I was told it was impossible to cover the board.', 'After I was told it was impossible to cover the board.', 'I did not make this observation while trying to solve the puzzle.'];
+    if (this.state.hintsReceived > 0) {
+      q1Options = ['Before I was told it was impossible to cover the board',
+                   'After I was told it was impossible to cover the board, but before I was told that the colors of the squares might help me solve the problem.',
+                   'After I was told that the colors of the squares might help me solve the problem.',
+                   'I did not make this observation while trying to solve the puzzle.'];
+    }
     let maySubmit = this.state.responses.reduce(
       (acc, curVal) => (acc && (curVal !== '' && curVal !== null)),
       true
     );
-    let observationQuestions = this.state.q1Options.map((observation, ix) => <FormQuestion
+    let observationQuestions = this.state.q1Observations.map((observation, ix) => <FormQuestion
       key={'observation-question' + ix.toString()}
       questionPrompt={observation}
-      options={['Yes', 'No']}
+      options={q1Options}
       value={this.state.responses[ix]}
       updateFunction={this.updateResponse}
       type={'radio'}
